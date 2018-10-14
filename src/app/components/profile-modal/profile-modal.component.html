@@ -1,0 +1,72 @@
+<ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<div class="modal-header profile-header">
+  <i class="fas fa-id-card" style="font-size: 28px; margin-top: 4px;"></i>
+  <h4 class="modal-title w-100 font-weight-bold text-center" style="margin-right: 36px;">{{'Profile' | translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="profileForm" (ngSubmit)="submitProfileForm(f)" #f="ngForm">
+    <div class="row">
+      <div class="col">
+        <div class="form-group col">
+          <label>{{'Username' | translate}}</label>
+          <input class="form-control input-field" type="text" value="{{user$.userName}}" name="userName" formControlName="userName">
+          <label>{{'Role' | translate}}</label>
+          <input class="form-control input-field" type="text" value="{{userRole}}" name="userRole" formControlName="userRole">
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group col">
+          <label>{{'Name' | translate}}</label>
+          <input class="form-control input-field" type="text" value="{{user$.name}}" name="name" formControlName="name">
+          <label>{{'Surname' | translate}}</label>
+          <input class="form-control input-field" type="text" value="{{user$.surname}}" name="surname" formControlName="surname">
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group col">
+          <label>{{'Telephone' | translate}}</label>
+          <input class="form-control input-field" type="text" value="{{user$.tel}}" name="tel" formControlName="tel">
+          <label>{{'Email' | translate}}</label>
+          <input class="form-control validate input-field" type="text" value="{{user$.email}}" name="email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && e.email.errors }">
+          <div *ngIf="submitted && e.email.errors" class="invalid-feedback">
+            <div *ngIf="e.email.errors.email">{{'Email must be a valid email address' | translate}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 40px;">
+      <div class="col-2" style="margin: auto; max-width: 30% !important;">
+      <div class="pretty p-image p-plain p-smooth dropdown-row-options" style="margin: auto;">
+        <input type="checkbox" class="custom-control-input checkbox-input" id="changePass" formControlName="changePass" (click)="enableChangePass($event.target.checked)" name="changePass">
+        <div class="state">
+            <img class="image check-image" src="../../../assets/images/green-checkbox-var-2.png">
+          <label class="custom-control-label checkbox-mat checkbox-pass-label" for="changePass">{{'Change Password' | translate}}</label>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div formGroupName="passwords" class="row" style="margin-top: 10px;">
+      <div class="form-group col text-center">
+        <mat-form-field [ngClass]="{disabled: changePassEnabled === false}">
+          <input matInput type="password"  formControlName="password">
+          <mat-label [ngClass]="{'disabled-color': changePassEnabled === false}">{{'New password' | translate}}</mat-label>
+        </mat-form-field>
+      </div>
+      <div class="form-group col text-center">
+        <mat-form-field [ngClass]="{disabled: changePassEnabled === false}">
+          <input matInput type="password" formControlName="confirmPassword" [errorStateMatcher]="matcher">
+          <mat-label [ngClass]="{'disabled-color': changePassEnabled === false}">{{'Confirm password' | translate}}</mat-label>
+          <mat-error *ngIf="profileForm.controls.passwords.errors">
+            Passwords do not match
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="modal-footer justify-content-center">
+      <button id="btn-save" type="submit" class="btn my-btn">{{'Save' | translate}}</button>
+    </div>
+  </form>
+</div>

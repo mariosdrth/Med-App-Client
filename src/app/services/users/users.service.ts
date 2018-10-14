@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { GlobalService } from '../global/global.service';
+import { GlobalParametersService } from '../global-parameters/global-parameters.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -8,16 +8,22 @@ import { Observable } from 'rxjs';
 })
 export class UsersService {
 
-  searchParam = {
-    "asc": true,
-    "size": 10,
-    "order": "id"
-  };
+  constructor(private http: HttpClient, private url: GlobalParametersService) { }
 
-  constructor(private http: HttpClient, private url: GlobalService) { }
+  getUsers(search) {
+    return this.http.post(this.url.generalUrl + '/users', search);
+  }
 
-  getUsers() {
-    return this.http.post(this.url.generalUrl + '/users', this.searchParam);
+  getUser(id) {
+    return this.http.get(this.url.generalUrl + '/users/' + id);
+  }
+
+  checkForUser(user) {
+    return this.http.post(this.url.generalUrl + '/users/login', user);
+  }
+
+  updateUser(userId, user) {
+    return this.http.put(this.url.generalUrl + '/users/' + userId, user);
   }
 
 }

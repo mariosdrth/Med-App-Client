@@ -1,0 +1,35 @@
+button {
+    outline: none !important;
+}
+
+.input-field {
+    margin-bottom: 20px;
+}
+
+.profile-header {
+    background-color: #e67e00 !important;
+}
+
+#btn-save {
+    color: white !important;
+    background-color: #e67e00 !important;
+    //border: solid 2px #ffba66 !important;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 30px;
+    padding-right: 30px;
+    // border-radius: 2rem !important;
+
+    &:hover {
+        color: white !important;
+        background-color: #cc7000 !important;
+    }
+}
+
+app-profile-modal{
+    width: 1000px;
+}
+
+// .disabled-color {
+//     color: #d9d9d9 !important;
+// }

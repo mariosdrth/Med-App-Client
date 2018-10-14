@@ -1,0 +1,17 @@
+footer {
+  &.page-footer {
+    bottom: 0;
+    color: white;
+    .container-fluid {
+      width: auto;
+    }
+    .footer-copyright {
+      overflow: hidden;
+      background-color: #325B7C;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    a {
+      color: white;
+    }
+  }
+}

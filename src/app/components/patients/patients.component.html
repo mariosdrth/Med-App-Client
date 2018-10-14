@@ -1,47 +1,328 @@
-<div class="container table-responsive">
-<!-- <button onClick="location.href = '/deceased/new';" class="buttonMine">New dead</button> -->
-  <table class="table table-striped table-hover table-bordered"> <!-- table-bordered -->
-    <caption>List of patients</caption>
-    <thead class="thead-dark">
-      <tr>
-        <th style="width: 20%; text-align: center">Name</th>
-        <th style="width: 20%; text-align: center">Surname</th>
-        <th style="width: 20%; text-align: center">Father Name</th>
-        <th style="width: 20%; text-align: center">Mother Name</th>
-        <th style="width: 20%; text-align: center">Birth Date</th>
-        <th style="width: 20%; text-align: center">AFM</th>
-      </tr>
-    </thead>
-    <tr *ngFor="let patient of patients">
-      <!-- <td style="text-align: center">
-        <a [routerLink]="['/patient/', patient.id]">
-          <img src="assets/externallink.png" alt="Details" id="arrow">
-        </a>
-      </td> -->
-      <td style="text-align: center">
-        {{patient.name}}
-      </td>
-      <!--
-      <td>
-      <a [routerLink]="['/deceased/', deceased.id]">{{deceased.id}}</a>
-      <a [routerLink]="['/deceased/', deceased.id]" class="list-group-item-action">{{deceased.name}}</a>
-      </td>
-      -->
-      <td style="text-align: center">
-        {{patient.surname}}
-      </td>
-      <td style="text-align: center">
-        {{patient.fatherName}}
-      </td>
-      <td style="text-align: center">
-        {{patient.motherName}}
-      </td>
-      <td style="text-align: center">
-        {{patient.birthDate}}
-      </td>
-      <td style="text-align: center">
-        {{patient.afm}}
-      </td>
-    </tr>
-  </table>
+<!-------------------------------------------------------------------Head Title--------------------------------------------------------------------------->
+<ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<div class="page-header">
+  <br>
+  <h1 class="text-center page-header">{{'Patients' | translate}}</h1>
+  <br>
 </div>
+<!-----------------------------------------------------------------------Body----------------------------------------------------------------------------->
+<div class="card container-fluid" (contextmenu)="onRightClick()">
+  <div class="card-body">
+<!----------------------------------------------------------------------Filters--------------------------------------------------------------------------->
+    <div class="row no-gutters">
+      <div class="col-xs-6">
+        <div class="row">
+          <div class="dropdown" mdbDropdown style="margin-right: 15px;">
+            <button id="options" mdbDropdownToggle type="button" class="btn btn-info btn-sq-sm my-btn" ngbTooltip="{{'Options' | translate}}">
+              <i class="fas fa-bars"></i>
+            </button>
+            <div class="dropdown-menu dropdown-primary dropdown-options" (click)="$event.stopPropagation()">
+              <div class="row no-gutters">
+                <div class="col left-col-options">
+                  <h6 class="dropdown-header dropdown-header-options">{{'Columns' |translate}}</h6>
+                  <button class="dropdown-item custom-checkbox btn-dropdown-options" *ngFor="let column of columns">
+                    <div class="pretty p-image p-plain dropdown-row-options">
+                      <input type="checkbox" class="custom-control-input checkbox-input" id="{{column.description}}"
+                        [(ngModel)]="column.value" (change)="showColumnChange(column.value? true: false, column.colName)" name="colToShow">
+                      <div class="state">
+                          <img class="image check-image" src="../../../assets/images/blue-checkbox-var-2.png">
+                        <label class="custom-control-label checkbox-pass-label checkbox-mat checkbox-options-label" for="{{column.description}}">{{column.description | translate}}</label>
+                      </div>
+                    </div>
+                  </button>
+                </div>
+                <div class="col right-col-options">
+                  <h6 class="dropdown-header dropdown-header-options">{{'Filters (max 5)' |translate}}</h6>
+                  <button class="dropdown-item custom-checkbox btn-dropdown-options" *ngFor="let filter of filters" [ngClass]="{disabled: numOfFilters === 5 && filter.value === false}">
+                    <div class="pretty p-image p-plain dropdown-row-options">
+                      <input type="checkbox" class="custom-control-input checkbox-input" id="{{filter.description}}"
+                        [(ngModel)]="filter.value" (change)="showFiltersChange(filter.value? true: false, filter.colName)" name="colToShow">
+                      <div class="state">
+                          <img class="image check-image" src="../../../assets/images/blue-checkbox-var-2.png">
+                        <label class="custom-control-label checkbox-pass-label checkbox-mat checkbox-options-label" for="{{filter.description}}">{{filter.description | translate}}</label>
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <button (click)="patientNew()" id="add-button" type="button" class="btn btn-default btn-sq-sm my-btn" ngbTooltip="{{'New' | translate}}" style="width: auto;">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+      <div class="col-xs-6">
+        <button (click)="clearFilters()" type="button" class="btn btn-danger btn-sq-sm clear-filters my-btn" ngbTooltip="{{'Clear Filters' | translate}}">
+          <i class="fas fa-eraser"></i>
+        </button>
+      </div>
+      <div class="col-xs-6 filter-sm" style="margin-left: 20px; width: 160px;" *ngIf="showFilter.name">
+        <input class="form-control" id="nameSearch" (focus)="inputFocused = true" (blur)="inputFocused = false" type="text" placeholder="{{'Name' | translate}}" 
+          [(ngModel)]="searchTermName">
+      </div>
+      <div class="col-xs-6 filter-md" style="margin-left: 20px; width: 180px;" *ngIf="showFilter.surname">
+        <input class="form-control" id="surnameSearch" (focus)="inputFocused = true" (blur)="inputFocused = false" type="text" placeholder="{{'Surname' | translate}}"
+          [(ngModel)]="searchTermSurname">
+      </div>
+      <div class="col-xs-6 filter-sm" style="margin-left: 20px; width: 160px;" *ngIf="showFilter.fatherName">
+        <input class="form-control" id="fatherNameSearch" (focus)="inputFocused = true" (blur)="inputFocused = false" type="text" placeholder="{{'Father Name' | translate}}"
+          [(ngModel)]="searchFatherName">
+      </div>
+      <div class="col-xs-6 filter-sm" style="margin-left: 20px; width: 160px;" *ngIf="showFilter.motherName">
+        <input class="form-control" id="motherNameSearch" (focus)="inputFocused = true" (blur)="inputFocused = false" type="text" placeholder="{{'Mother Name' | translate}}"
+          [(ngModel)]="searchMotherName">
+      </div>
+      <div class="col-xs-6 filter-sm" style="margin-left: 20px; width: 140px;"*ngIf="showFilter.afm">
+        <input class="form-control" id="AFMSearch" (focus)="inputFocused = true" (blur)="inputFocused = false" type="text" placeholder="{{'AFM' | translate}}"
+          [(ngModel)]="searchTermAFM">
+      </div>
+      <div class="col-xs-6 filter-sm" style="margin-left: 20px; width: 140px;"*ngIf="showFilter.tel">
+        <input class="form-control" id="telSearch" (focus)="inputFocused = true" (blur)="inputFocused = false" type="text" placeholder="{{'Tel' | translate}}"
+          [(ngModel)]="searchTel">
+      </div>
+      <div class="col-xs-6 filter-sm" style="margin-left: 20px; width: 140px;"*ngIf="showFilter.cell">
+        <input class="form-control" id="cellSearch" (focus)="inputFocused = true" (blur)="inputFocused = false" type="text" placeholder="{{'Cell' | translate}}"
+          [(ngModel)]="searchCell">
+      </div>
+      <div class="col-xs-6 filter-sm" style="margin-left: 20px; width: 140px;"*ngIf="showFilter.email">
+        <input class="form-control" id="emailSearch" (focus)="inputFocused = true" (blur)="inputFocused = false" type="text" placeholder="{{'Email' | translate}}"
+          [(ngModel)]="searchEmail">
+      </div>
+      <div class="col-xs-6 filter-md" style="margin-left: 20px; width: 180px;" *ngIf="showFilter.amka">
+        <input class="form-control" id="AMKASearch" (focus)="inputFocused = true" (blur)="inputFocused = false" type="text" placeholder="{{'AMKA' | translate}}"
+          [(ngModel)]="searchTermAMKA">
+      </div>
+      <div class="col-xs-6 filter-lg" style="margin-left: 20px; width: 260px;" *ngIf="showFilter.birthDate">
+        <div class="input-group calendar-div">
+          <div class="input-group-prepend" id="calendar">
+              <span class="input-group-text calendar-icon" (click)="dp.toggle()"><i class="far fa-calendar-alt"></i></span>
+          </div>
+          <input class="form-control calendar-input" id="birthDateSearch" (focus)="inputFocused = true" (blur)="inputFocused = false" type="text" bsDaterangepicker
+            [bsConfig]="datepickerConfig" placeholder="{{'Birth Date' | translate}}" [(ngModel)]="searchTermBirthDate" aria-describedby="calendar" #dp="bsDaterangepicker">
+        </div>
+      </div>
+      <div class="col-xs-6 filter-lg" style="margin-left: 20px; width: 220px;" *ngIf="showFilter.address">
+        <input class="form-control" id="addressSearch" (focus)="inputFocused = true" (blur)="inputFocused = false" type="text" placeholder="{{'Address' | translate}}"
+          [(ngModel)]="searchAddress">
+      </div>
+      <div class="col-xs-6" style="margin-left: 40px;">
+        <div class="row">
+          <div class="btn-group" mdbDropdown style="margin-left: 10px;">
+            <button id="sexSearch" mdbDropdownToggle type="button" mdbBtn color="default" class="dropdown-toggle waves-light my-btn" mdbWavesEffect><mdb-icon icon="fas fa-venus-mars" class="mr-1"></mdb-icon>{{sexString | translate}}</button>
+            <div class="dropdown-menu dropdown-primary">
+              <button class="dropdown-item" *ngFor="let sex of sexes" (click)="prepareSearchSex(sex.value)">
+                {{sex.description | translate}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6" style="margin-left: auto;">
+        <button type="button" class="btn btn-success my-btn" (click)="searchPatients()" style="width: auto;">
+          <i class="fas fa-search" style="margin-right: 5px;"></i>
+          {{'Search' | translate}}
+        </button>
+      </div>
+    </div>
+    <br>
+<!----------------------------------------------------------------------Main Table------------------------------------------------------------------------->
+    <div>
+      <table [@listStagger]="patients$" id="patientsTable" class="table table-striped table-hover table-bordered table-responsive table-condensed">
+        <thead>
+          <tr>
+            <th id="serialNumber" style="width: 2%; text-align: center">
+              <div>#</div>
+            </th>
+            <th style="width: 14%; text-align: center" *ngIf="showColumn.name">
+              <a (click)="toggleSelected('name', $event)">{{'Name' | translate}}</a>
+              <i [innerHtml]="htmlVariable.name" aria-hidden="true" style="padding-left: 3px;"></i>
+            </th>
+            <th style="width: 16%; text-align: center" *ngIf="showColumn.surname">
+              <a (click)="toggleSelected('surname', $event)">{{'Surname' | translate}}</a>
+              <i [innerHtml]="htmlVariable.surname" aria-hidden="true" style="padding-left: 3px;"></i>
+            </th>
+            <th style="width: 16%; text-align: center" *ngIf="showColumn.fatherName">
+              <a (click)="toggleSelected('fatherName', $event)">{{'Father Name' | translate}}</a>
+              <i [innerHtml]="htmlVariable.fatherName" aria-hidden="true" style="padding-left: 3px;"></i>
+            </th>
+            <th style="width: 16%; text-align: center" *ngIf="showColumn.motherName">
+              <a (click)="toggleSelected('motherName', $event)">{{'Mother Name' | translate}}</a>
+              <i [innerHtml]="htmlVariable.motherName" aria-hidden="true" style="padding-left: 3px;"></i>
+            </th>
+            <th style="width: 11%; text-align: center" *ngIf="showColumn.birthDate">
+              <a (click)="toggleSelected('birthDate', $event)">{{'Birth Date' | translate}}</a>
+              <i [innerHtml]="htmlVariable.birthDate" aria-hidden="true" style="padding-left: 3px;"></i>
+            </th>
+            <th style="width: 11%; text-align: center" *ngIf="showColumn.afm">
+              <a (click)="toggleSelected('afm', $event)">{{'AFM' | translate}}</a>
+              <i [innerHtml]="htmlVariable.afm" aria-hidden="true" style="padding-left: 3px;"></i>
+            </th>
+            <th style="width: 10%; text-align: center" *ngIf="showColumn.amka">
+              <a (click)="toggleSelected('amka', $event)">{{'AMKA' | translate}}</a>
+              <i [innerHtml]="htmlVariable.amka" aria-hidden="true" style="padding-left: 3px;"></i>
+            </th>
+            <th style="width: 5%; text-align: center" *ngIf="showColumn.sex">
+              <a (click)="toggleSelected('sex', $event)">{{'Sex' | translate}}</a>
+              <i [innerHtml]="htmlVariable.sex" aria-hidden="true" style="padding-left: 3px;"></i>
+            </th>
+            <th style="width: 5%; text-align: center" *ngIf="showColumn.tel">
+              <a (click)="toggleSelected('tel', $event)">{{'Tel' | translate}}</a>
+              <i [innerHtml]="htmlVariable.tel" aria-hidden="true" style="padding-left: 3px;"></i>
+            </th>
+            <th style="width: 5%; text-align: center" *ngIf="showColumn.cell">
+              <a (click)="toggleSelected('cell', $event)">{{'Cell' | translate}}</a>
+              <i [innerHtml]="htmlVariable.cell" aria-hidden="true" style="padding-left: 3px;"></i>
+            </th>
+            <th style="width: 5%; text-align: center" *ngIf="showColumn.email">
+              <a (click)="toggleSelected('email', $event)">{{'Email' | translate}}</a>
+              <i [innerHtml]="htmlVariable.email" aria-hidden="true" style="padding-left: 3px;"></i>
+            </th>
+            <th style="width: 15%; text-align: center" *ngIf="showColumn.address">
+              <a (click)="toggleSelected('address', $event)">{{'Address' | translate}}</a>
+              <i [innerHtml]="htmlVariable.address" aria-hidden="true" style="padding-left: 3px;"></i>
+            </th>
+            <th style="width: 3%; text-align: center">
+              <div class="table-header">{{'Details' | translate}}</div>
+            </th>
+            <th style="width: 3%; text-align: center">
+              <div class="table-header">{{'Delete' | translate}}</div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let patient of patients$; let i = index;" [ngClass]="{'deleted': i === rowDeleted, 'removed': i === rowRemoved}">
+            <td style="text-align: center">
+              {{pageIndexHelper+i+1}}
+            </td>
+            <td style="text-align: center" *ngIf="showColumn.name">
+              {{patient.name}}
+            </td>
+            <td style="text-align: center" *ngIf="showColumn.surname">
+              {{patient.surname}}
+            </td>
+            <td style="text-align: center" *ngIf="showColumn.fatherName">
+              {{patient.fatherName}}
+            </td>
+            <td style="text-align: center" *ngIf="showColumn.motherName">
+              {{patient.motherName}}
+            </td>
+            <td style="text-align: center" *ngIf="showColumn.birthDate">
+              {{patient.birthDate}}
+            </td>
+            <td style="text-align: center" *ngIf="showColumn.afm">
+              {{patient.afm}}
+            </td>
+            <td style="text-align: center" *ngIf="showColumn.amka">
+              {{patient.amka}}
+            </td>
+            <td style="text-align: center" *ngIf="showColumn.sex">
+              {{patient.sexForDTO | translate}}
+            </td>
+            <td style="text-align: center" *ngIf="showColumn.tel">
+              {{patient.tel}}
+            </td>
+            <td style="text-align: center" *ngIf="showColumn.cell">
+              {{patient.cell}}
+            </td>
+            <td style="text-align: center" *ngIf="showColumn.email">
+              {{patient.email}}
+            </td>
+            <td style="text-align: center" *ngIf="showColumn.address">
+              {{patient.address}}
+            </td>
+            <td style="text-align: center">
+              <a [routerLink]="['/patients/', patient.id]">
+                <i class="fas fa-external-link-alt arrow-details"></i>
+              </a>
+            </td>
+            <td style="text-align: center">
+              <a (click)="openModalToDelete(patient.id, deleteModal); updateIndex(i)">
+                <i class="fas fa-trash-alt delete-row"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<!-------------------------------------------------------------------Main Table End----------------------------------------------------------------------->
+<!-------------------------------------------------------------------Pages Numbers------------------------------------------------------------------------>
+  <div style="margin-left:auto; margin-right: 20px; margin-bottom: 10px; font-weight: 300">
+    {{'page' | translate}} {{activePage}} {{'of' | translate }} {{numberOfPaginators}}
+  </div>
+</div>
+<!----------------------------------------------------------------------Pagination------------------------------------------------------------------------>
+<div class="d-flex justify-content-center container-fluid">
+  <!--Pagination -->
+  <nav class="my-4 pt-2">
+    <ul class="pagination pagination-circle pg-blue mb-0">
+
+      <!--First-->
+      <li class="page-item clearfix d-none d-md-block" id="test" (click)="firstPage()" [ngClass]="{disabled: activePage == 1}" [ngStyle]="{'font-weight': activePage == 1 ? 'lighter' : 'normal'}">
+        <a class="page-link">{{'First' | translate}}</a>
+      </li>
+
+      <!--Arrow left-->
+      <li class="page-item" (click)="previousPage($event)" [ngClass]="{disabled: activePage == 1}" [ngStyle]="{'font-weight': activePage == 1 ? 'lighter' : 'normal'}">
+        <a class="page-link" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+
+      <!--Numbers-->
+      <li #pages *ngFor="let page of paginators | slice:firstVisiblePaginator:lastVisiblePaginator; let i = index" class="page-item" [ngClass]="{active: i + firstVisiblePaginator + 1 == activePage}">
+          <a class="page-link waves-light" (click)="changePage($event.target.text)" mdbWavesEffect>{{page}}</a>
+      </li>
+
+      <!--Arrow right-->
+      <li class="page-item" (click)="nextPage($event)" [ngClass]="{disabled: activePage == numberOfPaginators}" [ngStyle]="{'font-weight': activePage == numberOfPaginators ? 'lighter' : 'normal'}">
+        <a class="page-link" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+
+      <!--First-->
+      <li class="page-item clearfix d-none d-md-block" (click)="lastPage()" [ngClass]="{disabled: activePage == numberOfPaginators}" [ngStyle]="{'font-weight': activePage == numberOfPaginators ? 'lighter' : 'normal'}">
+        <a class="page-link">{{'Last' | translate}}</a>
+      </li>
+    </ul>
+  </nav>
+  <!--/Pagination -->
+</div>
+<!-------------------------------------------------------------------Pagination End----------------------------------------------------------------------->
+<!------------------------------------------------------------------Bottom Dropdowns---------------------------------------------------------------------->
+<div class="text-center container-fluid row justify-content-md-center" style="margin-bottom: 10px;">
+  <div class="col-2">
+    <span>{{'Go to page' | translate}} </span>
+    <select [(ngModel)]="activePage" (change)="changePage($event.target.value)">
+      <option *ngFor="let paginator of paginators">{{paginator}}</option>
+    </select>
+  </div>
+  <div class="col-2">
+    <span>{{'Records per page' | translate}} </span>
+    <select [(ngModel)]="searchParam.size" (change)="searchPatients()">
+      <option *ngFor="let pageRecord of pageRecords">{{pageRecord}}</option>
+    </select>
+  </div>
+</div>
+<!--------------------------------------------------------------------Delete Module----------------------------------------------------------------------->
+<ng-template #deleteModal>
+  <div class="modal-header confirm-header">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+    <h4 class="modal-title w-100" id="myModalLabel">{{'Delete patient' | translate}}</h4>
+  </div>
+  <div class="modal-body" style="font-size: 150%;">
+    {{'Are you sure?' | translate}}
+  </div>
+  <div class="modal-footer">
+    <button type="button" mdbBtn color="danger" class="waves-light my-btn" aria-label="Close" (click)="modalRef.hide()" mdbWavesEffect>{{'Cancel' | translate}}</button>
+    <button type="button" mdbBtn color="primary" class="relative waves-light my-btn" (click)="deleteRecord(); modalRef.hide()" mdbWavesEffect>{{'OK' | translate}}</button>
+  </div>
+</ng-template>

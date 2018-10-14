@@ -1,0 +1,58 @@
+<ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<div class="modal-header contact-header">
+  <i class="fas fa-paper-plane" style="font-size: 28px; margin-top: 4px;"></i>
+  <h4 class="modal-title w-100 font-weight-bold text-center" style="margin-right: 28px;">{{'Contact Form' | translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="contactForm"  (ngSubmit)="submitContactForm(f)" #f="ngForm">
+    <div class="form-group">
+        <div class="md-form mb-5">
+            <div class="md-form mb-5">
+                <i class="fa fa-user prefix grey-text"></i>
+                <input type="text" id="form34" class="form-control validate" mdbInputDirective formControlName="senderName" name="senderName" [ngClass]="{ 'is-invalid': submitted && e.senderName.errors }">
+                <div *ngIf="submitted && e.senderName.errors" class="invalid-feedback">
+                    <div *ngIf="e.senderName.errors.required">{{'Field is required' | translate}}</div>
+                </div>
+                <label for="form34">{{'Your name' | translate}}</label>
+            </div>
+        </div>
+        <div class="md-form mb-5">
+            <div class="md-form mb-5">
+                <i class="fa fa-envelope prefix grey-text" style="font-size: 21px;"></i>
+                <input type="email" id="form29" class="form-control validate" mdbInputDirective formControlName="senderEmail" name="senderEmail" [ngClass]="{ 'is-invalid': submitted && e.senderEmail.errors }">
+                <div *ngIf="submitted && e.senderEmail.errors" class="invalid-feedback">
+                    <div *ngIf="e.senderEmail.errors.required">{{'Field is required' | translate}}</div>
+                    <div *ngIf="e.senderEmail.errors.email">{{'Email must be a valid email address' | translate}}</div>
+                </div>
+                <label for="form29">{{'Your email' | translate}}</label>
+            </div>
+        </div>
+        <div class="md-form mb-5">
+            <div class="md-form mb-5">
+                <i class="fa fa-tag prefix grey-text"></i>
+                <input type="text" id="form32" class="form-control validate" mdbInputDirective formControlName="subject" name="subject" [ngClass]="{ 'is-invalid': submitted && e.subject.errors }">
+                <div *ngIf="submitted && e.subject.errors" class="invalid-feedback">
+                    <div *ngIf="e.subject.errors.required">{{'Field is required' | translate}}</div>
+                </div>
+                <label for="form32">{{'Subject' | translate}}</label>
+            </div>
+        </div>
+        <div class="md-form">
+            <div class="md-form mb-5">
+                <i class="fa fa-pencil prefix grey-text"></i>
+                <textarea type="text" id="form8" class="md-textarea form-control" rows="4" mdbInputDirective formControlName="message" name="message" [ngClass]="{ 'is-invalid': submitted && e.message.errors }"></textarea>
+                <div *ngIf="submitted && e.message.errors" class="invalid-feedback">
+                    <div *ngIf="e.message.errors.required">{{'Field is required' | translate}}</div>
+                </div>
+                <label for="form8">{{'Your message' | translate}}</label>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-center">
+      <button id="btn-send" type="submit" class="btn btn-unique btn-lg my-btn">{{'Send' | translate}} <i class="fa fa-paper-plane-o ml-1"></i></button>
+    </div>
+  </form>
+</div>

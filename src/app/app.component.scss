@@ -1,0 +1,248 @@
+mat-toolbar-row {
+    background-color: #325B7C;
+    color: #e6e6e6;
+}
+
+.mat-button:focus {
+    outline: none !important;
+    border: 0;
+}
+
+.mat-raised-button {
+    outline: none !important;
+    border: 0;
+    background-color: #325B7C;
+    color: #f2f2f2;
+}
+
+// .mat-sidenav, 
+// .mat-sidenav.md-locked-open, 
+// .mat-sidenav.md-closed.md-locked-open-add-active,
+// .mat-raised-button {
+//     min-width: 60px;
+//     width: 3vw;
+// }
+
+.mat-sidenav {
+
+    position: absolute;
+    background-color: #3e719b;
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+
+        li:first-child {
+            a {
+                padding-left: 20px;
+            }
+        }
+
+        li {
+            a {
+                color: #fff;
+                display: block;
+            }
+
+            i {
+                color: #fff;
+                margin: auto;
+            }
+
+            button {
+                mat-icon{
+                    color: white;
+                }
+            }
+        }
+    }
+}
+
+mat-nav-list {
+    a {
+        mat-icon, p {
+            color: white;
+        }
+
+        i {
+            color: white;
+            margin-top: 3px;
+        }
+    }
+
+    .session-item {
+        i {
+            margin-left: 2px;
+        }
+    }
+}
+
+.main-container {
+    min-height: 100vh;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content {
+    flex: 1;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    > *:not(router-outlet) {
+        flex: 1;
+        display: block;
+    }
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+mat-toolbar a {
+    display: inline-block;
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+}
+
+mat-toolbar a:hover {
+    color: #d9d9d9;
+}
+
+mat-toolbar-row {
+    z-index: 2;
+}
+
+#contact-us-link {
+    margin-right: 30px;
+    font-size: 80%;
+    margin-top: 2px;
+}
+
+.dropbtn {
+    background-color: #325B7C;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+        a {
+            margin-right: 2px;
+        }
+        #main-flag {
+            padding: 10px;
+            margin-top: 8px;
+            margin-right: 8px;
+        }
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f2f2f2;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+
+    #menu-flag {
+        background-position: 0%;
+    }
+
+    #menu-text {
+        color: black;
+        text-align: right;
+        margin-right: 5px;
+        font-size: 80%;
+        font-weight: 400;
+    }
+
+    #menu-text :hover {
+        color: #a6a6a6;
+    }
+}
+
+.dropdown-content a {
+    color: black;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #325B7C;
+}
+
+#home-link {
+    margin-top: 8px;
+    margin-left: 10px;
+}
+
+button {
+    outline: none !important;
+}
+
+#submit-button {
+    min-width: 100px;
+    min-height: 50px;
+    text-decoration: none;
+}
+
+#cancel-button {
+    min-width: 100px;
+    min-height: 50px;
+    background-color: #e91640 !important;
+}
+
+#user-icon {
+    font-size: 25px;
+}
+
+#wrong-pass-msg {
+    color: red;
+}
+
+.btt-btn {
+    cursor: pointer;
+    position: fixed;
+    bottom: .2em;
+    right: 1.4em;
+    padding: .5em;
+    text-decoration: none;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    outline-style: none;
+ }
+ 
+ .btt-btn:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+ }
+ 
+ .btt-btn:active {
+    background-color: rgba(0, 0, 0, 0.8);
+ }
+ 
+ #backTT {
+    z-index: -9999999;
+    position: absolute !important;
+    top: -9999999px;
+ }
+
+ .active-route {
+    background-color: #2d506d !important;
+ }

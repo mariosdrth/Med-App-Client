@@ -1,0 +1,17 @@
+// .home-background {
+//     background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.7)), to(rgba(0, 0, 0, 0.7))), url(../../../assets/images/GDPR.jpg);
+//     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(../../../assets/images/GDPR.jpg);
+//     // width: 99.1vw;
+//     // height: 88vh;
+//     background-size: 100% 100%;
+//     // background-repeat: no-repeat;
+//     // position: relative;
+// }
+
+button {
+    outline: none !important;
+}
+
+#wrong-pass-msg {
+    color: red;
+}

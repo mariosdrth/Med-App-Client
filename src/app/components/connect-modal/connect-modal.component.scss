@@ -1,0 +1,28 @@
+button {
+    outline: none !important;
+}
+
+#submit-button {
+    border-radius: 10rem !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 16px 32px;
+}
+
+#submit-button:hover {
+    background-color: #2ca1cc !important;
+}
+
+#forgot-pass:hover {
+    color: rgb(4, 4, 190) !important;
+    text-decoration: underline;
+}
+
+#reset-header{
+    background-color: #880e4f !important;
+}
+
+#checkbox-pass-label:hover {
+    cursor: pointer;
+    color: #999999;
+}

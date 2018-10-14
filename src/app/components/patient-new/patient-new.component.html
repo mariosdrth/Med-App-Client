@@ -1,0 +1,122 @@
+<!----------------------------------------------------------------Header and buttons-------------------------------------------------------------------->
+<ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<div class="page-header">
+  <br>
+  <div class="row no-gutters">
+      <div class="col-xs-6">
+        <a class="btn btn-default my-btn" (click)="goBack()">
+          <i class="fas fa-arrow-left"> {{'Back' | translate}}</i>
+        </a>
+      </div>
+      <div class="col-xs-6">
+        <a class="btn btn-primary my-btn" (click)="saveChanges()" [ngClass]="{'disabled': !changesMade}">
+          <i class="fas fa-save"> {{'Save' | translate}}</i>
+        </a>
+      </div>
+      <div class="col-xs-6" style="margin: auto;" [ngStyle]="{'padding-right': globalParametersService.language === 'gr' ? '237.39px' : globalParametersService.language === 'en' ? '178.67px' : '0'}">
+        <h1 class="text-center">{{'New Patient' | translate}}</h1>
+        <br>
+      </div>
+    </div>
+</div>
+<!------------------------------------------------------------------Main body form---------------------------------------------------------------------->
+<div class="container">
+  <div class="row">
+    <div class="form-group col">
+      <label>{{'Name' | translate}}</label>
+      <input class="form-control" type="text" value="{{patient.name}}" name="name" [(ngModel)]="name" 
+          [ngClass]="{'invalid-field-input': fieldEmpty.name}">
+      <div *ngIf="fieldEmpty.name" class="invalid-field">
+          <div *ngIf="fieldEmpty.name">{{'Field is required' | translate}}</div>
+      </div>
+    </div>
+    <div class="form-group col">
+      <label>{{'Surname' | translate}}</label>
+      <input class="form-control" type="text" value="{{patient.surname}}" name="surname" [(ngModel)]="surname" 
+        [ngClass]="{'invalid-field-input': fieldEmpty.surname}">
+        <div *ngIf="fieldEmpty.surname" class="invalid-field">
+          <div *ngIf="fieldEmpty.surname">{{'Field is required' | translate}}</div>
+        </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="form-group col">
+      <label>{{'Father Name' | translate}}</label>
+      <input class="form-control" type="text" value="{{patient.fatherName}}" name="fatherName" [(ngModel)]="fatherName">
+    </div>
+    <div class="form-group col">
+      <label>{{'Mother Name' | translate}}</label>
+      <input class="form-control" type="text" value="{{patient.motherName}}" name="motherName" [(ngModel)]="motherName">
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="form-group col">
+      <label>{{'AFM' | translate}}</label>
+      <input class="form-control" type="text" value="{{patient.afm}}" name="afm" [(ngModel)]="afm">
+    </div>
+    <div class="form-group col">
+      <label>{{'AMKA' | translate}}</label>
+      <input class="form-control" type="text" value="{{patient.amka}}" name="amka" [(ngModel)]="amka" >
+    </div>
+    <div class="form-group col">
+      <label>{{'Birth Date' | translate}}</label>
+      <div class="input-group calendar-div">
+        <div class="input-group-prepend" id="calendar">
+            <span class="input-group-text calendar-icon" (click)="dp.toggle()"><i class="far fa-calendar-alt"></i></span>
+        </div>
+        <input class="form-control calendar-input" type="text" value="{{patient.birthDate}}" name="birthDate" bsDatepicker [(ngModel)]="birthDate"
+          [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-red', showWeekNumbers: false, maxDate: maxDate, minDate: minDate }" 
+            aria-describedby="calendar" #dp="bsDatepicker">
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="form-group col">
+      <label>{{'Tel' | translate}}</label>
+      <input class="form-control" type="text" value="{{patient.tel}}" name="tel" [(ngModel)]="tel">
+    </div>
+    <div class="form-group col">
+      <label>{{'Cell' | translate}}</label>
+      <input class="form-control" type="text" value="{{patient.cell}}" name="cell" [(ngModel)]="cell">
+    </div>
+    <div class="form-group col">
+      <label>{{'Email' | translate}}</label>
+      <input class="form-control" type="text" value="{{patient.email}}" name="email" [(ngModel)]="email">
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="form-group col-4">
+      <label>{{'Address' | translate}}</label>
+      <input class="form-control" type="text" value="{{patient.address}}" name="address" [(ngModel)]="address">
+      <br>
+      <label>{{'Sex' | translate}}</label>
+      <div class="row">
+        <div class="row">
+          <div class="btn-group" mdbDropdown style="margin-left: 30px;">
+            <button id="btn-dropdown-sex" mdbDropdownToggle type="button" mdbBtn class="dropdown-toggle waves-light" mdbWavesEffect
+              [ngClass]="{'invalid-field-input': fieldEmpty.sexForDTO}">
+              {{sexForDTO | translate}}
+            </button>
+            <div class="dropdown-menu dropdown-primary">
+              <button class="dropdown-item" *ngFor="let sex of sexes" (click)="changeSex(sex.value)">
+                {{sex.description | translate}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="fieldEmpty.sexForDTO" class="invalid-field">
+          <div *ngIf="fieldEmpty.sexForDTO">{{'Field is required' | translate}}</div>
+        </div>
+    </div>
+    <div class="form-group col-8">
+      <label>{{'Comments' | translate}}</label>
+      <textarea class="form-control" type="text" class="md-textarea form-control" value="{{patient.comments}}" name="comments" [(ngModel)]="comments" rows="5"></textarea>
+    </div>
+  </div>
+</div>
+<!----------------------------------------------------------------Main body form end-------------------------------------------------------------------->

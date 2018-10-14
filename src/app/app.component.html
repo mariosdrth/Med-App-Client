@@ -1,7 +1,118 @@
-<div id="container">
-  <app-sidebar></app-sidebar>
-
-  <div id="content">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+<!-----------------------------------------------------------------------Body----------------------------------------------------------------------------->
+<body [ngStyle]="{'overflow': !globalService.isLoggedIn ? 'hidden' : 'auto'}">
+  <ng-container>
+<!-----------------------------------------------------------------------Header--------------------------------------------------------------------------->
+    <header role="banner">
+      <mat-toolbar>
+        <mat-toolbar-row>
+          <button mat-button mat-icon-button (click)="sidenav.toggle(); isHidden = !isHidden" *ngIf="globalService.isLoggedIn && !isHidden" placement="bottom"
+            ngbTooltip="{{'Hide' | translate}}">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <button mat-button mat-icon-button (click)="sidenav.toggle(); isHidden = !isHidden" *ngIf="globalService.isLoggedIn && isHidden" placement="bottom"
+            ngbTooltip="{{'Show' | translate}}">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <button mat-button mat-icon-button (click)="isExpanded = !isExpanded" *ngIf="globalService.isLoggedIn && !isExpanded" placement="bottom"
+            ngbTooltip="{{'Expand' | translate}}" [ngClass]="{'disabled': isHidden}">
+            <mat-icon>toggle_off</mat-icon>
+          </button>
+          <button mat-button mat-icon-button (click)="isExpanded = !isExpanded" *ngIf="globalService.isLoggedIn && isExpanded" placement="bottom"
+            ngbTooltip="{{'Shrink' | translate}}" [ngClass]="{'disabled': isHidden}">
+            <mat-icon>toggle_on</mat-icon>
+          </button>
+          <a routerLink="" id="home-link">
+            <i class="material-icons" placement="bottom" ngbTooltip="{{'Home' | translate}}">home</i>
+          </a>
+          <span class="spacer"></span>
+          <a id="contact-us-link" (click)="openContactModal()">
+            {{'Contact Us' | translate}}
+          </a>
+          <a>
+            <div class="row">
+              <div class="dropdown">
+                <div class="row" style="margin-right: 15px;">
+                  <div class="col padding-0">
+                    <a id="main-flag" class="dropbtn flag-icon-background" [ngClass]="{'flag-icon-gr':language === 'gr', 'flag-icon-gb':language === 'en'}"></a>
+                  </div>
+                  <div class="col padding-0" style="margin-top: 2px">
+                    <i class='fas fa-angle-down fa-xs'></i>
+                  </div>
+                </div>
+                <div class="dropdown-content" [ngStyle]="{'min-width': language === 'en' ? '115px' : '130px'}">
+                  <div class="row no-gutters" style="max-height: 40px;">
+                    <div class="col" style="max-width: 30px;">
+                      <img (click)="getLanguageFlag($event.target.src)" src="assets/icons/famfamfam_flag_icons/png/gb.png" style="margin-left: 10px; margin-bottom: 2px;">
+                    </div>
+                    <div id="menu-text" class="col" [ngStyle]="{'max-width': language === 'en' ? '80px' : '95px'}">
+                      <a class="col" (click)="getLanguage($event.target.text)">{{'English' | translate}}</a>
+                    </div>
+                  </div>
+                  <div class="row no-gutters" style="max-height: 40px;">
+                    <div class="col" style="max-width: 30px;">
+                      <img (click)="getLanguageFlag($event.target.src)" src="assets/icons/famfamfam_flag_icons/png/gr.png" style="margin-left: 10px; margin-bottom: 2px;">
+                    </div>
+                    <div id="menu-text" class="col" [ngStyle]="{'max-width': language === 'en' ? '80px' : '95px'}">
+                      <a class="col" (click)="getLanguage($event.target.text)">{{'Greek' | translate}}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          <a *ngIf="globalService.isLoggedIn" style="padding-bottom: 0px; margin-bottom: 4px;" (click)="openProfileModal()">
+            <i class="fas fa-user-cog" aria-hidden="true" placement="bottom" ngbTooltip="{{'Profile' | translate}}" style="font-size: 16px;"></i>
+          </a>
+          <a *ngIf="globalService.isLoggedIn" style="margin-right: 25px; padding-bottom: 0px;" (click)="openSignOutModal()">
+            <i class="fas fa-sign-out-alt" aria-hidden="true" placement="bottom" ngbTooltip="{{'Sign Out' | translate}}"></i>
+          </a>
+          <a *ngIf="!globalService.isLoggedIn" style="margin-right: 25px;" (click)="openModal()">
+            <i class="fas fa-sign-in-alt" aria-hidden="true" placement="bottom" ngbTooltip="{{'Sign In' | translate}}"></i>
+          </a>
+        </mat-toolbar-row>
+      </mat-toolbar>
+    </header>
+<!---------------------------------------------------------------------Header End------------------------------------------------------------------------->
+    <mat-sidenav-container class="main-container" autosize>
+<!----------------------------------------------------------------------Sidenav--------------------------------------------------------------------------->
+      <mat-sidenav #sidenav mode="side" opened="true">
+        <mat-nav-list class="dashboard" *ngIf="globalService.isLoggedIn">
+          <a mat-list-item routerLink="" [ngClass]="{'active-route': currentUrl === '/'}">
+            <i class="fas fa-home" aria-hidden="true" style="font-size: 18px;" mat-list-icon></i>
+            <p matLine *ngIf="isExpanded">{{'Home' | translate}}</p>
+          </a>
+          <a mat-list-item routerLink="patients" [class.active-route]="currentUrl === '/patients'">
+            <i class="far fa-id-card" aria-hidden="true" style="font-size: 18px;" mat-list-icon></i>
+            <p matLine *ngIf="isExpanded">{{'Patients' | translate}}</p>
+          </a>
+          <a mat-list-item class="session-item" routerLink="sessions" [class.active-route]="currentUrl === '/sessions'">
+            <i class="fas fa-edit" aria-hidden="true" style="font-size: 18px;" mat-list-icon></i>
+            <p matLine *ngIf="isExpanded">{{'Sessions' | translate}}</p>
+          </a>
+          <a mat-list-item routerLink="users" [class.active-route]="currentUrl === '/users'">
+            <i class="fas fa-users" aria-hidden="true" style="font-size: 18px;" mat-list-icon></i>
+            <p matLine *ngIf="isExpanded">{{'Users' | translate}}</p>
+          </a>
+        </mat-nav-list>
+      </mat-sidenav>
+<!-----------------------------------------------------------------------Content-------------------------------------------------------------------------->
+      <mat-sidenav-content>
+        <span #backTT id="backTT" flex></span>
+        <div class="main-content">
+<!---------------------------------------------------------------------Router Body------------------------------------------------------------------------>
+          <main class="content">
+            <router-outlet *ngIf="globalService.isLoggedIn"></router-outlet>
+            <app-home *ngIf="!globalService.isLoggedIn && isHomePage"></app-home>
+            <div (click)="gotoTop(backTT)" class="btt-btn" *ngIf="!isHomePage"><i class="material-icons">&#xE316;</i></div>
+          </main>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+<!-----------------------------------------------------------------------Footer--------------------------------------------------------------------------->
+    <footer>
+      <app-footer></app-footer>
+    </footer>
+<!---------------------------------------------------------------------Footer End------------------------------------------------------------------------->
+  </ng-container>
+<!----------------------------------------------------------------------Body End-------------------------------------------------------------------------->
+</body>

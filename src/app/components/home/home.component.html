@@ -1,0 +1,18 @@
+<div class="home">
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <h1 class="text-center" style="font-size: 350%">{{'Home Page' | translate}}</h1>
+  <br>
+  <br>
+  <br>
+  <h2 class="text-center" *ngIf="!globalService.isLoggedIn">{{'Connect to continue' | translate}}</h2>
+  <br>
+  <br>
+  <div class="text-center" *ngIf="!globalService.isLoggedIn">
+    <button  type="button" (click)="open()" class="btn btn-success btn-lg my-btn">{{'Login' | translate}}</button>
+  </div>
+  <div class="text-center" style="font-size: 250%" *ngIf="globalService.isLoggedIn">{{'Welcome' | translate}}</div>
+</div>

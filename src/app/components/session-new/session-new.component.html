@@ -1,0 +1,92 @@
+<!----------------------------------------------------------------Header and buttons-------------------------------------------------------------------->
+<ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<div class="page-header">
+  <br>
+  <div class="row no-gutters">
+      <div class="col-xs-6">
+        <a class="btn btn-default my-btn" (click)="goBack()">
+          <i class="fas fa-arrow-left"> {{'Back' | translate}}</i>
+        </a>
+      </div>
+      <div class="col-xs-6">
+        <a class="btn btn-primary my-btn" (click)="saveChanges()" [ngClass]="{'disabled': !changesMade}">
+          <i class="fas fa-save"> {{'Save' | translate}}</i>
+        </a>
+      </div>
+      <div class="col-xs-6" style="margin: auto;" [ngStyle]="{'padding-right': globalParametersService.language === 'gr' ? '237.39px' : globalParametersService.language === 'en' ? '178.67px' : '0'}">
+        <h1 class="text-center">{{'New Session' | translate}}</h1>
+        <br>
+      </div>
+    </div>
+</div>
+<!------------------------------------------------------------------Main body form---------------------------------------------------------------------->
+<div class="container">
+  <div class="row" style="margin-right: 50px;">
+      <div class="form-group col-4" style="margin:auto;">
+        <ng-select class="dropdown-patients" [items]="patientsAll"
+                bindLabel="nameSurname"
+                bindValue="id"
+                [multiple]="false"
+                placeholder="{{'Patient' | translate}}"
+                [closeOnSelect]="true"
+                dropdownPosition="bottom"
+                clearAllText="{{'Clear' | translate}}"
+                notFoundText="{{'No items found' | translate}}"
+                [virtualScroll]="true"
+                [(ngModel)]="patientId"
+                [ngClass]="{'invalid-field-input-ng-select': fieldEmpty.patientId}">
+        </ng-select>
+        <div *ngIf="fieldEmpty.patientId" class="invalid-field">
+            <div *ngIf="fieldEmpty.patientId">{{'Field is required' | translate}}</div>
+        </div>
+      </div>
+  </div>
+  <br>
+  <br>
+  <div class="row">
+    <div class="form-group col-4" style="margin-left:auto">
+      <label>{{'Session ID' | translate}}</label>
+      <input class="form-control" type="text" value="{{session.sessionId}}" name="sessionId" [(ngModel)]="sessionId" 
+          [ngClass]="{'invalid-field-input': fieldEmpty.sessionId}">
+      <div *ngIf="fieldEmpty.sessionId" class="invalid-field">
+          <div *ngIf="fieldEmpty.sessionId">{{'Field is required' | translate}}</div>
+      </div>
+    </div>
+    <div class="form-group col-4" style="margin-right:auto">
+      <label>{{'Session Date' | translate}}</label>
+      <div class="input-group calendar-div">
+      <div class="input-group-prepend" id="calendar">
+          <span class="input-group-text calendar-icon" (click)="dp.toggle()"><i class="far fa-calendar-alt"></i></span>
+      </div>
+      <input class="form-control calendar-input" type="text" value="{{session.sessionDate}}" name="sessionDate" bsDatepicker [(ngModel)]="sessionDate"
+        [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-red', showWeekNumbers: false, maxDate: maxDate, minDate: minDate }"
+          aria-describedby="calendar" #dp="bsDatepicker">
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="row">
+    <div class="form-group col-12">
+      <label>{{'Comments' | translate}}</label>
+      <textarea class="form-control" type="text" class="md-textarea form-control" value="{{session.comments}}" name="comments" [(ngModel)]="comments" rows="5"></textarea>
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <div class="row">
+    <div class="form-group col-12">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroupFileAddon">{{'Upload' | translate}}</span>
+        </div>
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
+          <label class="custom-file-label" for="inputGroupFile">{{'Choose file' | translate}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!----------------------------------------------------------------Main body form end-------------------------------------------------------------------->

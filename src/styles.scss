@@ -1,52 +1,434 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~@angular/material/theming';
+@include mat-core();
+$flag-icon-css-path: '~flag-icon-css/flags' !default;
+@import "~flag-icon-css/sass/flag-icon";
+@import '~ngx-toastr/toastr.css';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '~ngx-toastr/toastr-bs4-alert';
+@import '~pretty-checkbox/src/pretty-checkbox.scss';
+
+
+//@import "~@ng-select/ng-select/themes/material.theme.css";
+//or
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+
+$ip-primary: mat-palette($mat-indigo);
+$ip-accent: mat-palette($mat-pink, A200, A100, A400);
+$ip-theme: mat-light-theme($ip-primary, $ip-accent);
+$ip-theme-dark: mat-dark-theme($ip-primary, $ip-accent);
+$medium-screen: 1440px;
+$small-screen: 990px;
+$desktop: 960px;
+$tablet: 768px;
+$mobile-large: 640px;
+$mobile: 480px;
+$mobile-small: 300px;
+
+.indigo-pink {
+  @include angular-material-theme($ip-theme);
+}
+
+.indigo-pink-dark {
+  @include angular-material-theme($ip-theme-dark);
+}
+
+.padding-0{
+    padding-right:0;
+    padding-left:0;
+}
 
 body {
     margin: 0;
     background: #F2F2F2;
-    font-family: 'Montserrat', sans-serif;
     height: 100vh;
+    font-family: 'Roboto', sans-serif;
 }
 
-#container {
-    display: grid;
-    grid-template-columns: 80px auto;
-    height: 100%;
+th {
+    background-color: #196B4C;
+    color: white;
 
-    #content {
-        padding: 30px 50px;
+    a {
+        font-weight: bold;
+        cursor: pointer;
+    }
 
-        ul {
-            list-style-type: none;
-            margin:0;padding:0;
-        
-            li {
-                background: #fff;
-                border-radius: 8px;
-                padding: 20px;
-                margin-bottom: 8px;
-        
-                a {
-                    font-size: 1.5em;
-                    text-decoration: none;
-                    font-weight: bold;
-                    color:#00A8FF;
-                }
-        
-                ul {
-                    margin-top: 20px;
-                    
-                    li {
-                        padding:0;
-        
-                        a {
-                            font-size: 1em;
-                            font-weight: 300;
-                        }
-                    }
-                }
+    .table-header {
+        font-weight: bold;
+    }
+}
+
+.days {
+    thead {
+        tr {
+            th {
+                background-color: white !important;
             }
+        }
+    }
+}
+
+html, body {
+    height: 100%;
+}
+
+button {
+    text-transform: none !important;
+}
+
+.modal-content  {
+    border-radius: .6rem !important; 
+}
+
+.modal-header {
+    color: white;
+    background-color: #33b5e5 ;
+    border-top-left-radius: .6rem !important; 
+    border-top-right-radius: .6rem !important; 
+}
+
+.checkbox-mat {
+    padding-top: 2px;
+    border: none !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+
+    &::before {
+        background-color: white;
+        border-radius: 1px;
+        border: 2px solid #8a8a8a;
+        width: 18px;
+        height: 18px;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    &::after {
+        outline: none !important;
+        box-shadow: none !important;
+        border-radius: 0;
+        border: none;
+        width: 18px;
+        height: 18px;
+    }
+
+    &:checked {
+        border-radius: 0;
+        border: none;
+    }
+
+}
+
+.close:hover {
+    color: white !important;
+    opacity: 0.4;
+}
+
+.close {
+    color: white !important;
+    opacity: 1;
+}
+
+.svg-icon {
+    margin-top: 3px !important;
+}
+
+.checkbox-pass-label {
+    width: 100%;
+
+    &::before, &::after{
+        margin-top: 3px !important;
+    }
+
+}
+
+.custom-checkbox {
+    padding-left: 0;
+}
+
+.check-image {
+    margin-top: 3px;
+}
+
+.filter-sm {
+    @media only screen and (max-width: $medium-screen) {
+        width: 8.739% !important;
+    }
+    
+    @media only screen and (max-width: $small-screen) {
+        width: 8.3695% !important;
+    }
+}
+
+.filter-md {
+    @media only screen and (max-width: $medium-screen) {
+        width: 9.831% !important;
+    }
+
+    @media only screen and (max-width: $small-screen) {
+        width: 8.9155% !important;
+    }
+}
+
+.filter-lg {
+    @media only screen and (max-width: $medium-screen) {
+        width: 12.016% !important;
+    }
+
+    @media only screen and (max-width: $small-screen) {
+        width: 10.008% !important;
+    }
+}
+
+.deleted {
+    background-color: #ff0000 !important;
+}
+
+.removed {
+    display: none;
+}
+
+.dropdown-header-options {
+    background-color: #325B7C;
+    color: white;
+}
+
+.dropdown-options {
+    padding-top: 0;
+    margin-top:0;
+    width: 500px;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.left-col-options {
+    border-right: solid;
+    border-width: 1px;
+    border-color: #17a2b8;
+}
+
+.left-col-options, .right-col-options {
+    padding-bottom: 8px !important;
+    margin-bottom: 1px !important;
+}
+
+.checkbox-options-label {
+    width: 100%;
+}
+
+.dropdown-row-options {
+    width: 100%;
+    margin-right: 0;
+    height: 100%;
+}
+
+.btn-dropdown-options {
+    outline: none;
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: 5px;
+    padding-left: 5px;
+}
+
+.arrow-details {
+    color: #003d99;
+
+    &:hover {
+        color: #469cce;
+    }
+}
+
+.delete-row {
+    color: #808080;
+
+    &:hover {
+        color: #e91640;
+    }
+}
+
+.btn {
+    text-transform: none !important;
+}
+
+.counter-success {
+    border-bottom: 1px solid #ced4da !important;
+    box-shadow: none !important;
+}
+
+.counter-success:focus {
+    box-shadow: 0 1px 0 0 #4285f4 !important;
+    border-bottom: 1px solid #4285f4 !important;
+}
+
+.inputVal {
+    display: none !important;
+    outline: none !important;
+}
+
+.counter-danger {
+    border-bottom: 1px solid #ced4da !important;
+    box-shadow: none !important;
+}
+
+.counter-danger:focus {
+    box-shadow: 0 1px 0 0 #4285f4 !important;
+    border-bottom: 1px solid #4285f4 !important;
+}
+
+.my-btn {
+
+    &:focus {
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
+    }
+
+    &:active {
+        box-shadow: none !important;
+    }
+}
+
+.profile-modal {
+
+    width: 800px !important;
+
+    .modal-content {
+        width: 800px;
+        margin: auto !important;
+
+        @media only screen and (max-width: $desktop) {
+            width: 500px;
+        }
+
+    }
+
+    @media only screen and (min-width: $desktop) {
+        margin: 1.75rem auto;
+        max-width: 800px !important;
+    }
+
+    @media only screen and (max-width: $desktop) {
+        margin: 1.75rem auto;
+        max-width: 500px !important;
+    }
+
+}
+
+.form-control {
+    box-shadow: none !important;
+}
+
+.dropdown-patients {
+    width: auto;
+    min-width: 400px;
+    margin-top: 6px;
+
+    .ng-select-container {
+        height: 38px !important;
+        box-shadow: none !important;
+        
+        &:focus {
+            border-color: #80bdff;
+        }
+
+    }
+
+    .ng-dropdown-panel {
+
+        .ng-dropdown-panel-items {
+            max-height: 400px !important;
+        }
+
+    }
+
+    @media only screen and (max-width: 1020px) {
+        width: 200px !important;
+        min-width: 200px !important;
+    }
+
+    @media only screen and (max-width: 730px) {
+        width: 100px !important;
+        min-width: 100px !important;
+    }
+
+}
+
+.ng-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container{
+    border-color:#80bdff;
+}
+
+.calendar-div {
+    margin: 6px !important;
+}
+
+.calendar-input {
+    margin: 0 !important; 
+    border-left: none;
+
+    @media only screen and (max-width: 730px) {
+        border-left: 1px solid #ced4da !important;
+        border-radius: .25rem !important;
+    }
+
+}
+
+.calendar-icon {
+    
+    background-color: #17a2b8 !important;
+    border-color: #17a2b8 !important;
+
+    i {
+        color: white !important;
+    }
+
+    @media only screen and (max-width: 730px) {
+        display: none !important;
+    }
+}
+
+.calendar-icon:hover {
+    cursor: pointer;
+    background-color: #1a8fa1 !important;
+    border-color: #1a8fa1 !important;
+    border-radius: .25rem !important;
+}
+
+.confirm-header {
+    background-color: #007bff !important;
+}
+
+.invalid-field {
+    color: #dc3545;
+    font-size: 80%;
+}
+
+.invalid-field-input {
+    border-color: #dc3545 !important;
+    box-shadow: none !important;
+}
+
+.invalid-field-input-ng-select {
+
+    .ng-select-container {
+        border-color: #dc3545 !important;
+    }
+
+}
+
+.mat-list-text {
+    padding-left: 8px !important;
+}
+
+.session-item {
+    .mat-list-item-content {
+        .mat-list-text {
+            padding-left: 6px !important;
         }
     }
 }
