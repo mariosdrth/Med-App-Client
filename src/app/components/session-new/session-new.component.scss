@@ -1,3 +1,9 @@
 .calendar-div {
     margin: 0 !important;
 }
+
+.custom-file-label, ::after {
+    box-shadow: none !important;
+    border-top-right-radius: 1em !important;
+    border-bottom-right-radius: 1em !important;
+}

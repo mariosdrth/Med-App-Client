@@ -112,15 +112,18 @@
               <div>#</div>
             </th>
             <th style="width: 14%; text-align: center" *ngIf="showColumn.sessionId">
-              <a (click)="toggleSelected('sessionId', $event)">{{'Session ID' | translate}}</a>
+              <a (click)="toggleSelected('sessionId', $event)" placement="top" ngbTooltip="{{'Hold control and click on column header for multiple column sorting' | translate}}">
+                {{'Session ID' | translate}}</a>
               <i [innerHtml]="htmlVariable.sessionId" aria-hidden="true" style="padding-left: 3px;"></i>
             </th>
             <th style="width: 16%; text-align: center" *ngIf="showColumn.patientForSessionDTO">
-              <a (click)="toggleSelected('patientName', $event)">{{'Patient' | translate}}</a>
+              <a (click)="toggleSelected('patientName', $event)" placement="top" ngbTooltip="{{'Hold control and click on column header for multiple column sorting' | translate}}">
+                {{'Patient' | translate}}</a>
               <i [innerHtml]="htmlVariable.patientName" aria-hidden="true" style="padding-left: 3px;"></i>
             </th>
             <th style="width: 16%; text-align: center" *ngIf="showColumn.sessionDate">
-              <a (click)="toggleSelected('sessionDate', $event)">{{'Session Date' | translate}}</a>
+              <a (click)="toggleSelected('sessionDate', $event)" placement="top" ngbTooltip="{{'Hold control and click on column header for multiple column sorting' | translate}}">
+                {{'Session Date' | translate}}</a>
               <i [innerHtml]="htmlVariable.sessionDate" aria-hidden="true" style="padding-left: 3px;"></i>
             </th>
             <th style="width: 3%; text-align: center">

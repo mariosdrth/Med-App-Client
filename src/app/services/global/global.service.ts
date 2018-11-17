@@ -12,6 +12,7 @@ import { MessageConfirmationModalComponent } from '../../components/message-conf
 export class GlobalService {
 
   public isLoggedIn: boolean;
+  public route: string = "";
   private cookiesOptions: CookiesOptions = {
     expires: ""
   };
@@ -51,13 +52,14 @@ export class GlobalService {
     this.cookies.putObject(cookieName, cookie);
   }
 
-  openModalWithParam(list: Array<string>, title: string, dismissible: boolean, id?: number, route?: string, object?: any) {
+  openModalWithParam(list: Array<string>, title: string, dismissible: boolean, id?: number, route?: string, object?: any, type?: number) {
     const initialState = {
       list,
       title,
       id,
       route,
-      object
+      object,
+      type
     };
     this.config.initialState = initialState;
     this.config.keyboard = !dismissible;

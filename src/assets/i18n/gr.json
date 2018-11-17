@@ -21,7 +21,7 @@
     "Mother Name": "Όνομα Μητρός",
     "Sex": "Φύλο",
     "Surname": "Επώνυμο",
-    "AFM": "ΑΦΜ",
+    "TIN": "ΑΦΜ",
     "AMKA": "ΑΜΚΑ",
     "Birth": "Γέννηση",
     "Date": "Ημ/νια",
@@ -81,7 +81,7 @@
     "Options": "Επιλογές",
     "Tel": "Τηλ",
     "Cell": "Κινητό",
-    "Email": "Email",
+    "Email": "Ηλ. Διεύθυνση",
     "Address": "Διεύθυνση",
     "Comments": "Σχόλια",
     "Columns": "Στήλες",
@@ -114,5 +114,13 @@
     "Show": "Εμφάνιση",
     "New Session": "Νέα Συνεδρία",
     "Choose file": "Επιλογή αρχείου",
-    "Upload": "Ανέβασμα"
+    "Upload": "Ανέβασμα",
+    "Go to": "Πλοήγηση προς",
+    "Hold control and click on column header for multiple column sorting": "Κρατήστε πατημένο το control και κάντε click στο όνομα της στήλης για ταξινόμηση με πολλαπλές στήλες",
+    "Session Details": "Λεπτομέρειες Συνεδρίας",
+    "Upload File": "Ανέβασμα Αρχείου",
+    "Send email": "Αποστολή email",
+    "User Details": "Λεπτομέρειες Χρήστη",
+    "You can't change admin's user password": "Δεν μπορείτε να αλλάξετε τον κωδικό του χρήστη admin",
+    "You can't change guest's user password": "Δεν μπορείτε να αλλάξετε τον κωδικό του χρήστη guest"
 }

@@ -1,3 +1,111 @@
-<p>
-  session-details works!
-</p>
+<!----------------------------------------------------------------Header and buttons-------------------------------------------------------------------->
+<ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<div class="page-header">
+  <br>
+  <div class="row no-gutters">
+      <div class="col-xs-6">
+        <a class="btn btn-danger my-btn" (click)="goBack()">
+          <i class="fas fa-arrow-left"> {{'Back' | translate}}</i>
+        </a>
+      </div>
+      <div class="col-xs-6">
+        <a class="btn btn-primary my-btn" (click)="saveChanges()" [ngClass]="{'disabled': !changesMade}">
+          <i class="fas fa-save"> {{'Save' | translate}}</i>
+        </a>
+      </div>
+      <div class="col-xs-6" style="margin: auto;" [ngStyle]="{'padding-right': globalParametersService.language === 'gr' ? '237.39px' : globalParametersService.language === 'en' ? '178.67px' : '0'}">
+        <h1 class="text-center">{{'Session Details' | translate}}</h1>
+        <br>
+      </div>
+    </div>
+</div>
+<!------------------------------------------------------------------Main body form---------------------------------------------------------------------->
+<div class="container form-container">
+  <br>
+  <div class="row" style="margin-right: 50px;">
+      <div class="form-group col-4" style="margin:auto;">
+        <div class="row form-label">
+          <label>{{'Patient' | translate}}</label>
+          <i class="fas fa-info-circle info-icon" placement="right" ngbTooltip="{{'Patient Details' | translate}}"
+            (click)="showPatient(sessionInitValues.patientId)"></i>
+        </div>
+        <!-- <ng-select class="dropdown-patients" [items]="patientsAll"
+                bindLabel="nameSurname"
+                bindValue="id"
+                [multiple]="false"
+                placeholder="{{'Patient' | translate}}"
+                [closeOnSelect]="true"
+                dropdownPosition="bottom"
+                clearAllText="{{'Clear' | translate}}"
+                notFoundText="{{'No items found' | translate}}"
+                [virtualScroll]="true"
+                [(ngModel)]="patientId"
+                [ngClass]="{'invalid-field-input-ng-select': fieldEmpty.patientId}"
+                [clearable]="false"
+                [disabled]="true">
+        </ng-select> -->
+        <input class="form-control form-input" type="text" value="{{sessionToSave.patientName}}" name="patient" disabled>
+        <div *ngIf="fieldEmpty.patientId" class="invalid-field form-label-invalid">
+          <div *ngIf="fieldEmpty.patientId">{{'Field is required' | translate}}</div>
+        </div>
+      </div>
+  </div>
+  <br>
+  <br>
+  <div class="row">
+    <div class="form-group col-4" style="margin-left:auto">
+      <div class="row form-label">
+        <label>{{'Session ID' | translate}}</label>
+        <i class="fas fa-star star-required" *ngIf="fieldEmpty.sessionId"></i>
+      </div>
+      <input class="form-control form-input" type="text" value="{{session.sessionId}}" name="sessionId" [(ngModel)]="sessionId" 
+          [ngClass]="{'input-changed-data': sessionId !== sessionInitValues.sessionId, 'invalid-field-input': fieldEmpty.sessionId}">
+      <div *ngIf="fieldEmpty.sessionId" class="invalid-field form-label-invalid">
+          <div *ngIf="fieldEmpty.sessionId">{{'Field is required' | translate}}</div>
+      </div>
+    </div>
+    <div class="form-group col-4" style="margin-right:auto">
+      <div class="row form-label">
+        <label>{{'Session Date' | translate}}</label>
+        <i class="fas fa-star star-required" *ngIf="fieldEmpty.sessionDate"></i>
+      </div>
+      <div class="input-group calendar-div">
+      <div class="input-group-prepend" id="calendar">
+        <span class="input-group-text calendar-icon form-input" (click)="dp.toggle()"><i class="far fa-calendar-alt"></i></span>
+      </div>
+      <input class="form-control calendar-input form-input" type="text" value="{{session.sessionDate}}" name="sessionDate" bsDatepicker [(ngModel)]="sessionDate" [bsConfig]="datepickerConfig"
+          aria-describedby="calendar" #dp="bsDatepicker" [ngClass]="{'input-changed-data': sessionDate !== sessionInitValues.sessionDate, 'invalid-field-input': fieldEmpty.sessionDate}">
+      </div>
+      <div *ngIf="fieldEmpty.sessionDate" class="invalid-field form-label-invalid">
+        <div *ngIf="fieldEmpty.sessionDate">{{'Field is required' | translate}}</div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="row">
+    <div class="form-group col-12">
+      <label class="form-label">{{'Comments' | translate}}</label>
+      <textarea type="text" class="md-textarea form-control form-input" value="{{session.comments}}" name="comments" [(ngModel)]="comments" rows="5"
+          [ngClass]="{'input-changed-data': comments !== sessionInitValues.comments}"></textarea>
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <div class="row">
+    <div class="form-group col-12">
+      <label class="form-label">{{'Upload File' | translate}}</label>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text form-input" id="inputGroupFileAddon">{{'Upload' | translate}}</span>
+        </div>
+        <div class="custom-file">
+          <input type="file" class="custom-file-input form-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
+          <label class="custom-file-label" for="inputGroupFile">{{'Choose file' | translate}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!----------------------------------------------------------------Main body form end-------------------------------------------------------------------->

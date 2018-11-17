@@ -219,7 +219,7 @@ preparePagination(length: number) {
 }
 
 onRightClick() {
-  //return false;
+  return false;
 }
 
 changePage(value: string) {

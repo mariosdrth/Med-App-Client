@@ -11,6 +11,7 @@ import { NgForm, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { EmailSenderService } from '../../services/email-sender/email-sender.service';
 import { GlobalParametersService } from '../../services/global-parameters/global-parameters.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-connect-modal',
@@ -27,8 +28,8 @@ export class ConnectModalComponent implements OnInit {
   public isCapsLockOn: boolean;
   private userFromApi;
   public wrongCred: boolean = false;
-  private _userName: string;
-  private _password: string;
+  private _userName: string = "guest";
+  private _password: string = "guest";
   private cookiesOptions: CookiesOptions = {
     expires: ""
   };
@@ -45,12 +46,12 @@ export class ConnectModalComponent implements OnInit {
 
   constructor(public bsModalRef: BsModalRef, private translate: TranslateService, private modalService: BsModalService, private cookies: CookiesService,
                 private userService: UsersService, private globalService: GlobalService, private toastr: ToastrService, private formBuilder: FormBuilder, 
-                  private emailSenderService: EmailSenderService, public globalParametersService: GlobalParametersService) { }
+                  private emailSenderService: EmailSenderService, public globalParametersService: GlobalParametersService, private router: Router) { }
 
   ngOnInit() {
     this.resetForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      userNameForReset: ['']
+      userNameForReset: ['', [Validators.required]]
     });
   }
 
@@ -61,6 +62,12 @@ export class ConnectModalComponent implements OnInit {
       this.isCapsLockOn = true;
     } else {
       this.isCapsLockOn = false;
+    }
+  }
+
+  redirect() {
+    if (String(this.router.url) !== "/") {
+      this.router.navigate(["/"]);
     }
   }
 
@@ -85,6 +92,7 @@ export class ConnectModalComponent implements OnInit {
     if (this.userFromApi !== null && this.userFromApi !== undefined) {
       let now = new Date();
       user.id = this.userFromApi.id;
+      user.role = this.userFromApi.userRoleId;
       now.setHours(now.getHours() + 1);
       this.cookiesOptions.expires = formatDate(now, "MM/dd/yyyy HH:mm", "en");
       this.cookies.putObject("user", user, this.cookiesOptions);
@@ -112,6 +120,10 @@ export class ConnectModalComponent implements OnInit {
     if (this.resetForm.invalid) {
       return;
     }
+    if (form.value.userNameForReset === "admin") {
+      this.toastr.error(this.translate.instant("You can't change admin's user password"), this.translate.instant("Error!"));
+      return;
+    }
     this.globalParametersService.loading = true;
     this._mailToResetPass.receiver = form.value.email;
     this._mailToResetPass.userName = form.value.userNameForReset;
@@ -128,7 +140,6 @@ export class ConnectModalComponent implements OnInit {
   }
 
   resetError(error) {
-    console.log(error);
     this.toastr.error(this.translate.instant("The username was not found"), this.translate.instant("Error!"));
   }
 

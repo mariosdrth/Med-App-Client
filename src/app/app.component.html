@@ -7,19 +7,21 @@
         <mat-toolbar-row>
           <button mat-button mat-icon-button (click)="sidenav.toggle(); isHidden = !isHidden" *ngIf="globalService.isLoggedIn && !isHidden" placement="bottom"
             ngbTooltip="{{'Hide' | translate}}">
-            <mat-icon>menu</mat-icon>
+            <mat-icon style="color: white">menu</mat-icon>
           </button>
           <button mat-button mat-icon-button (click)="sidenav.toggle(); isHidden = !isHidden" *ngIf="globalService.isLoggedIn && isHidden" placement="bottom"
             ngbTooltip="{{'Show' | translate}}">
-            <mat-icon>menu</mat-icon>
+            <mat-icon style="color: white">menu</mat-icon>
           </button>
           <button mat-button mat-icon-button (click)="isExpanded = !isExpanded" *ngIf="globalService.isLoggedIn && !isExpanded" placement="bottom"
-            ngbTooltip="{{'Expand' | translate}}" [ngClass]="{'disabled': isHidden}">
-            <mat-icon>toggle_off</mat-icon>
+            ngbTooltip="{{'Expand' | translate}}" [ngClass]="{'disabled': isHidden}" [ngStyle]="{'color': isHidden === false ? 'white' : '#cccccc'}">
+            <!-- <mat-icon>toggle_off</mat-icon> -->
+            <i class="fas fa-toggle-off"></i>
           </button>
           <button mat-button mat-icon-button (click)="isExpanded = !isExpanded" *ngIf="globalService.isLoggedIn && isExpanded" placement="bottom"
-            ngbTooltip="{{'Shrink' | translate}}" [ngClass]="{'disabled': isHidden}">
-            <mat-icon>toggle_on</mat-icon>
+            ngbTooltip="{{'Shrink' | translate}}" [ngClass]="{'disabled': isHidden}" [ngStyle]="{'color': isHidden === false ? 'white' : '#cccccc'}">
+            <!-- <mat-icon>toggle_on</mat-icon> -->
+            <i class="fas fa-toggle-on"></i>
           </button>
           <a routerLink="" id="home-link">
             <i class="material-icons" placement="bottom" ngbTooltip="{{'Home' | translate}}">home</i>
@@ -77,19 +79,19 @@
 <!----------------------------------------------------------------------Sidenav--------------------------------------------------------------------------->
       <mat-sidenav #sidenav mode="side" opened="true">
         <mat-nav-list class="dashboard" *ngIf="globalService.isLoggedIn">
-          <a mat-list-item routerLink="" [ngClass]="{'active-route': currentUrl === '/'}">
+          <a mat-list-item (click)="navigateTo('/')" [ngClass]="{'active-route': currentUrl === '/'}">
             <i class="fas fa-home" aria-hidden="true" style="font-size: 18px;" mat-list-icon></i>
             <p matLine *ngIf="isExpanded">{{'Home' | translate}}</p>
           </a>
-          <a mat-list-item routerLink="patients" [class.active-route]="currentUrl === '/patients'">
-            <i class="far fa-id-card" aria-hidden="true" style="font-size: 18px;" mat-list-icon></i>
+          <a mat-list-item class="list-item" (click)="navigateTo('/patients')" [ngClass]="{'active-route': currentUrl === '/patients' || globalService.route === 'patients'}">
+            <i class="fas fa-user-md" aria-hidden="true" style="font-size: 18px;" mat-list-icon></i>
             <p matLine *ngIf="isExpanded">{{'Patients' | translate}}</p>
           </a>
-          <a mat-list-item class="session-item" routerLink="sessions" [class.active-route]="currentUrl === '/sessions'">
-            <i class="fas fa-edit" aria-hidden="true" style="font-size: 18px;" mat-list-icon></i>
+          <a mat-list-item (click)="navigateTo('/sessions')" [ngClass]="{'active-route': currentUrl === '/sessions' || globalService.route === 'sessions'}">
+            <i class="fas fa-bed" aria-hidden="true" style="font-size: 18px;" mat-list-icon></i>
             <p matLine *ngIf="isExpanded">{{'Sessions' | translate}}</p>
           </a>
-          <a mat-list-item routerLink="users" [class.active-route]="currentUrl === '/users'">
+          <a mat-list-item (click)="navigateTo('/users')" [ngClass]="{'active-route': currentUrl === '/users' || globalService.route === 'users'}">
             <i class="fas fa-users" aria-hidden="true" style="font-size: 18px;" mat-list-icon></i>
             <p matLine *ngIf="isExpanded">{{'Users' | translate}}</p>
           </a>
@@ -114,5 +116,5 @@
     </footer>
 <!---------------------------------------------------------------------Footer End------------------------------------------------------------------------->
   </ng-container>
-<!----------------------------------------------------------------------Body End-------------------------------------------------------------------------->
 </body>
+<!----------------------------------------------------------------------Body End-------------------------------------------------------------------------->

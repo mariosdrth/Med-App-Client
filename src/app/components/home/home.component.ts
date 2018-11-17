@@ -3,6 +3,7 @@ import { GlobalService } from '../../services/global/global.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ConnectModalComponent } from '../../components/connect-modal/connect-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,7 @@ export class HomeComponent implements OnInit {
     ignoreBackdropClick: true
   };
 
-  constructor(public globalService: GlobalService,private modalService: BsModalService) {
+  constructor(public globalService: GlobalService,private modalService: BsModalService, private router: Router) {
     this.globalService.checkIfLoggedIn();
   }
 
@@ -26,6 +27,10 @@ export class HomeComponent implements OnInit {
 
   open() {
     this.modalRef = this.modalService.show(ConnectModalComponent, this.config);
+  }
+
+  navigate(route) {
+    this.router.navigate([route]);
   }
 
 }

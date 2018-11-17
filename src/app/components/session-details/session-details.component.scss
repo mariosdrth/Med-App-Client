@@ -1,0 +1,32 @@
+.calendar-div {
+    margin: 0 !important;
+}
+
+.custom-file-label, ::after {
+    box-shadow: none !important;
+    border-top-right-radius: 1em !important;
+    border-bottom-right-radius: 1em !important;
+}
+
+.invalid-field {
+    color: #dc3545;
+    font-size: 80%;
+}
+
+.invalid-field-input {
+    border-color: #dc3545 !important;
+    box-shadow: none !important;
+}
+
+.info-icon {
+    font-size: 16px;
+    color: #661a00;
+    margin-left: 8px;
+    margin-top: 3.4px;
+    height: 16px !important;
+    
+    &:hover {
+        cursor: pointer;
+        color: #4d1300;
+    }
+}

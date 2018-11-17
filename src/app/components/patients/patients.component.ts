@@ -147,7 +147,7 @@ export class PatientsComponent implements OnInit {
     {"description": "Father Name", "value": true, "colName": "fatherName"},
     {"description": "Mother Name", "value": true, "colName": "motherName"},
     {"description": "Sex", "value": true, "colName": "sex"},
-    {"description": "AFM", "value": true, "colName": "afm"},
+    {"description": "TIN", "value": true, "colName": "afm"},
     {"description": "AMKA", "value": true, "colName": "amka"},
     {"description": "Birth Date", "value": true, "colName": "birthDate"},
     {"description": "Tel", "value": false, "colName": "tel"},
@@ -173,7 +173,7 @@ export class PatientsComponent implements OnInit {
     {"description": "Surname", "value": true, "colName": "surname"},
     {"description": "Father Name", "value": false, "colName": "fatherName"},
     {"description": "Mother Name", "value": false, "colName": "motherName"},
-    {"description": "AFM", "value": true, "colName": "afm"},
+    {"description": "TIN", "value": true, "colName": "afm"},
     {"description": "AMKA", "value": true, "colName": "amka"},
     {"description": "Birth Date", "value": true, "colName": "birthDate"},
     {"description": "Tel", "value": false, "colName": "tel"},
@@ -264,7 +264,7 @@ export class PatientsComponent implements OnInit {
   }
 
   onRightClick() {
-//    return false;
+    return false;
   }
 
   changePage(value: string) {

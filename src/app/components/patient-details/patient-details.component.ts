@@ -8,6 +8,7 @@ import { GlobalParametersService } from '../../services/global-parameters/global
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
+import { Types } from '../../services/global-parameters/global-parameters.service';
 
 @Component({
   selector: 'app-patient-details',
@@ -45,7 +46,8 @@ export class PatientDetailsComponent implements OnInit {
     "name": false,
     "surname": false,
     "sex": false,
-    "sexForDTO": false
+    "sexForDTO": false,
+    "afm": false
   };
   public patientToSave = {
     "name": "",
@@ -70,6 +72,9 @@ export class PatientDetailsComponent implements OnInit {
 
 /*********************Life Cycle Functions*********************/
   ngOnInit() {
+    setTimeout(() => {
+      this.globalService.route = 'patients';
+    }, 0);
     this.datepickerConfig = Object.assign(
       { dateInputFormat: 'DD/MM/YYYY' },
       { containerClass: 'theme-red' },
@@ -79,6 +84,10 @@ export class PatientDetailsComponent implements OnInit {
       );
     this.patientId = this.route.snapshot.params.id;
     this.getPatientDetails(this.patientId);
+  }
+
+  ngOnDestroy(): void {
+    this.globalService.route = '';
   }
 
 /************************Custom Functions*********************/
@@ -125,7 +134,7 @@ export class PatientDetailsComponent implements OnInit {
     if (this.checkForChanges()) {
       let list: Array<string> = ["You have unsaved changes. Are you sure you want to leave?"]
       let title: string = "Back";
-      this.globalService.openModalWithParam(list, title, true, undefined);
+      this.globalService.openModalWithParam(list, title, true, undefined, undefined, undefined, Types.back);
     } else {
       this.location.back();
     }
@@ -150,9 +159,11 @@ export class PatientDetailsComponent implements OnInit {
         this._sex !== this.patientInitValues.sex || this._sexForDTO !== this.patientInitValues.sexForDTO || this._afm !== this.patientInitValues.afm || this._amka !== this.patientInitValues.amka || this._birthDate !== this.patientInitValues.birthDate ||
         this._tel !== this.patientInitValues.tel || this._cell !== this.patientInitValues.cell || this._email !== this.patientInitValues.email || this._address !== this.patientInitValues.address || this._comments !== this.patientInitValues.comments) {
       this.changesMade = true;
+      this.globalParametersService.changesMade = true;
       this.checkForEmpty();
     } else {
       this.changesMade = false;
+      this.globalParametersService.changesMade = false;
     }
     return this.changesMade;
   }
@@ -162,6 +173,11 @@ export class PatientDetailsComponent implements OnInit {
       this.fieldEmpty.name = true;
     } else {
       this.fieldEmpty.name = false;
+    }
+    if (this._afm === "") {
+      this.fieldEmpty.afm = true;
+    } else {
+      this.fieldEmpty.afm = false;
     }
     if (this._surname === "") {
       this.fieldEmpty.surname = true;
@@ -181,7 +197,7 @@ export class PatientDetailsComponent implements OnInit {
   }
 
   checkIfAllowedToSubmit(): boolean {
-    if (this.fieldEmpty.name === false && this.fieldEmpty.surname === false && this.fieldEmpty.sex === false && this.fieldEmpty.sexForDTO === false) {
+    if (this.fieldEmpty.name === false && this.fieldEmpty.surname === false && this.fieldEmpty.sex === false && this.fieldEmpty.afm === false && this.fieldEmpty.sexForDTO === false) {
       return true;
     } else {
       return false;
@@ -209,7 +225,7 @@ export class PatientDetailsComponent implements OnInit {
       let list: Array<string> = ["You have unsaved changes. Are you sure you want to leave?"]
       let title: string = "Go to Sessions";
       let route = "sessions";
-      this.globalService.openModalWithParam(list, title, true, undefined, route, value);
+      this.globalService.openModalWithParam(list, title, true, undefined, route, value, Types.navigateTo);
     } else {
       this.globalParametersService.patientFilter.push(value);
       this.router.navigate(["sessions"]);

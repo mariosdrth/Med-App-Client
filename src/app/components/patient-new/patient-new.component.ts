@@ -6,6 +6,7 @@ import { GlobalParametersService } from '../../services/global-parameters/global
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
+import { Types } from '../../services/global-parameters/global-parameters.service';
 
 @Component({
   selector: 'app-patient-new',
@@ -38,7 +39,8 @@ export class PatientNewComponent implements OnInit {
     "name": false,
     "surname": false,
     "sex": false,
-    "sexForDTO": false
+    "sexForDTO": false,
+    "afm": false
   };
   public patient = {
     "name": "",
@@ -81,7 +83,14 @@ export class PatientNewComponent implements OnInit {
     public globalParametersService: GlobalParametersService, private toastr: ToastrService, private translate: TranslateService) { }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.globalService.route = 'patients';
+    }, 0);
     this.getInitValues();
+  }
+
+  ngOnDestroy(): void {
+    this.globalService.route = '';
   }
 
   formatDateOnChange() {
@@ -92,7 +101,7 @@ export class PatientNewComponent implements OnInit {
     if (this.checkForChanges()) {
       let list: Array<string> = ["You have unsaved changes. Are you sure you want to leave?"]
       let title: string = "Back";
-      this.globalService.openModalWithParam(list, title, true, undefined);
+      this.globalService.openModalWithParam(list, title, true, undefined, undefined, undefined, Types.back);
     } else {
       this.location.back();
     }
@@ -113,9 +122,11 @@ export class PatientNewComponent implements OnInit {
         this._sex !== this.patient.sex || this._sexForDTO !== this.patient.sexForDTO || this._afm !== this.patient.afm || this._amka !== this.patient.amka || this._birthDate !== this.patient.birthDate ||
         this._tel !== this.patient.tel || this._cell !== this.patient.cell || this._email !== this.patient.email || this._address !== this.patient.address || this._comments !== this.patient.comments) {
       this.changesMade = true;
+      this.globalParametersService.changesMade = true;
       this.checkForEmpty();
     } else {
       this.changesMade = false;
+      this.globalParametersService.changesMade = false;
       this.checkForEmpty();
     }
     return this.changesMade;
@@ -126,6 +137,11 @@ export class PatientNewComponent implements OnInit {
       this.fieldEmpty.name = true;
     } else {
       this.fieldEmpty.name = false;
+    }
+    if (this._afm === "") {
+      this.fieldEmpty.afm = true;
+    } else {
+      this.fieldEmpty.afm = false;
     }
     if (this._surname === "") {
       this.fieldEmpty.surname = true;
@@ -145,7 +161,7 @@ export class PatientNewComponent implements OnInit {
   }
 
   checkIfAllowedToSubmit(): boolean {
-    if (this.fieldEmpty.name === false && this.fieldEmpty.surname === false && this.fieldEmpty.sex === false && this.fieldEmpty.sexForDTO === false) {
+    if (this.fieldEmpty.name === false && this.fieldEmpty.surname === false && this.fieldEmpty.sex === false && this.fieldEmpty.afm === false && this.fieldEmpty.sexForDTO === false) {
       return true;
     } else {
       return false;
@@ -155,7 +171,7 @@ export class PatientNewComponent implements OnInit {
   saveChanges() {
     if (this.checkIfAllowedToSubmit()) {
       this.globalParametersService.loading = true;
-      this.preparPatientToSave();
+      this.preparePatientToSave();
       this.patientsService.newPatient(this.patientToSaveList).subscribe(
         data => { this.patientNew$ = data; this.updatePatientAfterSave(), this.getInitValues(), this.checkForChanges(); this.globalParametersService.loading = false;},
         err => {console.error(err); this.globalParametersService.loading = false;},
@@ -187,7 +203,7 @@ export class PatientNewComponent implements OnInit {
     this.patient = this.patientToSave;
   }
 
-  preparPatientToSave() {
+  preparePatientToSave() {
     this.patientToSave.name = this.name;
     this.patientToSave.surname = this.surname;
     this.patientToSave.fatherName = this.fatherName;

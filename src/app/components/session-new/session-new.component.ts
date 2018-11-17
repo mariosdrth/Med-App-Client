@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientsService } from '../../services/patients/patients.service';
+import { SessionsService } from '../../services/sessions/sessions.service';
 import { GlobalParametersService } from '../../services/global-parameters/global-parameters.service';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { GlobalService } from '../../services/global/global.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
+import { Types } from '../../services/global-parameters/global-parameters.service';
 
 @Component({
   selector: 'app-session-new',
@@ -15,6 +17,7 @@ import { Location } from '@angular/common';
 export class SessionNewComponent implements OnInit {
 
   public patients$: any;
+  public sessionNew$: Object;
   public patientsAll = [];
   private _sessionId: string;
   private _comments: string;
@@ -43,9 +46,12 @@ export class SessionNewComponent implements OnInit {
   public minDate = new Date(1900, 0, 1);
 
   constructor(private patientsService: PatientsService, public globalParametersService: GlobalParametersService, public globalService: GlobalService, private location: Location, 
-    private toastr: ToastrService, private translate: TranslateService) { }
+    private toastr: ToastrService, private translate: TranslateService, private sessionsService: SessionsService) { }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.globalService.route = 'sessions';
+    }, 0);
     this.patientsService.getAllPatients().subscribe(
       data => {this.patients$ = data},
       (error) => {console.log(error)},
@@ -59,6 +65,10 @@ export class SessionNewComponent implements OnInit {
     this.getInitValues();
   }
 
+  ngOnDestroy(): void {
+    this.globalService.route = '';
+  }
+
   formatDateOnChange() {
     this._sessionDate = this.globalService.formatDate(this._sessionDate);
   }
@@ -67,7 +77,7 @@ export class SessionNewComponent implements OnInit {
     if (this.checkForChanges()) {
       let list: Array<string> = ["You have unsaved changes. Are you sure you want to leave?"]
       let title: string = "Back";
-      this.globalService.openModalWithParam(list, title, true, undefined);
+      this.globalService.openModalWithParam(list, title, true, undefined, undefined, undefined, Types.back);
     } else {
       this.location.back();
     }
@@ -76,9 +86,11 @@ export class SessionNewComponent implements OnInit {
   checkForChanges(): boolean {
     if (this._sessionId !== this.session.sessionId || this._comments !== this.session.comments || this._sessionDate !== this.session.sessionDate || this._patientId !== this.session.patientId) {
       this.changesMade = true;
+      this.globalParametersService.changesMade = true;
       this.checkForEmpty();
     } else {
       this.changesMade = false;
+      this.globalParametersService.changesMade = false;
       this.checkForEmpty();
     }
     return this.changesMade;
@@ -102,6 +114,14 @@ export class SessionNewComponent implements OnInit {
     }
   }
 
+  checkIfAllowedToSubmit(): boolean {
+    if (this.fieldEmpty.sessionId === false && this.fieldEmpty.sessionDate === false && this.fieldEmpty.patientId === false) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   getInitValues() {
     this._sessionId = this.session.sessionId;
     this._comments = this.session.comments;
@@ -110,7 +130,29 @@ export class SessionNewComponent implements OnInit {
   }
 
   saveChanges() {
-    
+    if (this.checkIfAllowedToSubmit()) {
+      this.globalParametersService.loading = true;
+      this.preparSessionToSave();
+      this.sessionsService.newSession(this.sessionToSaveList).subscribe(
+        data => { this.sessionNew$ = data; this.updateSessionAfterSave(), this.getInitValues(), this.checkForChanges(); this.globalParametersService.loading = false;},
+        err => {console.error(err); this.globalParametersService.loading = false;},
+        () => {this.globalParametersService.loading = false; this.toastr.success(this.translate.instant("Successfully saved changes"), this.translate.instant("Success!"))}
+        );
+    } else {
+      this.toastr.error(this.translate.instant("Fill all required fields first"), this.translate.instant("Warning!"))
+    }
+  }
+
+  preparSessionToSave() {
+    this.sessionToSave.patientId = this.patientId;
+    this.sessionToSave.sessionId = this.sessionId;
+    this.sessionToSave.sessionDate = this.sessionDate;
+    this.sessionToSave.comments = this.comments;
+    this.sessionToSaveList.push(this.sessionToSave);
+  }
+
+  updateSessionAfterSave() {
+    this.session = this.sessionToSave;
   }
 
   public get sessionId(): string {

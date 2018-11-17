@@ -40,9 +40,9 @@
     <div class="row" style="margin-top: 40px;">
       <div class="col-2" style="margin: auto; max-width: 30% !important;">
       <div class="pretty p-image p-plain p-smooth dropdown-row-options" style="margin: auto;">
-        <input type="checkbox" class="custom-control-input checkbox-input" id="changePass" formControlName="changePass" (click)="enableChangePass($event.target.checked)" name="changePass">
+        <input type="checkbox" class="custom-control-input checkbox-input" id="changePass" formControlName="changePass" (click)="enableChangePass($event); " name="changePass">
         <div class="state">
-            <img class="image check-image" src="../../../assets/images/green-checkbox-var-2.png">
+          <img class="image check-image" src="../../../assets/images/green-checkbox-var-2.png">
           <label class="custom-control-label checkbox-mat checkbox-pass-label" for="changePass">{{'Change Password' | translate}}</label>
         </div>
       </div>
@@ -51,14 +51,14 @@
     <div formGroupName="passwords" class="row" style="margin-top: 10px;">
       <div class="form-group col text-center">
         <mat-form-field [ngClass]="{disabled: changePassEnabled === false}">
-          <input matInput type="password"  formControlName="password">
-          <mat-label [ngClass]="{'disabled-color': changePassEnabled === false}">{{'New password' | translate}}</mat-label>
+          <input matInput type="password" formControlName="password" placeholder="{{'New password' | translate}}">
+          <!-- <mat-label [ngClass]="{'disabled-color': changePassEnabled === false}">{{'New password' | translate}}</mat-label> -->
         </mat-form-field>
       </div>
       <div class="form-group col text-center">
         <mat-form-field [ngClass]="{disabled: changePassEnabled === false}">
-          <input matInput type="password" formControlName="confirmPassword" [errorStateMatcher]="matcher">
-          <mat-label [ngClass]="{'disabled-color': changePassEnabled === false}">{{'Confirm password' | translate}}</mat-label>
+          <input matInput type="password" formControlName="confirmPassword" [errorStateMatcher]="matcher" placeholder="{{'Confirm password' | translate}}">
+          <!-- <mat-label [ngClass]="{'disabled-color': changePassEnabled === false}">{{'Confirm password' | translate}}</mat-label> -->
           <mat-error *ngIf="profileForm.controls.passwords.errors">
             Passwords do not match
           </mat-error>

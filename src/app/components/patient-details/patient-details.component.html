@@ -27,21 +27,28 @@
     </div>
 </div>
 <!------------------------------------------------------------------Main body form---------------------------------------------------------------------->
-<div class="container">
+<div class="container form-container">
+  <br>
   <div class="row">
     <div class="form-group col">
-      <label>{{'Name' | translate}}</label>
-      <input class="form-control" type="text" value="{{patient$.name}}" name="name" [(ngModel)]="name" 
+      <div class="row form-label">
+        <label>{{'Name' | translate}}</label>
+        <i class="fas fa-star star-required" *ngIf="fieldEmpty.name"></i>
+      </div>
+      <input class="form-control form-input" type="text" value="{{patient$.name}}" name="name" [(ngModel)]="name" 
           [ngClass]="{'input-changed-data': name !== patientInitValues.name, 'invalid-field-input': fieldEmpty.name}">
-      <div *ngIf="fieldEmpty.name" class="invalid-field">
+      <div *ngIf="fieldEmpty.name" class="invalid-field form-label-invalid">
           <div *ngIf="fieldEmpty.name">{{'Field is required' | translate}}</div>
       </div>
     </div>
     <div class="form-group col">
-      <label>{{'Surname' | translate}}</label>
-      <input class="form-control" type="text" value="{{patient$.surname}}" name="surname" [(ngModel)]="surname" 
+      <div class="row form-label">
+        <label>{{'Surname' | translate}}</label>
+        <i class="fas fa-star star-required" *ngIf="fieldEmpty.surname"></i>
+      </div>
+      <input class="form-control form-input" type="text" value="{{patient$.surname}}" name="surname" [(ngModel)]="surname" 
         [ngClass]="{'input-changed-data': surname !== patientInitValues.surname, 'invalid-field-input': fieldEmpty.surname}">
-        <div *ngIf="fieldEmpty.surname" class="invalid-field">
+        <div *ngIf="fieldEmpty.surname" class="invalid-field form-label-invalid">
           <div *ngIf="fieldEmpty.surname">{{'Field is required' | translate}}</div>
         </div>
     </div>
@@ -49,35 +56,41 @@
   <br>
   <div class="row">
     <div class="form-group col">
-      <label>{{'Father Name' | translate}}</label>
-      <input class="form-control" type="text" value="{{patient$.fatherName}}" name="fatherName" [(ngModel)]="fatherName" 
+      <label class="form-label">{{'Father Name' | translate}}</label>
+      <input class="form-control form-input" type="text" value="{{patient$.fatherName}}" name="fatherName" [(ngModel)]="fatherName" 
         [ngClass]="{'input-changed-data': fatherName !== patientInitValues.fatherName}">
     </div>
     <div class="form-group col">
-      <label>{{'Mother Name' | translate}}</label>
-      <input class="form-control" type="text" value="{{patient$.motherName}}" name="motherName" [(ngModel)]="motherName" 
+      <label class="form-label">{{'Mother Name' | translate}}</label>
+      <input class="form-control form-input" type="text" value="{{patient$.motherName}}" name="motherName" [(ngModel)]="motherName" 
         [ngClass]="{'input-changed-data': motherName !== patientInitValues.motherName}">
     </div>
   </div>
   <br>
   <div class="row">
     <div class="form-group col">
-      <label>{{'AFM' | translate}}</label>
-      <input class="form-control" type="text" value="{{patient$.afm}}" name="afm" [(ngModel)]="afm" 
-        [ngClass]="{'input-changed-data': afm !== patientInitValues.afm}">
+      <div class="row form-label">
+        <label>{{'TIN' | translate}}</label>
+        <i class="fas fa-star star-required" *ngIf="fieldEmpty.afm"></i>
+      </div>
+      <input class="form-control form-input" type="text" value="{{patient$.afm}}" name="afm" [(ngModel)]="afm" 
+        [ngClass]="{'input-changed-data': afm !== patientInitValues.afm, 'invalid-field-input': fieldEmpty.afm}">
+        <div *ngIf="fieldEmpty.afm" class="invalid-field form-label-invalid">
+          <div *ngIf="fieldEmpty.afm">{{'Field is required' | translate}}</div>
+        </div>
     </div>
     <div class="form-group col">
-      <label>{{'AMKA' | translate}}</label>
-      <input class="form-control" type="text" value="{{patient$.amka}}" name="amka" [(ngModel)]="amka" 
+      <label class="form-label">{{'AMKA' | translate}}</label>
+      <input class="form-control form-input" type="text" value="{{patient$.amka}}" name="amka" [(ngModel)]="amka" 
         [ngClass]="{'input-changed-data': amka !== patientInitValues.amka}">
     </div>
     <div class="form-group col">
-      <label>{{'Birth Date' | translate}}</label>
+      <label class="form-label">{{'Birth Date' | translate}}</label>
       <div class="input-group calendar-div">
         <div class="input-group-prepend" id="calendar">
-            <span class="input-group-text calendar-icon" (click)="dp.toggle()"><i class="far fa-calendar-alt"></i></span>
+          <span class="input-group-text calendar-icon form-input" (click)="dp.toggle()"><i class="far fa-calendar-alt"></i></span>
         </div>
-        <input class="form-control calendar-input" type="text" value="{{patient$.birthDate}}" name="birthDate" bsDatepicker [(ngModel)]="birthDate" 
+        <input class="form-control calendar-input form-input" type="text" value="{{patient$.birthDate}}" name="birthDate" bsDatepicker [(ngModel)]="birthDate" 
           [bsConfig]="datepickerConfig" [ngClass]="{'input-changed-data': birthDate !== patientInitValues.birthDate}" aria-describedby="calendar" #dp="bsDatepicker">
       </div>
     </div>
@@ -85,33 +98,36 @@
   <br>
   <div class="row">
     <div class="form-group col">
-      <label>{{'Tel' | translate}}</label>
-      <input class="form-control" type="text" value="{{patient$.tel}}" name="tel" [(ngModel)]="tel" 
+      <label class="form-label">{{'Tel' | translate}}</label>
+      <input class="form-control form-input" type="text" value="{{patient$.tel}}" name="tel" [(ngModel)]="tel" 
         [ngClass]="{'input-changed-data': tel !== patientInitValues.tel}">
     </div>
     <div class="form-group col">
-      <label>{{'Cell' | translate}}</label>
-      <input class="form-control" type="text" value="{{patient$.cell}}" name="cell" [(ngModel)]="cell" 
+      <label class="form-label">{{'Cell' | translate}}</label>
+      <input class="form-control form-input" type="text" value="{{patient$.cell}}" name="cell" [(ngModel)]="cell" 
         [ngClass]="{'input-changed-data': cell !== patientInitValues.cell}">
     </div>
     <div class="form-group col">
-      <label>{{'Email' | translate}}</label>
-      <input class="form-control" type="text" value="{{patient$.email}}" name="email" [(ngModel)]="email" 
+      <label class="form-label">{{'Email' | translate}}</label>
+      <input class="form-control form-input" type="text" value="{{patient$.email}}" name="email" [(ngModel)]="email" 
         [ngClass]="{'input-changed-data': email !== patientInitValues.email}">
     </div>
   </div>
   <br>
-  <div class="row">
+  <div class="row" style="margin-bottom: 30px;">
     <div class="form-group col-4">
-      <label>{{'Address' | translate}}</label>
-      <input class="form-control" type="text" value="{{patient$.address}}" name="address" [(ngModel)]="address" 
+      <label class="form-label">{{'Address' | translate}}</label>
+      <input class="form-control form-input" type="text" value="{{patient$.address}}" name="address" [(ngModel)]="address" 
         [ngClass]="{'input-changed-data': address !== patientInitValues.address}">
       <br>
-      <label>{{'Sex' | translate}}</label>
+      <div class="row form-label">
+        <label>{{'Sex' | translate}}</label>
+        <i class="fas fa-star star-required" *ngIf="fieldEmpty.sexForDTO"></i>
+      </div>
       <div class="row">
         <div class="row">
           <div class="btn-group" mdbDropdown style="margin-left: 30px;">
-            <button id="btn-dropdown-sex" mdbDropdownToggle type="button" mdbBtn class="dropdown-toggle waves-light" mdbWavesEffect
+            <button id="btn-dropdown-sex" mdbDropdownToggle type="button" mdbBtn class="dropdown-toggle waves-light form-input" mdbWavesEffect
               [ngClass]="{'input-changed-data': sexForDTO !== patientInitValues.sexForDTO, 'invalid-field-input': fieldEmpty.sexForDTO}">
               {{sexForDTO | translate}}
             </button>
@@ -123,13 +139,13 @@
           </div>
         </div>
       </div>
-      <div *ngIf="fieldEmpty.sexForDTO" class="invalid-field">
-          <div *ngIf="fieldEmpty.sexForDTO">{{'Field is required' | translate}}</div>
-        </div>
+      <div *ngIf="fieldEmpty.sexForDTO" class="invalid-field form-label-invalid">
+        <div *ngIf="fieldEmpty.sexForDTO">{{'Field is required' | translate}}</div>
+      </div>
     </div>
     <div class="form-group col-8">
-      <label>{{'Comments' | translate}}</label>
-      <textarea class="form-control" type="text" class="md-textarea form-control" value="{{patient$.comments}}" name="comments" [(ngModel)]="comments" 
+      <label class="form-label">{{'Comments' | translate}}</label>
+      <textarea type="text" class="md-textarea form-control form-input" value="{{patient$.comments}}" name="comments" [(ngModel)]="comments" 
         [ngClass]="{'input-changed-data': comments !== patientInitValues.comments}" rows="5"></textarea>
     </div>
   </div>

@@ -9,7 +9,22 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ConnectModalComponent } from './components/connect-modal/connect-modal.component';
 import { ContactModalComponent } from './components/contact-modal/contact-modal.component';
 import { GlobalParametersService } from './services/global-parameters/global-parameters.service';
+import { Types } from './services/global-parameters/global-parameters.service';
 import { ProfileModalComponent } from './components/profile-modal/profile-modal.component';
+import { HttpClient } from '@angular/common/http';
+import { ConnectionsService } from './services/connections/connections.service';
+
+export interface IPData{
+  query:any;
+  countryCode:any;
+  country:any;
+  regionName:any;
+  city:any;
+  mobile:any;
+  lat:any;
+  lon:any;
+  status:any;
+}
 
 @Component({
   selector: 'app-root',
@@ -19,7 +34,7 @@ import { ProfileModalComponent } from './components/profile-modal/profile-modal.
 export class AppComponent {
   title = 'Gdpr';
 
-  public language: string = "gr";
+  public language: string = "en";
   public isHomePage = false;
   public modalRef: BsModalRef;
   public config = {
@@ -31,9 +46,17 @@ export class AppComponent {
   public element: HTMLElement;
   public currentUrl: string;
   public isHidden: boolean = false;
+  private connection = {
+    "ip": "",
+    "conDate": "",
+    "country": "",
+    "isMobile": "",
+    "coordinates": ""
+  };
+  private connection$: Object;
 
-  constructor(private translate: TranslateService, private cookieService: CookieService, private router: Router, private modalService: BsModalService, 
-              public globalService: GlobalService, private toastr: ToastrService, public globalParametersService: GlobalParametersService) {
+  constructor(private translate: TranslateService, private cookieService: CookieService, private router: Router, private modalService: BsModalService, private connections: ConnectionsService,
+              public globalService: GlobalService, private toastr: ToastrService, public globalParametersService: GlobalParametersService, private http: HttpClient) {
     this.router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd) {
         this.router.navigated = false;
@@ -41,12 +64,6 @@ export class AppComponent {
         window.scrollTo(0, 0);
       }
     });
-    const cookieLanguageExists: boolean = cookieService.check("prefLanguage");
-    if (cookieLanguageExists) {
-      this.language = this.cookieService.get("prefLanguage");
-      this.globalParametersService.language = this.language;
-    }
-    translate.use(this.language);
     router.events.forEach((event) => {
       this.globalService.checkIfLoggedIn();
       if(event instanceof NavigationEnd) {
@@ -58,6 +75,43 @@ export class AppComponent {
         }
       }
     });
+  }
+
+  ngOnInit() {
+    const cookieLanguageExists: boolean = this.cookieService.check("prefLanguage");
+    if (cookieLanguageExists) {
+      this.language = this.cookieService.get("prefLanguage");
+      this.globalParametersService.language = this.language;
+    }
+    this.translate.use(this.language);
+    this.http.get<IPData>('http://ip-api.com/json/?fields=258047')
+    .subscribe(data => {
+      if (data.status === "success") {
+        if (!cookieLanguageExists) {
+          if (data.countryCode = "GR") {
+            this.language = "gr";
+            this.translate.use(this.language);
+          }
+        }
+        this.connection = this.prepareConnection(data);
+        this.createConnection(this.connection);
+      }
+    });
+  }
+
+  prepareConnection(data: IPData) {
+    this.connection.ip = data.query;
+    this.connection.conDate = String(new Date());
+    this.connection.country = 'Country: ' + data.country + '(' + data.countryCode + '), Region: ' + data.regionName + ', City: ' + data.city;
+    this.connection.isMobile = data.mobile;
+    this.connection.coordinates = 'lat: ' + data.lat + ', lon: ' + data.lon;
+    return this.connection;
+  }
+
+  createConnection(connection) {
+    this.connections.newConnection(connection).subscribe(
+      data => {this.connection$ = data}
+    );
   }
 
   // @HostListener('window:beforeunload', ['$event'])
@@ -108,9 +162,15 @@ export class AppComponent {
   }
 
   openSignOutModal() {
-    let list: Array<string> = ["Are you sure?"]
-    let title: string = "Log out";
-    this.globalService.openModalWithParam(list, title, false);
+    if (!this.globalParametersService.changesMade) {
+      let list: Array<string> = ["Are you sure?"]
+      let title: string = "Log out";
+      this.globalService.openModalWithParam(list, title, false, undefined, undefined, undefined, Types.logOut);
+    } else {
+      let list: Array<string> = ["You have unsaved changes. Are you sure?"]
+      let title: string = "Log out";
+      this.globalService.openModalWithParam(list, title, false, undefined, undefined, undefined, Types.logOut);
+    }
   }
   
   gotoTop(element) {
@@ -120,5 +180,22 @@ export class AppComponent {
   openProfileModal() {
     let config = {class: "profile-modal modal-dialog-centered"}
     this.modalRef = this.modalService.show(ProfileModalComponent, config);
+  }
+
+  navigateTo(route) {
+    if (!this.globalParametersService.changesMade) {
+      this.router.navigate([route]);
+    } else if (route === "/") {
+      let list: Array<string> = ["You have unsaved changes. Are you sure you want to leave?"]
+      let title: string = this.translate.instant("Go to") + " " + this.translate.instant("Home");
+      this.globalService.openModalWithParam(list, title, true, undefined, route, undefined, Types.navigateTo);
+    } else {
+      let list: Array<string> = ["You have unsaved changes. Are you sure you want to leave?"]
+      let str:string = route;
+      str = str.slice(1);
+      str = str[0].toUpperCase() + str.slice(1);
+      let title: string = this.translate.instant("Go to") + " " + this.translate.instant(str);
+      this.globalService.openModalWithParam(list, title, true, undefined, route, undefined, Types.navigateTo);
+    }
   }
 }

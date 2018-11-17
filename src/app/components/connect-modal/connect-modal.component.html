@@ -3,7 +3,7 @@
   <div #connectModal id="connectModal" class="modal-header sign-in-header">
     <i class="fas fa-user-lock" style="font-size: 26px; margin-top: 4px;"></i>
     <h4 class="modal-title w-100 font-weight-bold text-center" style="margin-right: 32.5px;">{{'Sign in' | translate}}</h4>
-    <button type="button" class="close btn-close" aria-label="Close" (click)="bsModalRef.hide()">
+    <button type="button" class="close btn-close" aria-label="Close" (click)="bsModalRef.hide(); redirect()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -13,14 +13,16 @@
           <div class="md-form mb-5">
             <div class="md-form mb-5">
               <i id="user-icon" class="fas fa-user-alt prefix grey-text"></i>
-              <input type="email" id="defaultForm-username" (ngModelChange)="wrongCredSetFalse()" class="form-control" mdbInputDirective [(ngModel)]="userName" name="userName">
+              <input type="email" id="defaultForm-username" (ngModelChange)="wrongCredSetFalse()" class="form-control" mdbInputDirective [(ngModel)]="userName" name="userName"
+                      placement="bottom" ngbTooltip="{{'test' | translate}}">
               <label for="defaultForm-username">{{'Username' | translate}}</label>
             </div>
           </div>
           <div class="md-form mb-4">
             <div class="md-form mb-4">
               <i id="pass-icon" class="fas fa-lock prefix grey-text"></i>
-              <input (ngModelChange)="wrongCredSetFalse()" type="password" id="defaultForm-pass" [type]="showPass ? 'text' : 'password'" mdbInputDirective [(ngModel)]="password" class="form-control validate" name="password">
+              <input (ngModelChange)="wrongCredSetFalse()" type="password" id="defaultForm-pass" [type]="showPass ? 'text' : 'password'" mdbInputDirective [(ngModel)]="password"
+                      class="form-control validate" name="password" placement="bottom" ngbTooltip="{{'test' | translate}}">
               <label for="defaultForm-pass">{{'Password' | translate}}</label>
             </div>
           </div>
@@ -74,7 +76,10 @@
                 <div class="md-form mb-5">
                   <i id="user-icon" class="fas fa-user-alt prefix grey-text"></i>
                   <input type="text" id="form-username" class="form-control validate" mdbInputDirective placeholder="{{'Username' | translate}}" 
-                          name="userNameForReset" style="margin-bottom: 20px;" formControlName="userNameForReset">
+                          name="userNameForReset" style="margin-bottom: 20px;" formControlName="userNameForReset" [ngClass]="{ 'is-invalid': submitted && e.userNameForReset.errors }">
+                  <div *ngIf="submitted && e.userNameForReset.errors" class="invalid-feedback test">
+                    <div *ngIf="e.userNameForReset.errors.required">{{'Field is required' | translate}}</div>
+                  </div>
                   <label for="form-username">{{'Username' | translate}}</label>
                 </div>
               </div>
@@ -83,7 +88,7 @@
                   <i class="fa fa-envelope prefix grey-text" ></i>
                   <input type="email" id="form-email" class="form-control validate" mdbInputDirective placeholder="{{'Enter email to send new password' | translate}}" 
                           name="mailResetPass" style="margin-bottom: 20px;" formControlName="email" [ngClass]="{ 'is-invalid': submitted && e.email.errors }">
-                  <div *ngIf="submitted && e.email.errors" class="invalid-feedback">
+                  <div *ngIf="submitted && e.email.errors" class="invalid-feedback test1">
                       <div *ngIf="e.email.errors.required">{{'Field is required' | translate}}</div>
                       <div *ngIf="e.email.errors.email">{{'Email must be a valid email address' | translate}}</div>
                   </div>

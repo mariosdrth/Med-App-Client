@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { GlobalParametersService } from '../../services/global-parameters/global-parameters.service';
 import { NgForm, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { EmailSenderService } from '../../services/email-sender/email-sender.service';
+import { Constants } from '../../services/global-parameters/global-parameters.service';
 
 @Component({
   selector: 'app-contact-modal',
@@ -22,7 +23,7 @@ export class ContactModalComponent implements OnInit {
   private _emailToSend = {
     "senderName": undefined,
 	  "senderEmail": undefined,
-    "receiver": this.globalParametersService.emailReceiverAddress,
+    "receiver": Constants.emailReceiverAddress,
     "subject": undefined,
     "message": undefined,
     "language": this.translate.currentLang

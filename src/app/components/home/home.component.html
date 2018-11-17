@@ -1,4 +1,4 @@
-<div class="home">
+<div class="home" *ngIf="!globalService.isLoggedIn">
   <br>
   <br>
   <br>
@@ -8,11 +8,45 @@
   <br>
   <br>
   <br>
-  <h2 class="text-center" *ngIf="!globalService.isLoggedIn">{{'Connect to continue' | translate}}</h2>
+  <h2 class="text-center">{{'Connect to continue' | translate}}</h2>
   <br>
   <br>
-  <div class="text-center" *ngIf="!globalService.isLoggedIn">
+  <div class="text-center">
     <button  type="button" (click)="open()" class="btn btn-success btn-lg my-btn">{{'Login' | translate}}</button>
   </div>
-  <div class="text-center" style="font-size: 250%" *ngIf="globalService.isLoggedIn">{{'Welcome' | translate}}</div>
+</div>
+<div class="home" *ngIf="globalService.isLoggedIn">
+  <br>
+  <br>
+  <br>
+  <h1 class="text-center" style="font-size: 350%">{{'Home Page' | translate}}</h1>
+  <br>
+  <br>
+  <div class="text-center" style="font-size: 250%">{{'Welcome' | translate}}</div>
+  <br>
+  <br>
+  <div class="row text-center home-images">
+    <div class="col-4">
+      <br>
+      <br>
+      <img class="image home-single-image" src="../../../assets/images/doctor.png" alt="{{'Patients' | translate}}" (click)="navigate('/patients')">
+      <br>
+      <br>
+      <label class="link-cust" (click)="navigate('/patients')">{{'Patients' | translate}}</label>
+    </div>
+    <div class="col-4">
+      <img class="image home-single-image" src="../../../assets/images/user.png" alt="{{'Users' | translate}}" (click)="navigate('/users')">
+      <br>
+      <br>
+      <label class="link-cust" (click)="navigate('/users')">{{'Users' | translate}}</label>
+    </div>
+    <div class="col-4">
+      <br>
+      <br>
+      <img class="image home-single-image" src="../../../assets/images/session.png" alt="{{'Sessions' | translate}}" (click)="navigate('/sessions')">
+      <br>
+      <br>
+      <label class="link-cust" (click)="navigate('/sessions')">{{'Sessions' | translate}}</label>
+    </div>
+  </div>
 </div>

@@ -396,7 +396,7 @@ button {
     cursor: pointer;
     background-color: #1a8fa1 !important;
     border-color: #1a8fa1 !important;
-    border-radius: .25rem !important;
+    //border-radius: .25rem !important;
 }
 
 .confirm-header {
@@ -431,4 +431,91 @@ button {
             padding-left: 6px !important;
         }
     }
+}
+
+.invisible {
+    display: none !important;
+}
+
+.input-changed-data {
+    border: solid;
+    border-width: 1px;
+    border-color: #ffc107 !important;
+    box-shadow: none !important;
+}
+
+.home-images {
+    margin: 0 400px 0 400px;
+
+    @media only screen and (max-width: 1700px) {
+        margin: 0 200px 0 200px;
+    }
+
+    @media only screen and (max-width: $medium-screen) {
+        margin: 0 100px 0 100px;
+    }
+
+    @media only screen and (max-width: $small-screen) {
+        margin: 0;
+    }
+}
+
+.home-single-image {
+    &:hover {
+        cursor: pointer;
+    }
+
+    @media only screen and (max-width: $small-screen) {
+        height: 150px;
+        width: 150px;
+    }
+
+    @media only screen and (max-width: $mobile-large) {
+        height: 100px;
+        width: 100px;
+    }
+}
+
+.link-cust {
+
+    font-size: 20px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.form-container {
+    background-color: #f4fff4;
+    border: solid 1px #f4fff4;
+    border-radius: 0.75em;
+    box-shadow: 0px 0px 70px #888888;
+}
+
+.form-label {
+    margin-left: 8px;
+}
+
+.form-label-invalid {
+    margin-left: 8px;
+    margin-top: 2px;
+}
+
+.form-input {
+    border-radius: 1em;
+}
+
+.dropdown-list-item {
+    &:hover {
+        cursor: pointer;
+        background-color: #007bff !important;
+        color: white !important;
+    }
+}
+
+.star-required {
+    font-size: 6px;
+    margin-top: 5px;
+    margin-left: 2px;
+    color: #dc3545;
 }

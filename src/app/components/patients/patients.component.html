@@ -76,7 +76,7 @@
           [(ngModel)]="searchMotherName">
       </div>
       <div class="col-xs-6 filter-sm" style="margin-left: 20px; width: 140px;"*ngIf="showFilter.afm">
-        <input class="form-control" id="AFMSearch" (focus)="inputFocused = true" (blur)="inputFocused = false" type="text" placeholder="{{'AFM' | translate}}"
+        <input class="form-control" id="AFMSearch" (focus)="inputFocused = true" (blur)="inputFocused = false" type="text" placeholder="{{'TIN' | translate}}"
           [(ngModel)]="searchTermAFM">
       </div>
       <div class="col-xs-6 filter-sm" style="margin-left: 20px; width: 140px;"*ngIf="showFilter.tel">
@@ -113,7 +113,7 @@
           <div class="btn-group" mdbDropdown style="margin-left: 10px;">
             <button id="sexSearch" mdbDropdownToggle type="button" mdbBtn color="default" class="dropdown-toggle waves-light my-btn" mdbWavesEffect><mdb-icon icon="fas fa-venus-mars" class="mr-1"></mdb-icon>{{sexString | translate}}</button>
             <div class="dropdown-menu dropdown-primary">
-              <button class="dropdown-item" *ngFor="let sex of sexes" (click)="prepareSearchSex(sex.value)">
+              <button class="dropdown-item dropdown-list-item" *ngFor="let sex of sexes" (click)="prepareSearchSex(sex.value)">
                 {{sex.description | translate}}
               </button>
             </div>
@@ -137,51 +137,63 @@
               <div>#</div>
             </th>
             <th style="width: 14%; text-align: center" *ngIf="showColumn.name">
-              <a (click)="toggleSelected('name', $event)">{{'Name' | translate}}</a>
+              <a (click)="toggleSelected('name', $event)" placement="top" ngbTooltip="{{'Hold control and click on column header for multiple column sorting' | translate}}">
+                {{'Name' | translate}}</a>
               <i [innerHtml]="htmlVariable.name" aria-hidden="true" style="padding-left: 3px;"></i>
             </th>
             <th style="width: 16%; text-align: center" *ngIf="showColumn.surname">
-              <a (click)="toggleSelected('surname', $event)">{{'Surname' | translate}}</a>
+              <a (click)="toggleSelected('surname', $event)" placement="top" ngbTooltip="{{'Hold control and click on column header for multiple column sorting' | translate}}">
+                {{'Surname' | translate}}</a>
               <i [innerHtml]="htmlVariable.surname" aria-hidden="true" style="padding-left: 3px;"></i>
             </th>
             <th style="width: 16%; text-align: center" *ngIf="showColumn.fatherName">
-              <a (click)="toggleSelected('fatherName', $event)">{{'Father Name' | translate}}</a>
+              <a (click)="toggleSelected('fatherName', $event)" placement="top" ngbTooltip="{{'Hold control and click on column header for multiple column sorting' | translate}}">
+                {{'Father Name' | translate}}</a>
               <i [innerHtml]="htmlVariable.fatherName" aria-hidden="true" style="padding-left: 3px;"></i>
             </th>
             <th style="width: 16%; text-align: center" *ngIf="showColumn.motherName">
-              <a (click)="toggleSelected('motherName', $event)">{{'Mother Name' | translate}}</a>
+              <a (click)="toggleSelected('motherName', $event)" placement="top" ngbTooltip="{{'Hold control and click on column header for multiple column sorting' | translate}}">
+                {{'Mother Name' | translate}}</a>
               <i [innerHtml]="htmlVariable.motherName" aria-hidden="true" style="padding-left: 3px;"></i>
             </th>
             <th style="width: 11%; text-align: center" *ngIf="showColumn.birthDate">
-              <a (click)="toggleSelected('birthDate', $event)">{{'Birth Date' | translate}}</a>
+              <a (click)="toggleSelected('birthDate', $event)" placement="top" ngbTooltip="{{'Hold control and click on column header for multiple column sorting' | translate}}">
+                {{'Birth Date' | translate}}</a>
               <i [innerHtml]="htmlVariable.birthDate" aria-hidden="true" style="padding-left: 3px;"></i>
             </th>
             <th style="width: 11%; text-align: center" *ngIf="showColumn.afm">
-              <a (click)="toggleSelected('afm', $event)">{{'AFM' | translate}}</a>
+              <a (click)="toggleSelected('afm', $event)" placement="top" ngbTooltip="{{'Hold control and click on column header for multiple column sorting' | translate}}">
+                {{'TIN' | translate}}</a>
               <i [innerHtml]="htmlVariable.afm" aria-hidden="true" style="padding-left: 3px;"></i>
             </th>
             <th style="width: 10%; text-align: center" *ngIf="showColumn.amka">
-              <a (click)="toggleSelected('amka', $event)">{{'AMKA' | translate}}</a>
+              <a (click)="toggleSelected('amka', $event)" placement="top" ngbTooltip="{{'Hold control and click on column header for multiple column sorting' | translate}}">
+                {{'AMKA' | translate}}</a>
               <i [innerHtml]="htmlVariable.amka" aria-hidden="true" style="padding-left: 3px;"></i>
             </th>
             <th style="width: 5%; text-align: center" *ngIf="showColumn.sex">
-              <a (click)="toggleSelected('sex', $event)">{{'Sex' | translate}}</a>
+              <a (click)="toggleSelected('sex', $event)" placement="top" ngbTooltip="{{'Hold control and click on column header for multiple column sorting' | translate}}">
+                {{'Sex' | translate}}</a>
               <i [innerHtml]="htmlVariable.sex" aria-hidden="true" style="padding-left: 3px;"></i>
             </th>
             <th style="width: 5%; text-align: center" *ngIf="showColumn.tel">
-              <a (click)="toggleSelected('tel', $event)">{{'Tel' | translate}}</a>
+              <a (click)="toggleSelected('tel', $event)" placement="top" ngbTooltip="{{'Hold control and click on column header for multiple column sorting' | translate}}">
+                {{'Tel' | translate}}</a>
               <i [innerHtml]="htmlVariable.tel" aria-hidden="true" style="padding-left: 3px;"></i>
             </th>
             <th style="width: 5%; text-align: center" *ngIf="showColumn.cell">
-              <a (click)="toggleSelected('cell', $event)">{{'Cell' | translate}}</a>
+              <a (click)="toggleSelected('cell', $event)" placement="top" ngbTooltip="{{'Hold control and click on column header for multiple column sorting' | translate}}">
+                {{'Cell' | translate}}</a>
               <i [innerHtml]="htmlVariable.cell" aria-hidden="true" style="padding-left: 3px;"></i>
             </th>
             <th style="width: 5%; text-align: center" *ngIf="showColumn.email">
-              <a (click)="toggleSelected('email', $event)">{{'Email' | translate}}</a>
+              <a (click)="toggleSelected('email', $event)" placement="top" ngbTooltip="{{'Hold control and click on column header for multiple column sorting' | translate}}">
+                {{'Email' | translate}}</a>
               <i [innerHtml]="htmlVariable.email" aria-hidden="true" style="padding-left: 3px;"></i>
             </th>
             <th style="width: 15%; text-align: center" *ngIf="showColumn.address">
-              <a (click)="toggleSelected('address', $event)">{{'Address' | translate}}</a>
+              <a (click)="toggleSelected('address', $event)" placement="top" ngbTooltip="{{'Hold control and click on column header for multiple column sorting' | translate}}">
+                {{'Address' | translate}}</a>
               <i [innerHtml]="htmlVariable.address" aria-hidden="true" style="padding-left: 3px;"></i>
             </th>
             <th style="width: 3%; text-align: center">

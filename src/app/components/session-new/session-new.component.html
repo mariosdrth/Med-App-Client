@@ -4,7 +4,7 @@
   <br>
   <div class="row no-gutters">
       <div class="col-xs-6">
-        <a class="btn btn-default my-btn" (click)="goBack()">
+        <a class="btn btn-danger my-btn" (click)="goBack()">
           <i class="fas fa-arrow-left"> {{'Back' | translate}}</i>
         </a>
       </div>
@@ -20,9 +20,14 @@
     </div>
 </div>
 <!------------------------------------------------------------------Main body form---------------------------------------------------------------------->
-<div class="container">
+<div class="container form-container">
+  <br>
   <div class="row" style="margin-right: 50px;">
       <div class="form-group col-4" style="margin:auto;">
+        <div class="row form-label">
+          <label>{{'Patient' | translate}}</label>
+          <i class="fas fa-star star-required"></i>
+        </div>
         <ng-select class="dropdown-patients" [items]="patientsAll"
                 bindLabel="nameSurname"
                 bindValue="id"
@@ -36,8 +41,8 @@
                 [(ngModel)]="patientId"
                 [ngClass]="{'invalid-field-input-ng-select': fieldEmpty.patientId}">
         </ng-select>
-        <div *ngIf="fieldEmpty.patientId" class="invalid-field">
-            <div *ngIf="fieldEmpty.patientId">{{'Field is required' | translate}}</div>
+        <div *ngIf="fieldEmpty.patientId" class="invalid-field form-label-invalid">
+          <div *ngIf="fieldEmpty.patientId">{{'Field is required' | translate}}</div>
         </div>
       </div>
   </div>
@@ -45,22 +50,31 @@
   <br>
   <div class="row">
     <div class="form-group col-4" style="margin-left:auto">
-      <label>{{'Session ID' | translate}}</label>
-      <input class="form-control" type="text" value="{{session.sessionId}}" name="sessionId" [(ngModel)]="sessionId" 
+      <div class="row form-label">
+        <label>{{'Session ID' | translate}}</label>
+        <i class="fas fa-star star-required"></i>
+      </div>
+      <input class="form-control form-input" type="text" value="{{session.sessionId}}" name="sessionId" [(ngModel)]="sessionId" 
           [ngClass]="{'invalid-field-input': fieldEmpty.sessionId}">
-      <div *ngIf="fieldEmpty.sessionId" class="invalid-field">
-          <div *ngIf="fieldEmpty.sessionId">{{'Field is required' | translate}}</div>
+      <div *ngIf="fieldEmpty.sessionId" class="invalid-field form-label-invalid">
+        <div *ngIf="fieldEmpty.sessionId">{{'Field is required' | translate}}</div>
       </div>
     </div>
     <div class="form-group col-4" style="margin-right:auto">
-      <label>{{'Session Date' | translate}}</label>
+      <div class="row form-label">
+        <label>{{'Session Date' | translate}}</label>
+        <i class="fas fa-star star-required"></i>
+      </div>
       <div class="input-group calendar-div">
       <div class="input-group-prepend" id="calendar">
-          <span class="input-group-text calendar-icon" (click)="dp.toggle()"><i class="far fa-calendar-alt"></i></span>
+        <span class="input-group-text calendar-icon form-input" (click)="dp.toggle()"><i class="far fa-calendar-alt"></i></span>
       </div>
-      <input class="form-control calendar-input" type="text" value="{{session.sessionDate}}" name="sessionDate" bsDatepicker [(ngModel)]="sessionDate"
+      <input class="form-control calendar-input form-input" type="text" value="{{session.sessionDate}}" name="sessionDate" bsDatepicker [(ngModel)]="sessionDate"
         [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-red', showWeekNumbers: false, maxDate: maxDate, minDate: minDate }"
-          aria-describedby="calendar" #dp="bsDatepicker">
+          aria-describedby="calendar" #dp="bsDatepicker" [ngClass]="{'invalid-field-input': fieldEmpty.sessionDate}">
+      </div>
+      <div *ngIf="fieldEmpty.sessionDate" class="invalid-field">
+        <div *ngIf="fieldEmpty.sessionDate">{{'Field is required' | translate}}</div>
       </div>
     </div>
   </div>
@@ -68,8 +82,8 @@
   <br>
   <div class="row">
     <div class="form-group col-12">
-      <label>{{'Comments' | translate}}</label>
-      <textarea class="form-control" type="text" class="md-textarea form-control" value="{{session.comments}}" name="comments" [(ngModel)]="comments" rows="5"></textarea>
+      <label class="form-label">{{'Comments' | translate}}</label>
+      <textarea type="text" class="md-textarea form-control form-input" value="{{session.comments}}" name="comments" [(ngModel)]="comments" rows="5"></textarea>
     </div>
   </div>
   <br>
@@ -77,12 +91,13 @@
   <br>
   <div class="row">
     <div class="form-group col-12">
+      <label class="form-label">{{'Upload File' | translate}}</label>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
-          <span class="input-group-text" id="inputGroupFileAddon">{{'Upload' | translate}}</span>
+          <span class="input-group-text form-input" id="inputGroupFileAddon">{{'Upload' | translate}}</span>
         </div>
         <div class="custom-file">
-          <input type="file" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
+          <input type="file" class="custom-file-input form-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
           <label class="custom-file-label" for="inputGroupFile">{{'Choose file' | translate}}</label>
         </div>
       </div>

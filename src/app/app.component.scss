@@ -71,7 +71,7 @@ mat-nav-list {
         }
     }
 
-    .session-item {
+    .list-item {
         i {
             margin-left: 2px;
         }
@@ -244,5 +244,9 @@ button {
  }
 
  .active-route {
+    background-color: #2d506d !important;
+ }
+
+ .active-route-details {
     background-color: #2d506d !important;
  }

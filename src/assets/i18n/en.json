@@ -21,7 +21,7 @@
     "Mother Name": "Mother Name",
     "Sex": "Sex",
     "Surname": "Surname",
-    "AFM": "AFM",
+    "TIN": "TIN",
     "AMKA": "ΑΜΚΑ",
     "Birth": "Birth",
     "Date": "Date",
@@ -114,5 +114,13 @@
     "Show": "Show",
     "New Session": "New Session",
     "Choose file": "Choose file",
-    "Upload": "Upload"
+    "Upload": "Upload",
+    "Go to": "Go to",
+    "Hold control and click on column header for multiple column sorting": "Hold control and click on column header for multiple column sorting",
+    "Session Details": "Session Details",
+    "Upload File": "Upload File",
+    "Send email": "Send email",
+    "User Details": "User Details",
+    "You can't change admin's user password": "You can't change admin's user password",
+    "You can't change guest's user password": "You can't change guest's user password"
 }

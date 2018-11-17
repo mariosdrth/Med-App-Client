@@ -10,6 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { UsersService } from '../../services/users/users.service';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { GlobalService } from '../../services/global/global.service';
+import { Types } from '../../services/global-parameters/global-parameters.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -43,7 +44,13 @@ export class ProfileModalComponent implements OnInit {
     "userRoleId": "",
     "email": "",
     "tel": ""
-  }
+  };
+  public initialValues = {
+    "name": "",
+    "surname": "",
+    "email": "",
+    "tel": ""
+  };
 
   constructor(public bsModalRef: BsModalRef, private modalService: BsModalService, private toastr: ToastrService, private translate: TranslateService,
     public globalParametersService: GlobalParametersService, private formBuilder: FormBuilder, private cookies: CookiesService, private cookieService: CookieService, 
@@ -54,7 +61,7 @@ export class ProfileModalComponent implements OnInit {
       this.user = this.cookies.getObject("user");
       this.userId = this.user.id;
       this.userService.getUser(this.userId).subscribe(
-        data => {this.user$ = data; this.userRole = this.user$.userRole.description},
+        data => {this.user$ = data; this.userRole = this.user$.userRole.description; this.setInitialValues();},
         (error) => {console.log(error)}
       );
     }
@@ -89,15 +96,23 @@ export class ProfileModalComponent implements OnInit {
     if (this.profileForm.invalid) {
       return;
     }
-    // console.log(form);
     this.prepareUserToSave(form);
     let list: Array<string> = ["Are you sure you want to save changes?"]
     let title: string = "Save profile changes";
-    this.globalService.openModalWithParam(list, title, false, this.userId, undefined, this.userToSave);
+    this.globalService.openModalWithParam(list, title, false, this.userId, undefined, this.userToSave, Types.saveProfile);
   }
 
   enableChangePass(event: any) {
-    if (event === true) {
+    if (this.user$.userName === "admin") {
+      event.preventDefault();
+      this.toastr.error(this.translate.instant("You can't change admin's user password"), this.translate.instant("Error!"));
+      return;
+    } else if (this.user$.userName === "guest") {
+      event.preventDefault();
+      this.toastr.error(this.translate.instant("You can't change guest's user password"), this.translate.instant("Error!"));
+      return;
+    }
+    if (event.target.checked === true) {
       this.changePassEnabled = true;
     } else {
       this.changePassEnabled = false;
@@ -106,34 +121,30 @@ export class ProfileModalComponent implements OnInit {
       form.controls.confirmPassword.setValue("");
     }
   }
-
+  
   prepareUserToSave(form : NgForm) {
     let formPass: any = this.profileForm.controls.passwords;
-    if (form.control.controls.name.value !== "") {
-      this.userToSave.name = form.control.controls.name.value;
-    } else {
-      this.userToSave.name = this.user$.name;
-    }
-    if (form.control.controls.surname.value !== "") {
-      this.userToSave.surname = form.control.controls.surname.value;
-    } else {
-      this.userToSave.surname = this.user$.surname;
-    }
-    if (form.control.controls.email.value !== "") {
-      this.userToSave.email = form.control.controls.email.value;
-    } else {
-      this.userToSave.email = this.user$.email;
-    }
-    if (form.control.controls.tel.value !== "") {
-      this.userToSave.tel = form.control.controls.tel.value;
-    } else {
-      this.userToSave.tel = this.user$.tel;
-    }
+    this.userToSave.name = form.control.controls.name.value;
+    this.userToSave.surname = form.control.controls.surname.value;
+    this.userToSave.email = form.control.controls.email.value;
+    this.userToSave.tel = form.control.controls.tel.value;
     if (formPass.controls.password !== "") {
       this.userToSave.password = formPass.controls.password.value;
     }
     this.userToSave.userName = this.user$.userName;
     this.userToSave.userRoleId = this.user$.userRoleId;
+  }
+
+  setInitialValues() {
+    let user: any = this.user$;
+    this.initialValues.email = user.email;
+    this.initialValues.name = user.name;
+    this.initialValues.surname = user.surname;
+    this.initialValues.tel = user.tel;
+    this.profileForm.controls.email.setValue(user.email);
+    this.profileForm.controls.name.setValue(user.name);
+    this.profileForm.controls.surname.setValue(user.surname);
+    this.profileForm.controls.tel.setValue(user.tel);
   }
 
 }

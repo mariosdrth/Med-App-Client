@@ -16,13 +16,16 @@
 }
 
 .dropdown-menu {
+    top: -1px;
     margin-top: 0;
     padding-top: 4px;
     padding-bottom: 4px;
+    border-radius: 1rem !important;
 }
 
 .dropdown-item {
     outline: none;
+    border-radius: 0.8rem !important;
 }
 
 .calendar-div {

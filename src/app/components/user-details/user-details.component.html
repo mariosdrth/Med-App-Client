@@ -1,3 +1,55 @@
-<p>
-  user-details works!
-</p>
+
+<!----------------------------------------------------------------Header and buttons-------------------------------------------------------------------->
+<div class="page-header">
+  <br>
+  <div class="row no-gutters">
+      <div class="col-xs-6">
+        <a class="btn btn-danger my-btn" (click)="goBack()">
+          <i class="fas fa-arrow-left"> {{'Back' | translate}}</i>
+        </a>
+      </div>
+      <div class="col-xs-6" style="margin: auto;" [ngStyle]="{'padding-right': globalParametersService.language === 'gr' ? '93.81px' : globalParametersService.language === 'en' ? '90.67px' : '0'}">
+        <h1 class="text-center">{{'User Details' | translate}}</h1>
+        <br>
+      </div>
+    </div>
+</div>
+<!------------------------------------------------------------------Main body form---------------------------------------------------------------------->
+<div class="container form-container">
+  <br>
+  <div class="row">
+    <div class="col-6" style="margin: auto">
+      <label class="form-label">{{'Username' | translate}}</label>
+      <input class="form-control form-input" type="text" value="{{user.userName}}" name="username" disabled>
+    </div>
+    <div class="col-6" style="margin: auto">
+      <label class="form-label">{{'Role' | translate}}</label>
+      <input class="form-control form-input" type="text" value="{{userRole.description}}" name="role" disabled>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="row">
+    <div class="col-6" style="margin: auto">
+      <label class="form-label">{{'Name' | translate}}</label>
+      <input class="form-control form-input" type="text" value="{{user.name}}" name="name" disabled>
+    </div>
+    <div class="col-6" style="margin: auto">
+      <label class="form-label">{{'Surname' | translate}}</label>
+      <input class="form-control form-input" type="text" value="{{user.surname}}" name="surname" disabled>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="row" style="margin-bottom: 40px;">
+    <div class="col-6" style="margin: auto">
+      <label class="form-label">{{'Telephone' | translate}}</label>
+      <input class="form-control form-input" type="text" value="{{user.tel}}" name="tel" disabled>
+    </div>
+    <div class="col-6" style="margin: auto">
+      <label class="form-label">{{'Email' | translate}}</label>
+      <input class="form-control form-input" type="text" value="{{user.email}}" name="email" disabled>
+    </div>
+  </div>
+</div>
+<!----------------------------------------------------------------Main body form end-------------------------------------------------------------------->
