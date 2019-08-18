@@ -1,5 +1,5 @@
 <!----------------------------------------------------------------Header and buttons-------------------------------------------------------------------->
-<ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<!-- <ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading> -->
 <div class="page-header">
   <br>
   <div class="row no-gutters">
@@ -20,14 +20,15 @@
     </div>
 </div>
 <!------------------------------------------------------------------Main body form---------------------------------------------------------------------->
-<div class="container form-container">
+<div class="container" [ngClass]="{'form-container': this.globalParametersService.detailsAltView && !this.globalParametersService.detailsLinearView,
+'form-container-linear': this.globalParametersService.detailsAltView && this.globalParametersService.detailsLinearView}">
   <br>
   <div class="row" style="margin-right: 50px;">
       <div class="form-group col-4" style="margin:auto;">
         <div class="row form-label">
           <label>{{'Patient' | translate}}</label>
           <i class="fas fa-info-circle info-icon" placement="right" ngbTooltip="{{'Patient Details' | translate}}"
-            (click)="showPatient(sessionInitValues.patientId)"></i>
+            (click)="showPatient(sessionInitValues.patientId, patientModal)"></i>
         </div>
         <!-- <ng-select class="dropdown-patients" [items]="patientsAll"
                 bindLabel="nameSurname"
@@ -109,3 +110,14 @@
   </div>
 </div>
 <!----------------------------------------------------------------Main body form end-------------------------------------------------------------------->
+<ng-template #patientModal>
+  <div class="modal-header patient-modal-header">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">×</span>
+    </button>
+    <h4 class="modal-title w-100" id="myModalLabel">{{'Patient Details' | translate}}</h4>
+  </div>
+  <div class="modal-body patient-modal-body">
+    <app-patient-details></app-patient-details>
+  </div>
+</ng-template>

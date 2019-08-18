@@ -1,4 +1,4 @@
-<div class="home" *ngIf="!globalService.isLoggedIn">
+<div class="home" *ngIf="!globalParametersService.isLoggedIn">
   <br>
   <br>
   <br>
@@ -15,7 +15,7 @@
     <button  type="button" (click)="open()" class="btn btn-success btn-lg my-btn">{{'Login' | translate}}</button>
   </div>
 </div>
-<div class="home" *ngIf="globalService.isLoggedIn">
+<div class="home" *ngIf="globalParametersService.isLoggedIn">
   <br>
   <br>
   <br>
@@ -26,27 +26,20 @@
   <br>
   <br>
   <div class="row text-center home-images">
-    <div class="col-4">
+    <a class="col-4 col-hover" style="top: 48px;">
+      <img class="image home-single-image" src="../../../assets/images/doctor_3.png" alt="{{'Patients' | translate}}" (click)="navigate('/patients')">
       <br>
+      <label class="link-cust" (click)="navigate('/patients')" style="margin-top: 25px;">{{'Patients' | translate}}</label>
+    </a>
+    <a class="col-4 col-hover">
+      <img class="image home-single-image" src="../../../assets/images/user_3.png" alt="{{'Users' | translate}}" (click)="navigate('/users')">
       <br>
-      <img class="image home-single-image" src="../../../assets/images/doctor.png" alt="{{'Patients' | translate}}" (click)="navigate('/patients')">
+      <label class="link-cust" (click)="navigate('/users')" style="margin-top: 25px;">{{'Users' | translate}}</label>
+    </a>
+    <a class="col-4 col-hover" style="top: 48px;">
+      <img id="sessions" class="image home-single-image" src="../../../assets/images/session_3.png" alt="{{'Sessions' | translate}}" (click)="navigate('/sessions')">
       <br>
-      <br>
-      <label class="link-cust" (click)="navigate('/patients')">{{'Patients' | translate}}</label>
-    </div>
-    <div class="col-4">
-      <img class="image home-single-image" src="../../../assets/images/user.png" alt="{{'Users' | translate}}" (click)="navigate('/users')">
-      <br>
-      <br>
-      <label class="link-cust" (click)="navigate('/users')">{{'Users' | translate}}</label>
-    </div>
-    <div class="col-4">
-      <br>
-      <br>
-      <img class="image home-single-image" src="../../../assets/images/session.png" alt="{{'Sessions' | translate}}" (click)="navigate('/sessions')">
-      <br>
-      <br>
-      <label class="link-cust" (click)="navigate('/sessions')">{{'Sessions' | translate}}</label>
-    </div>
+      <label class="link-cust" (click)="navigate('/sessions')" style="margin-top: 25px;">{{'Sessions' | translate}}</label>
+    </a>
   </div>
 </div>

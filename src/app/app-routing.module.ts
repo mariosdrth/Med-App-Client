@@ -9,6 +9,7 @@ import { PatientNewComponent } from './components/patient-new/patient-new.compon
 import { SessionsComponent } from './components/sessions/sessions.component';
 import { SessionNewComponent } from './components/session-new/session-new.component';
 import { SessionDetailsComponent } from './components/session-details/session-details.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: 'sessions/:id',
     component: SessionDetailsComponent
+  },
+  {
+    path: 'settings/:id',
+    component: SettingsComponent
   }
 ];
 

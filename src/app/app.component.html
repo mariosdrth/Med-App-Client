@@ -1,24 +1,25 @@
 <!-----------------------------------------------------------------------Body----------------------------------------------------------------------------->
-<body [ngStyle]="{'overflow': !globalService.isLoggedIn ? 'hidden' : 'auto'}">
+<ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<body [ngStyle]="{'overflow': !globalParametersService.isLoggedIn ? 'hidden' : 'auto'}">
   <ng-container>
 <!-----------------------------------------------------------------------Header--------------------------------------------------------------------------->
     <header role="banner">
       <mat-toolbar>
-        <mat-toolbar-row>
-          <button mat-button mat-icon-button (click)="sidenav.toggle(); isHidden = !isHidden" *ngIf="globalService.isLoggedIn && !isHidden" placement="bottom"
+        <mat-toolbar-row [ngStyle]="{'background-color': globalParametersService.themeColor}">
+          <button mat-button mat-icon-button (click)="sidenav.toggle(); toggleMenu('hid')" *ngIf="globalParametersService.isLoggedIn && !isHidden" placement="bottom"
             ngbTooltip="{{'Hide' | translate}}">
             <mat-icon style="color: white">menu</mat-icon>
           </button>
-          <button mat-button mat-icon-button (click)="sidenav.toggle(); isHidden = !isHidden" *ngIf="globalService.isLoggedIn && isHidden" placement="bottom"
+          <button mat-button mat-icon-button (click)="sidenav.toggle(); toggleMenu('hid')" *ngIf="globalParametersService.isLoggedIn && isHidden" placement="bottom"
             ngbTooltip="{{'Show' | translate}}">
             <mat-icon style="color: white">menu</mat-icon>
           </button>
-          <button mat-button mat-icon-button (click)="isExpanded = !isExpanded" *ngIf="globalService.isLoggedIn && !isExpanded" placement="bottom"
+          <button mat-button mat-icon-button (click)="toggleMenu('exp')" *ngIf="globalParametersService.isLoggedIn && !isExpanded" placement="bottom"
             ngbTooltip="{{'Expand' | translate}}" [ngClass]="{'disabled': isHidden}" [ngStyle]="{'color': isHidden === false ? 'white' : '#cccccc'}">
             <!-- <mat-icon>toggle_off</mat-icon> -->
             <i class="fas fa-toggle-off"></i>
           </button>
-          <button mat-button mat-icon-button (click)="isExpanded = !isExpanded" *ngIf="globalService.isLoggedIn && isExpanded" placement="bottom"
+          <button mat-button mat-icon-button (click)="toggleMenu('exp')" *ngIf="globalParametersService.isLoggedIn && isExpanded" placement="bottom"
             ngbTooltip="{{'Shrink' | translate}}" [ngClass]="{'disabled': isHidden}" [ngStyle]="{'color': isHidden === false ? 'white' : '#cccccc'}">
             <!-- <mat-icon>toggle_on</mat-icon> -->
             <i class="fas fa-toggle-on"></i>
@@ -44,7 +45,7 @@
                 <div class="dropdown-content" [ngStyle]="{'min-width': language === 'en' ? '115px' : '130px'}">
                   <div class="row no-gutters" style="max-height: 40px;">
                     <div class="col" style="max-width: 30px;">
-                      <img (click)="getLanguageFlag($event.target.src)" src="assets/icons/famfamfam_flag_icons/png/gb.png" style="margin-left: 10px; margin-bottom: 2px;">
+                      <img (click)="getLanguageFlag($event.target.src)" src="assets/icons/famfamfam_flag_icons/png/gb.png" alt="flag" style="margin-left: 10px; margin-bottom: 2px;">
                     </div>
                     <div id="menu-text" class="col" [ngStyle]="{'max-width': language === 'en' ? '80px' : '95px'}">
                       <a class="col" (click)="getLanguage($event.target.text)">{{'English' | translate}}</a>
@@ -52,7 +53,7 @@
                   </div>
                   <div class="row no-gutters" style="max-height: 40px;">
                     <div class="col" style="max-width: 30px;">
-                      <img (click)="getLanguageFlag($event.target.src)" src="assets/icons/famfamfam_flag_icons/png/gr.png" style="margin-left: 10px; margin-bottom: 2px;">
+                      <img (click)="getLanguageFlag($event.target.src)" src="assets/icons/famfamfam_flag_icons/png/gr.png" alt="flag" style="margin-left: 10px; margin-bottom: 2px;">
                     </div>
                     <div id="menu-text" class="col" [ngStyle]="{'max-width': language === 'en' ? '80px' : '95px'}">
                       <a class="col" (click)="getLanguage($event.target.text)">{{'Greek' | translate}}</a>
@@ -62,13 +63,61 @@
               </div>
             </div>
           </a>
-          <a *ngIf="globalService.isLoggedIn" style="padding-bottom: 0px; margin-bottom: 4px;" (click)="openProfileModal()">
+          <!-- <a *ngIf="globalParametersService.isLoggedIn" style="padding-bottom: 0px; margin-bottom: 4px;" (click)="openProfileModal()">
             <i class="fas fa-user-cog" aria-hidden="true" placement="bottom" ngbTooltip="{{'Profile' | translate}}" style="font-size: 16px;"></i>
           </a>
-          <a *ngIf="globalService.isLoggedIn" style="margin-right: 25px; padding-bottom: 0px;" (click)="openSignOutModal()">
+          <a *ngIf="globalParametersService.isLoggedIn" style="margin-right: 25px; padding-bottom: 0px;" (click)="openSignOutModal()">
             <i class="fas fa-sign-out-alt" aria-hidden="true" placement="bottom" ngbTooltip="{{'Sign Out' | translate}}"></i>
-          </a>
-          <a *ngIf="!globalService.isLoggedIn" style="margin-right: 25px;" (click)="openModal()">
+          </a> -->
+          <div>
+            <div class="btn-group" mdbDropdown>
+              <a *ngIf="globalParametersService.isLoggedIn" class="user-drpdn" mdbDropdownToggle>
+                <img src="../assets/images/user-neutral-2.png" alt="user" style="width: 24px; height: 24px;">
+                <span id="user-text-drpdn">{{globalParametersService.userName}}</span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right user-drpdn-menu" [ngStyle]="{'background-color': globalParametersService.sideColor}">
+                <ul>
+                  <li>
+                    <a class="dropdown-item dropdown-list-item" (click)="openProfileModal()">
+                      <div class="row no-gutters">
+                        <div class="col">
+                          <p><i class="fas fa-user-cog" aria-hidden="true" style="font-size: 13px;"></i></p>
+                        </div>
+                        <div class="col" style="margin-top: 1px; text-align: right;">
+                          <span style="padding-right: 6px;">{{'Profile' | translate}}</span>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item dropdown-list-item" (click)="openSettingsModal()">
+                      <div class="row no-gutters">
+                        <div class="col">
+                          <p><i class="fas fa-sliders" aria-hidden="true"></i></p>
+                        </div>
+                        <div class="col" style="text-align: right;">
+                          <span style="padding-right: 6px;">{{'Settings' | translate}}</span>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item dropdown-list-item" (click)="openSignOutModal()">
+                      <div class="row no-gutters">
+                        <div class="col">
+                          <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+                        </div>
+                        <div class="col" style="text-align: right;">
+                          <span style="padding-right: 6px;">{{'Sign Out' | translate}}</span>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <a *ngIf="!globalParametersService.isLoggedIn" style="margin-right: 25px;" (click)="openModal()">
             <i class="fas fa-sign-in-alt" aria-hidden="true" placement="bottom" ngbTooltip="{{'Sign In' | translate}}"></i>
           </a>
         </mat-toolbar-row>
@@ -77,23 +126,31 @@
 <!---------------------------------------------------------------------Header End------------------------------------------------------------------------->
     <mat-sidenav-container class="main-container" autosize>
 <!----------------------------------------------------------------------Sidenav--------------------------------------------------------------------------->
-      <mat-sidenav #sidenav mode="side" opened="true">
-        <mat-nav-list class="dashboard" *ngIf="globalService.isLoggedIn">
-          <a mat-list-item (click)="navigateTo('/')" [ngClass]="{'active-route': currentUrl === '/'}">
+      <mat-sidenav #sidenav mode="side" opened="{{!isHidden}}" [ngStyle]="{'background-color': globalParametersService.sideColor}">
+        <mat-nav-list class="dashboard" *ngIf="globalParametersService.isLoggedIn">
+          <a mat-list-item class="list-item-all" (click)="navigateTo('/')" [ngClass]="{'active-route': currentUrl === '/'}">
             <i class="fas fa-home" aria-hidden="true" style="font-size: 18px;" mat-list-icon></i>
-            <p matLine *ngIf="isExpanded">{{'Home' | translate}}</p>
+            <p matLine [ngClass]="{'shown': isExpanded && globalParametersService.language === 'en', 'shown-alt': isExpanded && globalParametersService.language === 'gr', 'hidden': !isExpanded}">
+              {{'Home' | translate}}
+            </p>
           </a>
-          <a mat-list-item class="list-item" (click)="navigateTo('/patients')" [ngClass]="{'active-route': currentUrl === '/patients' || globalService.route === 'patients'}">
+          <a mat-list-item class="list-item list-item-all" (click)="navigateTo('/patients')" [ngClass]="{'active-route': currentUrl === '/patients' || globalService.route === 'patients'}">
             <i class="fas fa-user-md" aria-hidden="true" style="font-size: 18px;" mat-list-icon></i>
-            <p matLine *ngIf="isExpanded">{{'Patients' | translate}}</p>
+            <p matLine [ngClass]="{'shown': isExpanded && globalParametersService.language === 'en', 'shown-alt': isExpanded && globalParametersService.language === 'gr', 'hidden': !isExpanded}">
+              {{'Patients' | translate}}
+            </p>
           </a>
-          <a mat-list-item (click)="navigateTo('/sessions')" [ngClass]="{'active-route': currentUrl === '/sessions' || globalService.route === 'sessions'}">
+          <a mat-list-item class="list-item-all" (click)="navigateTo('/sessions')" [ngClass]="{'active-route': currentUrl === '/sessions' || globalService.route === 'sessions'}">
             <i class="fas fa-bed" aria-hidden="true" style="font-size: 18px;" mat-list-icon></i>
-            <p matLine *ngIf="isExpanded">{{'Sessions' | translate}}</p>
+            <p matLine [ngClass]="{'shown': isExpanded && globalParametersService.language === 'en', 'shown-alt': isExpanded && globalParametersService.language === 'gr', 'hidden': !isExpanded}">
+              {{'Sessions' | translate}}
+            </p>
           </a>
-          <a mat-list-item (click)="navigateTo('/users')" [ngClass]="{'active-route': currentUrl === '/users' || globalService.route === 'users'}">
+          <a mat-list-item class="list-item-all" (click)="navigateTo('/users')" [ngClass]="{'active-route': currentUrl === '/users' || globalService.route === 'users'}">
             <i class="fas fa-users" aria-hidden="true" style="font-size: 18px;" mat-list-icon></i>
-            <p matLine *ngIf="isExpanded">{{'Users' | translate}}</p>
+            <p matLine [ngClass]="{'shown': isExpanded && globalParametersService.language === 'en', 'shown-alt': isExpanded && globalParametersService.language === 'gr', 'hidden': !isExpanded}">
+              {{'Users' | translate}}
+            </p>
           </a>
         </mat-nav-list>
       </mat-sidenav>
@@ -103,8 +160,8 @@
         <div class="main-content">
 <!---------------------------------------------------------------------Router Body------------------------------------------------------------------------>
           <main class="content">
-            <router-outlet *ngIf="globalService.isLoggedIn"></router-outlet>
-            <app-home *ngIf="!globalService.isLoggedIn && isHomePage"></app-home>
+            <router-outlet *ngIf="globalParametersService.isLoggedIn"></router-outlet>
+            <app-home *ngIf="!globalParametersService.isLoggedIn && isHomePage"></app-home>
             <div (click)="gotoTop(backTT)" class="btt-btn" *ngIf="!isHomePage"><i class="material-icons">&#xE316;</i></div>
           </main>
         </div>

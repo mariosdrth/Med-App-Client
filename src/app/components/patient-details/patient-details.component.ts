@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
 import { Types } from '../../services/global-parameters/global-parameters.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-patient-details',
@@ -68,12 +69,15 @@ export class PatientDetailsComponent implements OnInit {
 
 /*************************Constructor**************************/
   constructor(private patientsService: PatientsService, private route: ActivatedRoute, private router: Router, public globalService: GlobalService,
-     public globalParametersService: GlobalParametersService, private toastr: ToastrService, private translate: TranslateService, private location: Location) { }
+     public globalParametersService: GlobalParametersService, private toastr: ToastrService, private translate: TranslateService, private location: Location,
+      private modalService: BsModalService) { }
 
 /*********************Life Cycle Functions*********************/
   ngOnInit() {
     setTimeout(() => {
-      this.globalService.route = 'patients';
+      if (this.globalParametersService.isPatientDetModal === false) {
+        this.globalService.route = 'patients';
+      }
     }, 0);
     this.datepickerConfig = Object.assign(
       { dateInputFormat: 'DD/MM/YYYY' },
@@ -82,12 +86,20 @@ export class PatientDetailsComponent implements OnInit {
       { maxDate: new Date() },
       { minDate: new Date(1900, 0, 1) }
       );
-    this.patientId = this.route.snapshot.params.id;
+    if (this.globalParametersService.isPatientDetModal === false) {
+      this.patientId = this.route.snapshot.params.id;
+    } else {
+      this.patientId = this.globalParametersService.patientId;
+    }
     this.getPatientDetails(this.patientId);
   }
 
   ngOnDestroy(): void {
-    this.globalService.route = '';
+    if (this.globalParametersService.isPatientDetModal === false) {
+      this.globalService.route = '';
+    }
+    this.globalParametersService.isPatientDetModal = false;
+    this.globalParametersService.patientId = 0;
   }
 
 /************************Custom Functions*********************/
@@ -145,7 +157,7 @@ export class PatientDetailsComponent implements OnInit {
       this.globalParametersService.loading = true;
       this.preparPatientToSave();
       this.patientsService.updatePatient(this.patientId, this.patientToSave).subscribe(
-        data => { this.patient$ = data; this.getInitValues(), this.checkForChanges(); this.globalParametersService.loading = false;},
+        data => { this.patient$ = data; this.getInitValues(), this.checkForChanges(); this.globalParametersService.loading = false; this.cancel(true);},
         err => {console.error(err); this.globalParametersService.loading = false;},
         () => {this.globalParametersService.loading = false; this.toastr.success(this.translate.instant("Successfully saved changes"), this.translate.instant("Success!"))}
         );
@@ -164,6 +176,7 @@ export class PatientDetailsComponent implements OnInit {
     } else {
       this.changesMade = false;
       this.globalParametersService.changesMade = false;
+      this.checkForEmpty();
     }
     return this.changesMade;
   }
@@ -232,12 +245,23 @@ export class PatientDetailsComponent implements OnInit {
     }
   }
 
+  cancel(save: boolean) {
+    if (this.globalParametersService.isPatientDetModal === true) {
+      this.modalService.hide(1);
+      // if (save) {
+      //   this.modalService.setDismissReason('Save');
+      //   this.modalService.onHide.subscribe((result) => {this.globalParametersService.loading = true; window.location.reload()});
+      // }
+    }
+  }
+
 /********************Custom Functions End********************/
 
 /*********************Getters And Setters********************/
   public get name() {
     return this._name;
   }
+  
   public set name(value) {
     this._name = value;
     this.checkForChanges();
@@ -246,6 +270,7 @@ export class PatientDetailsComponent implements OnInit {
   public get surname() {
     return this._surname;
   }
+
   public set surname(value) {
     this._surname = value;
     this.checkForChanges();
@@ -254,6 +279,7 @@ export class PatientDetailsComponent implements OnInit {
   public get fatherName() {
     return this._fatherName;
   }
+
   public set fatherName(value) {
     this._fatherName = value;
     this.checkForChanges();
@@ -262,6 +288,7 @@ export class PatientDetailsComponent implements OnInit {
   public get motherName() {
     return this._motherName;
   }
+
   public set motherName(value) {
     this._motherName = value;
     this.checkForChanges();
@@ -270,6 +297,7 @@ export class PatientDetailsComponent implements OnInit {
   public get sex() {
     return this._sex;
   }
+
   public set sex(value) {
     this._sex = value;
     this.checkForChanges();
@@ -278,6 +306,7 @@ export class PatientDetailsComponent implements OnInit {
   public get sexForDTO() {
     return this._sexForDTO;
   }
+
   public set sexForDTO(value) {
     this._sexForDTO = value;
     this.checkForChanges();
@@ -286,6 +315,7 @@ export class PatientDetailsComponent implements OnInit {
   public get afm() {
     return this._afm;
   }
+
   public set afm(value) {
     this._afm = value;
     this.checkForChanges();
@@ -294,6 +324,7 @@ export class PatientDetailsComponent implements OnInit {
   public get amka() {
     return this._amka;
   }
+
   public set amka(value) {
     this._amka = value;
     this.checkForChanges();
@@ -302,6 +333,7 @@ export class PatientDetailsComponent implements OnInit {
   public get birthDate() {
     return this._birthDate;
   }
+
   public set birthDate(value) {
     this._birthDate = value;
     this.formatDateOnChange();
@@ -311,6 +343,7 @@ export class PatientDetailsComponent implements OnInit {
   public get tel() {
     return this._tel;
   }
+
   public set tel(value) {
     this._tel = value;
     this.checkForChanges();
@@ -319,6 +352,7 @@ export class PatientDetailsComponent implements OnInit {
   public get cell() {
     return this._cell;
   }
+
   public set cell(value) {
     this._cell = value;
     this.checkForChanges();
@@ -335,6 +369,7 @@ export class PatientDetailsComponent implements OnInit {
   public get address() {
     return this._address;
   }
+
   public set address(value) {
     this._address = value;
     this.checkForChanges();
@@ -343,6 +378,7 @@ export class PatientDetailsComponent implements OnInit {
   public get comments() {
     return this._comments;
   }
+
   public set comments(value) {
     this._comments = value;
     this.checkForChanges();

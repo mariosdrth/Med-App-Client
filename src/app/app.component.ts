@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { CookieService } from 'ngx-cookie-service';
+import { CookiesService } from '@ngx-utils/cookies';
 import { Router, NavigationEnd } from '@angular/router';
 import { GlobalService } from './services/global/global.service';
 import { ToastrService } from 'ngx-toastr';
@@ -11,6 +12,7 @@ import { ContactModalComponent } from './components/contact-modal/contact-modal.
 import { GlobalParametersService } from './services/global-parameters/global-parameters.service';
 import { Types } from './services/global-parameters/global-parameters.service';
 import { ProfileModalComponent } from './components/profile-modal/profile-modal.component';
+import { SettingsComponent } from './components/settings/settings.component';
 import { HttpClient } from '@angular/common/http';
 import { ConnectionsService } from './services/connections/connections.service';
 
@@ -54,9 +56,14 @@ export class AppComponent {
     "coordinates": ""
   };
   private connection$: Object;
+  public generalSettings = {
+    "prefLanguage": "",
+    "menuHidden": false,
+    "menuExpanded": true
+  };
 
   constructor(private translate: TranslateService, private cookieService: CookieService, private router: Router, private modalService: BsModalService, private connections: ConnectionsService,
-              public globalService: GlobalService, private toastr: ToastrService, public globalParametersService: GlobalParametersService, private http: HttpClient) {
+              public globalService: GlobalService, private toastr: ToastrService, public globalParametersService: GlobalParametersService, private http: HttpClient, private cookies: CookiesService) {
     this.router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd) {
         this.router.navigated = false;
@@ -78,18 +85,24 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    const cookieLanguageExists: boolean = this.cookieService.check("prefLanguage");
-    if (cookieLanguageExists) {
-      this.language = this.cookieService.get("prefLanguage");
-      this.globalParametersService.language = this.language;
+    const cookieGenSettingsExists: boolean = this.cookieService.check("generalSettings");
+    if (cookieGenSettingsExists) {
+      let generalSettingsCookie;
+      generalSettingsCookie = this.cookies.getObject("generalSettings");
+      this.generalSettings.prefLanguage = generalSettingsCookie.prefLanguage;
+      this.language = this.generalSettings.prefLanguage;
+      this.isExpanded = generalSettingsCookie.menuExpanded;
+      this.isHidden = generalSettingsCookie.menuHidden;
     }
+    this.globalParametersService.language = this.language;
     this.translate.use(this.language);
     this.http.get<IPData>('http://ip-api.com/json/?fields=258047')
     .subscribe(data => {
       if (data.status === "success") {
-        if (!cookieLanguageExists) {
+        if (!cookieGenSettingsExists) {
           if (data.countryCode = "GR") {
             this.language = "gr";
+            this.globalParametersService.language = this.language;
             this.translate.use(this.language);
           }
         }
@@ -136,8 +149,8 @@ export class AppComponent {
       this.language = "gr";
     }
     this.globalParametersService.language = this.language;
-    this.cookieService.set('prefLanguage', this.language);
     this.translate.use(this.language);
+    this.prepareGenSettingsCookie();
   }
 
   getLanguageFlag(value) {
@@ -149,8 +162,24 @@ export class AppComponent {
       this.language = "gr";
     }
     this.globalParametersService.language = this.language;
-    this.cookieService.set("prefLanguage", this.language);
     this.translate.use(this.language);
+    this.prepareGenSettingsCookie();
+  }
+
+  toggleMenu(type: string) {
+    if (type === "hid") {
+      this.isHidden = !this.isHidden;
+    } else if (type === "exp") {
+      this.isExpanded = !this.isExpanded;
+    }
+    this.prepareGenSettingsCookie();
+  }
+
+  prepareGenSettingsCookie() {
+    this.generalSettings.prefLanguage = this.language;
+    this.generalSettings.menuExpanded = this.isExpanded;
+    this.generalSettings.menuHidden = this.isHidden;
+    this.cookies.putObject("generalSettings", this.generalSettings);
   }
 
   openModal() {
@@ -180,6 +209,15 @@ export class AppComponent {
   openProfileModal() {
     let config = {class: "profile-modal modal-dialog-centered"}
     this.modalRef = this.modalService.show(ProfileModalComponent, config);
+  }
+
+  openSettingsModal() {
+    let config = {
+      class: "settings-modal modal-dialog-centered",
+      keyboard: false,
+      ignoreBackdropClick: true
+    }
+    this.modalRef = this.modalService.show(SettingsComponent, config);
   }
 
   navigateTo(route) {

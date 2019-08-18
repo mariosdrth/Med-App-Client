@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { EmailSenderService } from '../../services/email-sender/email-sender.service';
 import { GlobalParametersService } from '../../services/global-parameters/global-parameters.service';
 import { Router, NavigationEnd } from '@angular/router';
+import { SettingsService } from '../../services/settings/settings.service';
 
 @Component({
   selector: 'app-connect-modal',
@@ -43,10 +44,11 @@ export class ConnectModalComponent implements OnInit {
     "language": this.translate.currentLang
   }
   public mailToResetPass$: Object;
+  private userSettings$: any = {};
 
   constructor(public bsModalRef: BsModalRef, private translate: TranslateService, private modalService: BsModalService, private cookies: CookiesService,
                 private userService: UsersService, private globalService: GlobalService, private toastr: ToastrService, private formBuilder: FormBuilder, 
-                  private emailSenderService: EmailSenderService, public globalParametersService: GlobalParametersService, private router: Router) { }
+                  private emailSenderService: EmailSenderService, public globalParametersService: GlobalParametersService, private router: Router, private settingsService: SettingsService) { }
 
   ngOnInit() {
     this.resetForm = this.formBuilder.group({
@@ -98,10 +100,41 @@ export class ConnectModalComponent implements OnInit {
       this.cookies.putObject("user", user, this.cookiesOptions);
       this.closeModal();
       this.globalService.isLoggedIn = true;
+      this.globalParametersService.isLoggedIn = this.globalService.isLoggedIn;
       this.toastr.success(this.translate.instant("Successfully logged in"), this.translate.instant("Success!"));
+      this.globalParametersService.userName = user.userName;
+      this.globalParametersService.userId = user.id;
+      this.settingsService.getSettings(this.globalParametersService.userId).subscribe(
+        data => {this.userSettings$ = data; this.getSettings()},
+        err => console.error(err)
+      );
     } else {
       this.wrongCred = true;
       this.globalService.isLoggedIn = false;
+      this.globalParametersService.isLoggedIn = this.globalService.isLoggedIn;
+    }
+  }
+
+  getSettings() {
+    if (this.userSettings$ != null) {
+      if (this.userSettings$.altView === 0) {
+        this.globalParametersService.detailsAltView = false;
+      } else {
+        this.globalParametersService.detailsAltView = true;
+      }
+      if (this.userSettings$.linear === 0) {
+        this.globalParametersService.detailsLinearView = false;
+      } else {
+        this.globalParametersService.detailsLinearView = true;
+      }
+      if (this.userSettings$.openOnClick === 0) {
+        this.globalParametersService.openOnClick = false;
+      } else {
+        this.globalParametersService.openOnClick = true;
+      }
+      this.globalParametersService.headerColor = this.userSettings$.headerColor;
+      this.globalParametersService.themeColor = this.userSettings$.themeColor;
+      this.globalParametersService.sideColor = this.userSettings$.sideColor;
     }
   }
 
@@ -109,6 +142,7 @@ export class ConnectModalComponent implements OnInit {
     console.log(error);
     this.wrongCred = true;
     this.globalService.isLoggedIn = false;
+    this.globalParametersService.isLoggedIn = this.globalService.isLoggedIn;
   }
 
   get e() {

@@ -1,5 +1,5 @@
 <!----------------------------------------------------------------Header and buttons-------------------------------------------------------------------->
-<ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<!-- <ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading> -->
 <div class="page-header">
   <br>
   <div class="row no-gutters">
@@ -119,7 +119,8 @@
               {{sexForDTO | translate}}
             </button>
             <div class="dropdown-menu dropdown-primary">
-              <button class="dropdown-item dropdown-list-item" *ngFor="let sex of sexes" (click)="changeSex(sex.value)">
+              <button class="dropdown-item dropdown-list-item" *ngFor="let sex of sexes" (click)="changeSex(sex.value)"
+                [ngClass]="{'dropdown-list-first-child': sex.description === 'Male', 'dropdown-list-last-child': sex.description === 'Female'}">
                 {{sex.description | translate}}
               </button>
             </div>

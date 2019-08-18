@@ -1,5 +1,5 @@
 <!-------------------------------------------------------------------Head Title--------------------------------------------------------------------------->
-<ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<!-- <ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading> -->
 <div class="page-header">
   <br>
   <h1 class="text-center page-header">{{'Patients' | translate}}</h1>
@@ -50,7 +50,7 @@
         </div>
       </div>
       <div class="col-xs-6">
-        <button (click)="patientNew()" id="add-button" type="button" class="btn btn-default btn-sq-sm my-btn" ngbTooltip="{{'New' | translate}}" style="width: auto;">
+        <button (click)="patientNew()" id="add-button" type="button" class="btn btn-default btn-sq-sm my-btn btn-default-mine" ngbTooltip="{{'New' | translate}}" style="width: auto;">
           <i class="fas fa-plus"></i>
         </button>
       </div>
@@ -132,7 +132,7 @@
     <div>
       <table [@listStagger]="patients$" id="patientsTable" class="table table-striped table-hover table-bordered table-responsive table-condensed">
         <thead>
-          <tr>
+          <tr [ngStyle]="{'background-color': globalParametersService.headerColor}">
             <th id="serialNumber" style="width: 2%; text-align: center">
               <div>#</div>
             </th>
@@ -196,7 +196,7 @@
                 {{'Address' | translate}}</a>
               <i [innerHtml]="htmlVariable.address" aria-hidden="true" style="padding-left: 3px;"></i>
             </th>
-            <th style="width: 3%; text-align: center">
+            <th style="width: 3%; text-align: center" *ngIf="!globalParametersService.openOnClick">
               <div class="table-header">{{'Details' | translate}}</div>
             </th>
             <th style="width: 3%; text-align: center">
@@ -205,52 +205,52 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let patient of patients$; let i = index;" [ngClass]="{'deleted': i === rowDeleted, 'removed': i === rowRemoved}">
+          <tr *ngFor="let patient of patients$; let i = index;" [ngClass]="{'deleted': i === rowDeleted, 'removed': i === rowRemoved, 'row-clickable': globalParametersService.openOnClick}">
             <td style="text-align: center">
               {{pageIndexHelper+i+1}}
             </td>
-            <td style="text-align: center" *ngIf="showColumn.name">
+            <td style="text-align: center" *ngIf="showColumn.name" (click)="goToDetails(patient.id)">
               {{patient.name}}
             </td>
-            <td style="text-align: center" *ngIf="showColumn.surname">
+            <td style="text-align: center" *ngIf="showColumn.surname" (click)="goToDetails(patient.id)">
               {{patient.surname}}
             </td>
-            <td style="text-align: center" *ngIf="showColumn.fatherName">
+            <td style="text-align: center" *ngIf="showColumn.fatherName" (click)="goToDetails(patient.id)">
               {{patient.fatherName}}
             </td>
-            <td style="text-align: center" *ngIf="showColumn.motherName">
+            <td style="text-align: center" *ngIf="showColumn.motherName" (click)="goToDetails(patient.id)">
               {{patient.motherName}}
             </td>
-            <td style="text-align: center" *ngIf="showColumn.birthDate">
+            <td style="text-align: center" *ngIf="showColumn.birthDate" (click)="goToDetails(patient.id)">
               {{patient.birthDate}}
             </td>
-            <td style="text-align: center" *ngIf="showColumn.afm">
+            <td style="text-align: center" *ngIf="showColumn.afm" (click)="goToDetails(patient.id)">
               {{patient.afm}}
             </td>
-            <td style="text-align: center" *ngIf="showColumn.amka">
+            <td style="text-align: center" *ngIf="showColumn.amka" (click)="goToDetails(patient.id)">
               {{patient.amka}}
             </td>
-            <td style="text-align: center" *ngIf="showColumn.sex">
+            <td style="text-align: center" *ngIf="showColumn.sex" (click)="goToDetails(patient.id)">
               {{patient.sexForDTO | translate}}
             </td>
-            <td style="text-align: center" *ngIf="showColumn.tel">
+            <td style="text-align: center" *ngIf="showColumn.tel" (click)="goToDetails(patient.id)">
               {{patient.tel}}
             </td>
-            <td style="text-align: center" *ngIf="showColumn.cell">
+            <td style="text-align: center" *ngIf="showColumn.cell" (click)="goToDetails(patient.id)">
               {{patient.cell}}
             </td>
-            <td style="text-align: center" *ngIf="showColumn.email">
+            <td style="text-align: center" *ngIf="showColumn.email" (click)="goToDetails(patient.id)">
               {{patient.email}}
             </td>
-            <td style="text-align: center" *ngIf="showColumn.address">
+            <td style="text-align: center" *ngIf="showColumn.address" (click)="goToDetails(patient.id)">
               {{patient.address}}
             </td>
-            <td style="text-align: center">
+            <td style="text-align: center" *ngIf="!globalParametersService.openOnClick">
               <a [routerLink]="['/patients/', patient.id]">
                 <i class="fas fa-external-link-alt arrow-details"></i>
               </a>
             </td>
-            <td style="text-align: center">
+            <td style="text-align: center; cursor: default;">
               <a (click)="openModalToDelete(patient.id, deleteModal); updateIndex(i)">
                 <i class="fas fa-trash-alt delete-row"></i>
               </a>

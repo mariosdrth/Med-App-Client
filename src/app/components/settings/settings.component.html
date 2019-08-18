@@ -1,0 +1,96 @@
+<!-- <ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading> -->
+<div class="modal-header settings-header">
+  <i class="fas fa-cogs" style="font-size: 26px; margin-top: 4px;"></i>
+  <h4 class="modal-title w-100 font-weight-bold text-center" style="margin-right: 36px;">{{'Settings' | translate}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row" style="padding-bottom: 6px; border-bottom: 1px dotted #e9ecef;">
+    <div class="col" style="text-align: left;">
+      <span style="vertical-align: -webkit-baseline-middle; font-size: 18px; cursor: default;">{{'Alternative View' | translate}}</span>
+    </div>
+    <div class="col" style="text-align: right;">
+      <ui-switch class="switch" labelOn="{{'On' | translate}}" labelOff="{{'Off' | translate}}" [(ngModel)]="altView" placement="left"
+        ngbTooltip="{{'Change view of detail tabs' | translate}}" [ngClass]="{'switch-gr': globalParametersService.language === 'gr'}"></ui-switch>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 16px; padding-bottom: 6px; border-bottom: 1px dotted #e9ecef;">
+    <div class="col" style="text-align: left;">
+      <span style="vertical-align: -webkit-baseline-middle; font-size: 18px; cursor: default;">{{'Linear View' | translate}}</span>
+    </div>
+    <div class="col" style="text-align: right;" [ngClass]="{'disabled-switch': !altView, 'disabled': !altView}">
+      <ui-switch class="switch" labelOn="{{'On' | translate}}" labelOff="{{'Off' | translate}}" [(ngModel)]="linear" placement="left"
+        ngbTooltip="{{'Change color of detail tabs to linear' | translate}}" [ngClass]="{'switch-gr': globalParametersService.language === 'gr'}"></ui-switch>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 16px; padding-bottom: 6px; border-bottom: 1px dotted #e9ecef;">
+    <div class="col" style="text-align: left;">
+      <span style="vertical-align: -webkit-baseline-middle; font-size: 18px; cursor: default;">{{'Open Details on Click' | translate}}</span>
+    </div>
+    <div class="col" style="text-align: right;">
+      <ui-switch class="switch" labelOn="{{'On' | translate}}" labelOff="{{'Off' | translate}}" [(ngModel)]="openOnClick" placement="left"
+        ngbTooltip="{{'Open Details on Row Click' | translate}}" [ngClass]="{'switch-gr': globalParametersService.language === 'gr'}"></ui-switch>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 12px; padding-bottom: 10px; border-bottom: 1px dotted #e9ecef;">
+    <div class="col" style="text-align: left;">
+      <span style="vertical-align: -webkit-baseline-middle; font-size: 18px; cursor: default;">{{'Header Color' | translate}}</span>
+    </div>
+    <div class="col" style="text-align: right;">
+      <i class="fas fa-undo-alt undo" style="margin-right: 8px;" (click)="resetHeader()" placement="left"
+        ngbTooltip="{{'Reset to Default' | translate}}"></i>
+      <input class="no-outline" [(colorPicker)]="globalParametersService.headerColor" [style.background]="globalParametersService.headerColor" readonly [cpCancelButton]="true"/>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 12px; padding-bottom: 10px; border-bottom: 1px dotted #e9ecef;">
+    <div class="col" style="text-align: left;">
+      <span style="vertical-align: -webkit-baseline-middle; font-size: 18px; cursor: default;">{{'Theme Color' | translate}}</span>
+    </div>
+    <div class="col" style="text-align: right;">
+      <i class="fas fa-undo-alt undo" style="margin-right: 8px;" (click)="resetTheme()" placement="left"
+        ngbTooltip="{{'Reset to Default' | translate}}"></i>
+      <input class="no-outline" [(colorPicker)]="globalParametersService.themeColor" [style.background]="globalParametersService.themeColor" readonly [cpCancelButton]="true"/>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 12px; padding-bottom: 10px; border-bottom: 1px dotted #e9ecef;">
+    <div class="col" style="text-align: left;">
+      <span style="vertical-align: -webkit-baseline-middle; font-size: 18px; cursor: default;">{{'Sidebar Color' | translate}}</span>
+    </div>
+    <div class="col" style="text-align: right;">
+      <i class="fas fa-undo-alt undo" style="margin-right: 8px;" (click)="resetSideBar()" placement="left"
+        ngbTooltip="{{'Reset to Default' | translate}}"></i>
+      <input class="no-outline" [(colorPicker)]="globalParametersService.sideColor" [style.background]="globalParametersService.sideColor" readonly [cpCancelButton]="true"/>
+    </div>
+  </div>
+  <!-- <div class="row" style="margin-top: 12px; padding-bottom: 10px; border-bottom: 1px dotted #e9ecef;">
+    <div class="col" style="text-align: left;">
+      <span style="vertical-align: -webkit-baseline-middle; font-size: 18px; cursor: default;">{{'Themes' | translate}}</span>
+    </div>
+    <div class="col" style="text-align: right;">
+      <div class="btn-group" mdbDropdown>
+        <button id="btn-dropdown" mdbDropdownToggle type="button" mdbBtn class="dropdown-toggle waves-light form-input" mdbWavesEffect>
+            {{defaultThemes[0].description | translate}}
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <button class="dropdown-item dropdown-list-item" *ngFor="let defaultTheme of defaultThemes" (click)="changeTheme(defaultTheme.value)"
+            [ngClass]="{'dropdown-list-first-child': defaultTheme.value === 0, 'dropdown-list-last-child': defaultTheme.value === defaultThemes.length - 1}">
+            {{defaultTheme.description | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="row" style="margin-top: 12px; padding-bottom: 10px; border-bottom: 1px dotted #e9ecef;">
+    <div class="col" style="text-align: left; padding-top: 5px;">
+      <span style="vertical-align: -webkit-baseline-middle; font-size: 18px; cursor: default;">{{'Clear Preferences' | translate}}</span>
+    </div>
+    <div class="col" style="text-align: right;">
+      <button (click)="clearCookies()" id="cookies-btn" class="btn my-btn"><i class="fas fa-trash"></i></button>
+    </div>
+  </div>
+</div>
+<div class="modal-footer justify-content-center" style="border: 0">
+  <button id="btn-save" (click)="saveSettings()" class="btn my-btn">{{'Save' | translate}}</button>
+</div>

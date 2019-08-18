@@ -30,6 +30,8 @@ $mobile-large: 640px;
 $mobile: 480px;
 $mobile-small: 300px;
 
+$table-header: #196B4C;
+
 .indigo-pink {
   @include angular-material-theme($ip-theme);
 }
@@ -45,13 +47,19 @@ $mobile-small: 300px;
 
 body {
     margin: 0;
-    background: #F2F2F2;
+    background: #fafafa;
     height: 100vh;
     font-family: 'Roboto', sans-serif;
 }
 
+thead {
+    tr {
+        background-color: $table-header;
+    }
+}
+
 th {
-    background-color: #196B4C;
+    //background-color: $table-header;
     color: white;
 
     a {
@@ -64,22 +72,97 @@ th {
     }
 }
 
-.days {
-    thead {
-        tr {
-            th {
-                background-color: white !important;
-            }
-        }
-    }
-}
-
 html, body {
     height: 100%;
 }
 
 button {
     text-transform: none !important;
+}
+
+.btn-danger {
+    -webkit-transition: all 0.15s ease-in-out;
+    -moz-transition: all 0.15s ease-in-out;
+    -ms-transition: all 0.15s ease-in-out;
+    -o-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
+    border: solid 1px #ff3547 !important;
+
+    &:active {
+        border: solid 1px #ce0012 !important;
+    }
+
+    &:hover {
+        background-color: #ff0015 !important;
+        border: solid 1px #ff0015 !important;
+    }
+}
+
+.btn-info {
+    -webkit-transition: all 0.15s ease-in-out;
+    -moz-transition: all 0.15s ease-in-out;
+    -ms-transition: all 0.15s ease-in-out;
+    -o-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
+    border: solid 1px #33b5e5 !important;
+
+    &:active {
+        border: solid 1px #14799e !important;
+    }
+
+    &:hover {
+        background-color: #199dcc !important;
+        border: solid 1px #199dcc !important;
+    }
+}
+
+.btn-success {
+    -webkit-transition: all 0.15s ease-in-out;
+    -moz-transition: all 0.15s ease-in-out;
+    -ms-transition: all 0.15s ease-in-out;
+    -o-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
+    border: solid 1px #00c851 !important;
+
+    &:active {
+        border: solid 1px #006228 !important;
+    }
+
+    &:hover {
+        background-color: #00953c !important;
+        border: solid 1px #00953c !important;
+    }
+}
+
+.btn-primary {
+    -webkit-transition: all 0.15s ease-in-out;
+    -moz-transition: all 0.15s ease-in-out;
+    -ms-transition: all 0.15s ease-in-out;
+    -o-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
+    border: solid 1px #4285f4 !important;
+
+    &:active {
+        border: solid 1px #0b51c5 !important;
+    }
+
+    &:hover {
+        background-color: #1567f0 !important;
+        border: solid 1px #1567f0 !important;
+    }
+}
+
+.btn-default-mine {
+    -webkit-transition: all 0.15s ease-in-out;
+    -moz-transition: all 0.15s ease-in-out;
+    -ms-transition: all 0.15s ease-in-out;
+    -o-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
+
+    &:hover {
+        background-color: #219186 !important;
+        border: solid 1px #219186 !important;
+    }
 }
 
 .modal-content  {
@@ -126,14 +209,19 @@ button {
 
 }
 
-.close:hover {
-    color: white !important;
-    opacity: 0.4;
-}
-
 .close {
+    -webkit-transition: all 0.15s ease-in-out;
+    -moz-transition: all 0.15s ease-in-out;
+    -ms-transition: all 0.15s ease-in-out;
+    -o-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
     color: white !important;
     opacity: 1;
+
+    &:hover {
+        color: white !important;
+        opacity: 0.4;
+    }
 }
 
 .svg-icon {
@@ -239,6 +327,11 @@ button {
 }
 
 .arrow-details {
+    -webkit-transition: all 0.15s ease-in-out;
+    -moz-transition: all 0.15s ease-in-out;
+    -ms-transition: all 0.15s ease-in-out;
+    -o-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
     color: #003d99;
 
     &:hover {
@@ -247,6 +340,11 @@ button {
 }
 
 .delete-row {
+    -webkit-transition: all 0.15s ease-in-out;
+    -moz-transition: all 0.15s ease-in-out;
+    -ms-transition: all 0.15s ease-in-out;
+    -o-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
     color: #808080;
 
     &:hover {
@@ -286,7 +384,7 @@ button {
 .my-btn {
 
     &:focus {
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12) !important;
+        box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15) !important;
     }
 
     &:active {
@@ -318,6 +416,30 @@ button {
         max-width: 500px !important;
     }
 
+}
+
+.patient-modal {
+    width: 1000px !important;
+
+    .modal-content {
+        width: 1000px;
+        margin: auto !important;
+
+        @media only screen and (max-width: $desktop) {
+            width: 500px;
+        }
+
+    }
+
+    @media only screen and (min-width: $desktop) {
+        margin: 1.75rem auto;
+        max-width: 1000px !important;
+    }
+
+    @media only screen and (max-width: $desktop) {
+        margin: 1.75rem auto;
+        max-width: 500px !important;
+    }
 }
 
 .form-control {
@@ -379,7 +501,11 @@ button {
 }
 
 .calendar-icon {
-    
+    -webkit-transition: all 0.15s ease-in-out;
+    -moz-transition: all 0.15s ease-in-out;
+    -ms-transition: all 0.15s ease-in-out;
+    -o-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
     background-color: #17a2b8 !important;
     border-color: #17a2b8 !important;
 
@@ -390,13 +516,13 @@ button {
     @media only screen and (max-width: 730px) {
         display: none !important;
     }
-}
 
-.calendar-icon:hover {
-    cursor: pointer;
-    background-color: #1a8fa1 !important;
-    border-color: #1a8fa1 !important;
-    //border-radius: .25rem !important;
+    &:hover {
+        cursor: pointer;
+        background-color: #1a8fa1 !important;
+        border-color: #1a8fa1 !important;
+    }
+
 }
 
 .confirm-header {
@@ -422,7 +548,7 @@ button {
 }
 
 .mat-list-text {
-    padding-left: 8px !important;
+    padding-left: 0px !important;
 }
 
 .session-item {
@@ -486,10 +612,31 @@ button {
 }
 
 .form-container {
-    background-color: #f4fff4;
     border: solid 1px #f4fff4;
     border-radius: 0.75em;
-    box-shadow: 0px 0px 70px #888888;
+    box-shadow: 4px 4px 70px #888888;
+    background-color: #f4fff4;
+}
+
+.form-container-linear {
+    border: solid 1px #f4fff4;
+    border-radius: 0.75em;
+    box-shadow: 4px 4px 70px #888888;
+    background-color: #f4fff4;
+    background-image: linear-gradient(to bottom right, #d9ffd9, #d7ffd7, #e6ffe6, #f2fff2, #f4fff4);
+}
+
+.form-container-modal {
+    border: solid 1px #f4fff4;
+    border-radius: 0.75em;
+    background-color: #f4fff4;
+}
+
+.form-container-modal-linear {
+    border: solid 1px #f4fff4;
+    border-radius: 0.75em;
+    background-color: #f4fff4;
+    background-image: linear-gradient(#d9ffd9, #d7ffd7, #e6ffe6, #f2fff2, #f4fff4);
 }
 
 .form-label {
@@ -506,10 +653,19 @@ button {
 }
 
 .dropdown-list-item {
+    -webkit-transition: all 0.15s ease-in-out;
+    -moz-transition: all 0.15s ease-in-out;
+    -ms-transition: all 0.15s ease-in-out;
+    -o-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
+    outline: none !important;
     &:hover {
         cursor: pointer;
-        background-color: #007bff !important;
+        background-color: #17a2b8 !important;
         color: white !important;
+    }
+    &:active {
+        background-color: #128193 !important;
     }
 }
 
@@ -518,4 +674,124 @@ button {
     margin-top: 5px;
     margin-left: 2px;
     color: #dc3545;
+}
+
+.switch-labeled {
+    background-color: red !important;
+}
+
+.checked {
+    background-color: #64bd63 !important;
+}
+
+.switch-text {
+    .off {
+        top: 5.8px !important;
+        color: white !important;
+        margin-right: 3px;
+    }
+
+    .on {
+        top: 5.8px !important;
+        color: white !important;
+        margin-left: 4px;
+    }
+}
+
+.switch-gr {
+
+    .switch-medium.checked {
+        width: 100px !important;
+
+        small {
+            left: 70px !important;
+        }
+
+        .switch-text {
+            .on {
+                margin-left: 10px !important;
+            }
+        }
+    }
+
+    .switch-medium {
+        width: 100px !important;
+
+        small {
+            right: 70px !important;
+
+        }
+
+        .switch-text {
+            .off {
+                margin-right: 0 !important;
+            }
+        }
+    }
+}
+
+// .modal-backdrop {
+//     opacity:0.1 !important;
+// }
+
+.row-clickable {
+    cursor: pointer;
+}
+
+.button-area {
+    text-align:  center !important;
+}
+
+.cp-cancel-button-class {
+    border: solid 1px #ff0015 !important;
+    background-color: #ff0015 !important;
+    color: white !important;
+    outline: none !important;
+    cursor: pointer;
+
+    &:hover {
+        color: white !important;
+        background-color: #ce0012 !important;
+        border: solid 1px #ce0012 !important;
+    }
+
+    &:active {
+        color: white !important;
+        border: solid 1px #99000d !important;
+        background-color: #99000d !important;
+    }
+}
+
+// .modal-open {
+//     background-color: rgba(0, 0, 0, 1) !important;
+// }
+
+.bs-datepicker {
+    border-radius: 0.3rem !important;
+
+    .bs-calendar-container {
+        div {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+}
+
+.days {
+    thead {
+        tr {
+            th {
+                background-color: #E48683 !important;
+                color: white !important;
+            }
+        }
+    }
+}
+
+.bs-datepicker-head button.next span, .bs-datepicker-head button.previous span {
+    line-height: 0.9255;
+}
+
+.mat-sidenav-content {
+    overflow: hidden !important;
 }

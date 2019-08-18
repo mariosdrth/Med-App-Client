@@ -10,6 +10,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
 import { Types } from '../../services/global-parameters/global-parameters.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
   selector: 'app-session-details',
@@ -18,12 +20,15 @@ import { Types } from '../../services/global-parameters/global-parameters.servic
 })
 export class SessionDetailsComponent implements OnInit {
 
+  public modalRef: BsModalRef;
   public datepickerConfig: Partial<BsDatepickerConfig>;
   public sessionIdInit;
   public patients$: any;
   public session$: Object;
+  public sessionRefreshed$: Object;
   public patientsAll = [];
   public sessionInitValues: any = {};
+  public sessionRefreshed: any = {};
   private _sessionId: string;
   private _comments: string;
   private _sessionDate;
@@ -49,7 +54,8 @@ export class SessionDetailsComponent implements OnInit {
   public changesMade: boolean = false;
 
   constructor(private patientsService: PatientsService, public globalParametersService: GlobalParametersService, public globalService: GlobalService, private location: Location, 
-    private toastr: ToastrService, private translate: TranslateService, private sessionsService: SessionsService, private route: ActivatedRoute, private router: Router) { }
+    private toastr: ToastrService, private translate: TranslateService, private sessionsService: SessionsService, private route: ActivatedRoute, private router: Router,
+      private modalService: BsModalService) { }
 
   ngOnInit() {
     setTimeout(() => {
@@ -87,6 +93,13 @@ export class SessionDetailsComponent implements OnInit {
       );
   }
 
+  refreshPatientName(id: number) {
+    this.sessionsService.getSession(id).subscribe(
+      data => { this.sessionRefreshed$ = data; this.getNameAfterRefresh()},
+      err => console.error(err)
+      );
+  }
+
   formatDateOnChange() {
     this._sessionDate = this.globalService.formatDate(this._sessionDate);
   }
@@ -98,6 +111,11 @@ export class SessionDetailsComponent implements OnInit {
     this._sessionDate = this.sessionInitValues.sessionDate;
     this._patientId = this.sessionInitValues.patientId;
     this.sessionToSave.patientName = this.sessionInitValues.patientName;
+  }
+
+  getNameAfterRefresh() {
+    this.sessionRefreshed = this.sessionRefreshed$;
+    this.sessionToSave.patientName = this.sessionRefreshed.patientName;
   }
 
   goBack() {
@@ -170,8 +188,14 @@ export class SessionDetailsComponent implements OnInit {
     this.sessionToSave.comments = this.comments;
   }
 
-  showPatient(value: any) {
-    this.router.navigate(["/patients/" + value]);
+  showPatient(value: any, template) {
+    this.globalParametersService.isPatientDetModal = true;
+    this.globalParametersService.patientId = value;
+    let config = {class: "patient-modal modal-dialog-centered"}
+    this.modalRef = this.modalService.show(template, config);
+    this.modalService.onHide.subscribe((result) => {
+      this.refreshPatientName(this.sessionIdInit);
+    });
   }
 
   public get sessionId(): string {

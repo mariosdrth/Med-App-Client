@@ -51,6 +51,7 @@ export class ProfileModalComponent implements OnInit {
     "email": "",
     "tel": ""
   };
+  //public checkForModal: boolean = false;
 
   constructor(public bsModalRef: BsModalRef, private modalService: BsModalService, private toastr: ToastrService, private translate: TranslateService,
     public globalParametersService: GlobalParametersService, private formBuilder: FormBuilder, private cookies: CookiesService, private cookieService: CookieService, 
@@ -97,9 +98,24 @@ export class ProfileModalComponent implements OnInit {
       return;
     }
     this.prepareUserToSave(form);
+    // this.checkForModal = true;
+    // this.modalService.onShown.subscribe((result) => {
+    //   if (this.checkForModal) {
+    //     console.log(this.checkForModal);
+    //     this.globalParametersService.backdropDarker = true;
+    //   }
+    // });
     let list: Array<string> = ["Are you sure you want to save changes?"]
     let title: string = "Save profile changes";
     this.globalService.openModalWithParam(list, title, false, this.userId, undefined, this.userToSave, Types.saveProfile);
+    //this.modalService.setDismissReason('Close');
+    // this.modalService.onHidden.subscribe((result) => {
+    //   if (result === 'Close') {
+    //     this.globalParametersService.backdropDarker = false;
+    //     this.checkForModal = false;
+    //     this.modalService.setDismissReason(undefined);
+    //   };
+    // });
   }
 
   enableChangePass(event: any) {

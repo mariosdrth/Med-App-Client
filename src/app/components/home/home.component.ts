@@ -4,6 +4,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ConnectModalComponent } from '../../components/connect-modal/connect-modal.component';
 import { Router } from '@angular/router';
+import { GlobalParametersService } from '../../services/global-parameters/global-parameters.service';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,7 @@ export class HomeComponent implements OnInit {
     ignoreBackdropClick: true
   };
 
-  constructor(public globalService: GlobalService,private modalService: BsModalService, private router: Router) {
+  constructor(public globalService: GlobalService,private modalService: BsModalService, private router: Router, public globalParametersService: GlobalParametersService) {
     this.globalService.checkIfLoggedIn();
   }
 

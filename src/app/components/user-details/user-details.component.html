@@ -15,7 +15,8 @@
     </div>
 </div>
 <!------------------------------------------------------------------Main body form---------------------------------------------------------------------->
-<div class="container form-container">
+<div class="container" [ngClass]="{'form-container': this.globalParametersService.detailsAltView && !this.globalParametersService.detailsLinearView,
+  'form-container-linear': this.globalParametersService.detailsAltView && this.globalParametersService.detailsLinearView}">
   <br>
   <div class="row">
     <div class="col-6" style="margin: auto">

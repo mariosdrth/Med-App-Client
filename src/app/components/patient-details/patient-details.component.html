@@ -1,6 +1,6 @@
 <!----------------------------------------------------------------Header and buttons-------------------------------------------------------------------->
-<ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
-<div class="page-header">
+<!-- <ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading> -->
+<div class="page-header" *ngIf="!this.globalParametersService.isPatientDetModal">
   <br>
   <div class="row no-gutters">
       <div class="col-xs-6">
@@ -19,7 +19,7 @@
         <br>
       </div>
       <div class="col-xs-6" style="float: right;">
-        <a class="btn btn-default my-btn" (click)="goToSessions(patient$)">
+        <a class="btn btn-default my-btn btn-default-mine" (click)="goToSessions(patient$)">
           {{'Sessions' | translate}}
           <i class="fas fa-arrow-right"></i>
         </a>
@@ -27,7 +27,10 @@
     </div>
 </div>
 <!------------------------------------------------------------------Main body form---------------------------------------------------------------------->
-<div class="container form-container">
+<div class="container" [ngClass]="{'form-container': !this.globalParametersService.isPatientDetModal && this.globalParametersService.detailsAltView && !this.globalParametersService.detailsLinearView,
+  'form-container-linear': !this.globalParametersService.isPatientDetModal && this.globalParametersService.detailsAltView && this.globalParametersService.detailsLinearView,
+  'form-container-modal': this.globalParametersService.isPatientDetModal && this.globalParametersService.detailsAltView && !this.globalParametersService.detailsLinearView,
+  'form-container-modal-linear': this.globalParametersService.isPatientDetModal && this.globalParametersService.detailsAltView && this.globalParametersService.detailsLinearView}">
   <br>
   <div class="row">
     <div class="form-group col">
@@ -132,7 +135,8 @@
               {{sexForDTO | translate}}
             </button>
             <div class="dropdown-menu dropdown-primary">
-              <button class="dropdown-item" *ngFor="let sex of sexes" (click)="changeSex(sex.value)">
+              <button class="dropdown-item dropdown-list-item" *ngFor="let sex of sexes" (click)="changeSex(sex.value)"
+                [ngClass]="{'dropdown-list-first-child': sex.description === 'Male', 'dropdown-list-last-child': sex.description === 'Female'}">
                 {{sex.description | translate}}
               </button>
             </div>
@@ -151,3 +155,16 @@
   </div>
 </div>
 <!----------------------------------------------------------------Main body form end-------------------------------------------------------------------->
+<!-----------------------------------------------------------------Buttons for modal-------------------------------------------------------------------->
+<div class="row no-gutters" *ngIf="this.globalParametersService.isPatientDetModal">
+  <div class="col-xs-6" style="margin-left: auto;">
+    <a class="btn btn-danger my-btn" (click)="cancel(false)">
+      {{'Cancel' | translate}}
+    </a>
+  </div>
+  <div class="col-xs-6">
+    <a class="btn btn-primary my-btn" (click)="saveChanges()" [ngClass]="{'disabled': !changesMade}">
+      {{'Save' | translate}}
+    </a>
+  </div>
+</div>

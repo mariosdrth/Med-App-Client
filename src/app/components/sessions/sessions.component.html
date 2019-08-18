@@ -1,5 +1,5 @@
 <!-------------------------------------------------------------------Head Title--------------------------------------------------------------------------->
-<ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<!-- <ngx-loading [show]="globalParametersService.loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading> -->
 <div class="page-header">
   <br>
   <h1 class="text-center page-header">{{'Sessions' | translate}}</h1>
@@ -50,7 +50,7 @@
         </div>
       </div>
       <div class="col-xs-6">
-        <button (click)="sessionNew()" id="add-button" type="button" class="btn btn-default btn-sq-sm my-btn" ngbTooltip="{{'New' | translate}}" style="width: auto;">
+        <button (click)="sessionNew()" id="add-button" type="button" class="btn btn-default btn-sq-sm my-btn btn-default-mine" ngbTooltip="{{'New' | translate}}" style="width: auto;">
           <i class="fas fa-plus"></i>
         </button>
       </div>
@@ -107,7 +107,7 @@
     <div>
       <table [@listStagger]="sessions$" id="sessionsTable" class="table table-striped table-hover table-bordered table-responsive table-condensed">
         <thead>
-          <tr>
+          <tr [ngStyle]="{'background-color': globalParametersService.headerColor}">
             <th id="serialNumber" style="width: 2%; text-align: center">
               <div>#</div>
             </th>
@@ -126,7 +126,7 @@
                 {{'Session Date' | translate}}</a>
               <i [innerHtml]="htmlVariable.sessionDate" aria-hidden="true" style="padding-left: 3px;"></i>
             </th>
-            <th style="width: 3%; text-align: center">
+            <th style="width: 3%; text-align: center" *ngIf="!globalParametersService.openOnClick">
               <div class="table-header">{{'Details' | translate}}</div>
             </th>
             <th style="width: 3%; text-align: center">
@@ -135,27 +135,27 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let session of sessions$; let i = index;" [ngClass]="{'deleted': i === rowDeleted, 'removed': i === rowRemoved}">
-            <td style="text-align: center">
+          <tr *ngFor="let session of sessions$; let i = index;" [ngClass]="{'deleted': i === rowDeleted, 'removed': i === rowRemoved, 'row-clickable': globalParametersService.openOnClick}">
+            <td style="text-align: center" (click)="goToDetails(session.id)">
               {{pageIndexHelper+i+1}}
             </td>
-            <td style="text-align: center" *ngIf="showColumn.sessionId">
+            <td style="text-align: center" *ngIf="showColumn.sessionId" (click)="goToDetails(session.id)">
               {{session.sessionId}}
             </td>
-            <td style="text-align: center" *ngIf="showColumn.patientForSessionDTO">
+            <td style="text-align: center" *ngIf="showColumn.patientForSessionDTO" (click)="goToDetails(session.id)">
               <a id="patient-link" (click)="showPatient(session.patientForSessionDTO.id)">
                 {{session.patientName}}
               </a>
             </td>
-            <td style="text-align: center" *ngIf="showColumn.sessionDate">
+            <td style="text-align: center" *ngIf="showColumn.sessionDate" (click)="goToDetails(session.id)">
               {{session.sessionDate}}
             </td>
-            <td style="text-align: center">
+            <td style="text-align: center" *ngIf="!globalParametersService.openOnClick">
               <a [routerLink]="['/sessions/', session.id]">
                 <i class="fas fa-external-link-alt arrow-details"></i>
               </a>
             </td>
-            <td style="text-align: center">
+            <td style="text-align: center; cursor: default;">
               <a (click)="openModalToDelete(session.id, deleteModal); updateIndex(i)">
                 <i class="fas fa-trash-alt delete-row"></i>
               </a>

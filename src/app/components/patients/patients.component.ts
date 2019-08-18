@@ -700,6 +700,12 @@ export class PatientsComponent implements OnInit {
     this.globalService.preparePrefCookie("patient", this.filterCookie, this.searchParam.size, this.showColumn);
   }
 
+  goToDetails(id) {
+    if (this.globalParametersService.openOnClick) {
+      this.router.navigate(['/patients/', id]);
+    }
+  }
+
 /********************Custom Functions End********************/
 
 /*********************Getters And Setters********************/

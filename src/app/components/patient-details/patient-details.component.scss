@@ -3,7 +3,7 @@
     box-shadow: none !important;
     padding-top: 6px !important;
     padding-bottom: 6px !important;
-    border: 1px solid #ced4da;
+    border: 1px solid #ced4da !important;
     background-color: white;
     color: black;
 }
@@ -11,14 +11,9 @@
 .dropdown-menu {
     top: -1px;
     margin-top: 0;
-    padding-top: 4px;
-    padding-bottom: 4px;
+    padding-top: 0;
+    padding-bottom: 0;
     border-radius: 1rem !important;
-}
-
-.dropdown-item {
-    outline: none;
-    border-radius: 0.8rem !important;
 }
 
 .invalid-field {
@@ -33,4 +28,14 @@
 
 .calendar-div {
     margin: 0 !important;
+}
+
+.dropdown-list-first-child {
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+}
+
+.dropdown-list-last-child {
+    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 1rem;
 }

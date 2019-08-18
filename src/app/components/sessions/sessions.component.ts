@@ -565,7 +565,14 @@ preparePrefCookie() {
   this.globalService.preparePrefCookie("session", this.filterCookie, this.searchParam.size, this.showColumn);
 }
 
+goToDetails(id) {
+  if (this.globalParametersService.openOnClick) {
+    this.router.navigate(['/sessions/', id]);
+  }
+}
+
 /********************Custom Functions End********************/
+
 /*********************Getters And Setters********************/
 public get searchSessionId(): string {
   return this._searchSessionId;

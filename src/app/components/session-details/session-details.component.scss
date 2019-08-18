@@ -19,8 +19,13 @@
 }
 
 .info-icon {
+    -webkit-transition: color 0.15s ease-in-out;
+    -moz-transition: color 0.15s ease-in-out;
+    -ms-transition: color 0.15s ease-in-out;
+    -o-transition: color 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out;
     font-size: 16px;
-    color: #661a00;
+    color: #802000;
     margin-left: 8px;
     margin-top: 3.4px;
     height: 16px !important;
@@ -29,4 +34,17 @@
         cursor: pointer;
         color: #4d1300;
     }
+}
+
+.patient-modal-body {
+    padding: 0;
+}
+
+button {
+    outline: none !important;
+}
+
+.patient-modal-header {
+    background-color: #196B4C;
+    //background-image: linear-gradient(#196B4C, #98e7c8);
 }

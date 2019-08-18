@@ -46,6 +46,9 @@ import { SessionsComponent } from './components/sessions/sessions.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SessionNewComponent } from './components/session-new/session-new.component';
 import { SessionDetailsComponent } from './components/session-details/session-details.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { UiSwitchModule } from 'ngx-toggle-switch';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 defineLocale('en', enGbLocale); 
 
@@ -72,7 +75,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     PatientNewComponent,
     SessionsComponent,
     SessionNewComponent,
-    SessionDetailsComponent
+    SessionDetailsComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -123,7 +127,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       // secondaryColour: '#f5f5f5',
       // tertiaryColour: '#ffffff'
     }),
-    NgSelectModule
+    NgSelectModule,
+    UiSwitchModule,
+    ColorPickerModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent],

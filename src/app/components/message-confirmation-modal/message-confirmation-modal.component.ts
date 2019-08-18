@@ -5,8 +5,9 @@ import { Router } from '@angular/router';
 import { CookiesService } from '@ngx-utils/cookies';
 import { TranslateService } from '@ngx-translate/core';
 import { UsersService } from '../../services/users/users.service';
-import { Location } from '@angular/common';
+import { Location, NgLocalization } from '@angular/common';
 import { GlobalParametersService } from '../../services/global-parameters/global-parameters.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-message-confirmation-modal',
@@ -25,7 +26,7 @@ export class MessageConfirmationModalComponent implements OnInit {
 
   constructor(public bsModalRef: BsModalRef, private toastr: ToastrService, private router: Router, private cookies: CookiesService, 
     private translate: TranslateService, private usersService: UsersService, private location: Location, 
-      public globalParametersService: GlobalParametersService) {}
+      public globalParametersService: GlobalParametersService, private modalService: BsModalService) {}
 
   ngOnInit() {
   }
@@ -40,18 +41,33 @@ export class MessageConfirmationModalComponent implements OnInit {
       this.location.back();
       this.globalParametersService.changesMade = false;
     } else if (type === 4) {
-      this.usersService.updateUser(id, object);
+      //this.usersService.updateUser(id, object);
       this.usersService.updateUser(id, object).subscribe(
         data => { this.userSaved$ = data;},
         err => {console.error(err);},
         () => {this.toastr.success(this.translate.instant("Successfully saved changes"), this.translate.instant("Success!"))}
-        );
+      );
     } else if (type === 1) {
         if (object !== undefined && object !== null) {
           this.globalParametersService.patientFilter.push(object);
         }
         this.router.navigate(["/" + route]);
         this.globalParametersService.changesMade = false;
+    } else if (type === 5) {
+      // this.globalParametersService.headerColor = '#196B4C';
+      // this.globalParametersService.themeColor = '#325B7C';
+      // this.globalParametersService.sideColor = '#3e719b';
+      this.cookies.removeAll();
+      this.modalService.hide(1);
+      this.globalParametersService.loading = true;
+      setTimeout(() => {
+        location.reload();
+      }, 350);
+    } else if (type === 6) {
+      this.globalParametersService.headerColor = '#196B4C';
+      this.globalParametersService.themeColor = '#325B7C';
+      this.globalParametersService.sideColor = '#3e719b';
+      this.modalService.hide(1);
     }
   }
   
