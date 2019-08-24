@@ -10,7 +10,7 @@ export enum Types {
 }
 
 export enum Constants {
-  //generalUrl = "http://localhost:8080",
+  //generalUrl = "http://localhost:8089",
   //generalUrl = "http://192.168.1.4:8080",
   generalUrl = "http://samplesite.ddns.net:8089",
   emailReceiverAddress = "mariosdrth@yahoo.gr"
