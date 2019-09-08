@@ -6,7 +6,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { GlobalService } from './services/global/global.service';
 import { ToastrService } from 'ngx-toastr';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ConnectModalComponent } from './components/connect-modal/connect-modal.component';
 import { ContactModalComponent } from './components/contact-modal/contact-modal.component';
 import { GlobalParametersService } from './services/global-parameters/global-parameters.service';

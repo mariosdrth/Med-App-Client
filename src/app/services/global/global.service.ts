@@ -3,7 +3,7 @@ import { CookiesService, CookiesOptions } from '@ngx-utils/cookies';
 import { CookieService } from 'ngx-cookie-service';
 import { formatDate } from '@angular/common';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MessageConfirmationModalComponent } from '../../components/message-confirmation-modal/message-confirmation-modal.component';
 import { GlobalParametersService } from '../global-parameters/global-parameters.service';
 import { SettingsService } from '../settings/settings.service';

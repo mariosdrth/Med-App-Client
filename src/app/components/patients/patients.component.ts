@@ -10,7 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { CookiesService } from '@ngx-utils/cookies';
 import { GlobalService } from '../../services/global/global.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { GlobalParametersService } from '../../services/global-parameters/global-parameters.service';

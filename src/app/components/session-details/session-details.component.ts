@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
 import { Types } from '../../services/global-parameters/global-parameters.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-session-details',
