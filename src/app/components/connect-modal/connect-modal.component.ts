@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener, TemplateRef } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { UsersService } from '../../services/users/users.service';
 import { Md5 } from "md5-typescript";
