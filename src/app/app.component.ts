@@ -26,6 +26,7 @@ export interface IPData{
   lat:any;
   lon:any;
   status:any;
+  ip:any;
 }
 
 @Component({
@@ -96,9 +97,9 @@ export class AppComponent {
     }
     this.globalParametersService.language = this.language;
     this.translate.use(this.language);
-    this.http.get<IPData>('http://ip-api.com/json/?fields=258047')
+    this.http.get<IPData>('https://ipapi.co/json/')
     .subscribe(data => {
-      if (data.status === "success") {
+      //if (data.status === "success") {
         if (!cookieGenSettingsExists) {
           if (data.countryCode = "GR") {
             this.language = "gr";
@@ -108,12 +109,12 @@ export class AppComponent {
         }
         this.connection = this.prepareConnection(data);
         this.createConnection(this.connection);
-      }
+      //}
     });
   }
 
   prepareConnection(data: IPData) {
-    this.connection.ip = data.query;
+    this.connection.ip = data.ip;
     this.connection.conDate = String(new Date());
     this.connection.country = 'Country: ' + data.country + '(' + data.countryCode + '), Region: ' + data.regionName + ', City: ' + data.city;
     this.connection.isMobile = data.mobile;
