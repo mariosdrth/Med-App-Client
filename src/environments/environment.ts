@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  APIEndpoint: 'https://90.118.214.212:8089'
+  APIEndpoint: 'http://samplesite.ddns.net:8089'
 };
 
 /*
