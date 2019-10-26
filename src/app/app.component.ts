@@ -15,6 +15,7 @@ import { ProfileModalComponent } from './components/profile-modal/profile-modal.
 import { SettingsComponent } from './components/settings/settings.component';
 import { HttpClient } from '@angular/common/http';
 import { ConnectionsService } from './services/connections/connections.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 export interface IPData{
   query:any;
@@ -63,7 +64,7 @@ export class AppComponent {
     "menuExpanded": true
   };
 
-  constructor(private translate: TranslateService, private cookieService: CookieService, private router: Router, private modalService: BsModalService, private connections: ConnectionsService,
+  constructor(private translate: TranslateService, private cookieService: CookieService, private router: Router, private modalService: BsModalService, private connections: ConnectionsService, private changeDetector: ChangeDetectorRef,
               public globalService: GlobalService, private toastr: ToastrService, public globalParametersService: GlobalParametersService, private http: HttpClient, private cookies: CookiesService) {
     this.router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd) {
@@ -96,12 +97,10 @@ export class AppComponent {
       this.isHidden = generalSettingsCookie.menuHidden;
     }
     this.globalParametersService.language = this.language;
-    this.translate.use(this.language);
     this.http.get<IPData>('https://ipapi.co/json/')
     .subscribe(data => {
-      //if (data.status === "success") {
         if (!cookieGenSettingsExists) {
-          if (data.countryCode = "GR") {
+          if (data.country === "GR") {
             this.language = "gr";
             this.globalParametersService.language = this.language;
             this.translate.use(this.language);
@@ -109,7 +108,6 @@ export class AppComponent {
         }
         this.connection = this.prepareConnection(data);
         this.createConnection(this.connection);
-      //}
     });
   }
 
@@ -152,6 +150,7 @@ export class AppComponent {
     this.globalParametersService.language = this.language;
     this.translate.use(this.language);
     this.prepareGenSettingsCookie();
+    this.refreshViewCustom();
   }
 
   getLanguageFlag(value) {
@@ -165,6 +164,7 @@ export class AppComponent {
     this.globalParametersService.language = this.language;
     this.translate.use(this.language);
     this.prepareGenSettingsCookie();
+    this.refreshViewCustom();
   }
 
   toggleMenu(type: string) {
@@ -174,6 +174,13 @@ export class AppComponent {
       this.isExpanded = !this.isExpanded;
     }
     this.prepareGenSettingsCookie();
+    this.refreshViewCustom();
+  }
+
+  refreshViewCustom() {
+    setTimeout(() => {
+      this.changeDetector.detectChanges();
+    }, 150);
   }
 
   prepareGenSettingsCookie() {

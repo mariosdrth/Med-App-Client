@@ -136,7 +136,7 @@
           </a>
           <a mat-list-item class="list-item list-item-all" (click)="navigateTo('/patients')" [ngClass]="{'active-route': currentUrl === '/patients' || globalService.route === 'patients'}">
             <i class="fas fa-user-md" aria-hidden="true" style="font-size: 18px;" mat-list-icon></i>
-            <p matLine [ngClass]="{'shown': isExpanded && globalParametersService.language === 'en', 'shown-alt': isExpanded && globalParametersService.language === 'gr', 'hidden': !isExpanded}">
+            <p matLine [ngClass]="{'shown': isExpanded && globalParametersService.language === 'en', 'shown-alt': isExpanded && globalParametersService.language === 'gr', 'hidden': !isExpanded}" style="padding-left: 6px !important;">
               {{'Patients' | translate}}
             </p>
           </a>
