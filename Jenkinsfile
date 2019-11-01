@@ -7,24 +7,26 @@ pipeline {
         stage('Test - Front End') {
             agent {
                 docker {
-                    image 'alexsuch/angular-cli:6.0'
+                    image 'mariosdrth/ubuntu-node-ng-chrome:1.0'
                     args '--privileged'
+                    reuseNode true
                 }
             }
             steps {
                 sh 'npm install'
-                sh 'ng build --prod'
+                sh 'npm test'
             }
         }
         stage('Build - Front End') {
             agent {
                 docker {
-                    image 'alexsuch/angular-cli:6.0'
+                    image 'mariosdrth/ubuntu-node-ng-chrome:1.0'
                     args '--privileged'
+                    reuseNode true
                 }
             }
             steps {
-                sh 'ng test --watch=false'
+                sh 'ng build --prod'
             }
         }
         stage('Prepare Docker Deployment') {
