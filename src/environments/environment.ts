@@ -6,7 +6,7 @@ import * as envars from '../assets/envars.json';
 
 export const environment = {
   production: false,
-  APIEndpoint: 'http://samplesite.ddns.net:8089'
+  APIEndpoint: 'http://localhost:8089'
   //APIEndpoint: envars.default.apiUrlDev
 };
 
