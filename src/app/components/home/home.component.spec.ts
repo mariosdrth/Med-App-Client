@@ -7,6 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { BrowserCookiesModule } from '@ngx-utils/cookies/browser';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -40,7 +41,7 @@ describe('HomeComponent', () => {
         })
       ],
       providers: [CookieService],
-      declarations: [ HomeComponent ]
+      declarations: [HomeComponent]
     })
     .compileComponents();
   }));
@@ -56,8 +57,26 @@ describe('HomeComponent', () => {
     globalService = null;
   });
 
-  it('should create', () => {
+  it('should not be logged in', () => {
     globalService.loggedIn = false;
     expect(component).toBeTruthy();
+  });
+
+  it('should check title is there', () => {
+    globalService.loggedIn = false;
+    const loginButton = fixture.debugElement.query(By.css('h1')).nativeElement;
+    expect(loginButton.textContent.trim()).toContain('Home Page');
+  });
+
+  it('should check title is there', () => {
+    globalService.loggedIn = false;
+    const loginButton = fixture.debugElement.query(By.css('h2')).nativeElement;
+    expect(loginButton.textContent.trim()).toContain('Connect to continue');
+  });
+
+  it('should check login button is there', () => {
+    globalService.loggedIn = false;
+    const loginButton = fixture.debugElement.query(By.css('button')).nativeElement;
+    expect(loginButton.textContent.trim()).toContain('Login');
   });
 });
