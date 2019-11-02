@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage ('Deploy') {
             steps{
-                sshagent(credentials: ['b42ee9e9-049f-4028-b35f-447d90cd4f93']) {
+                sshagent(credentials : ['b42ee9e9-049f-4028-b35f-447d90cd4f93']) {
                     sh 'touch test.txt'
                     sh 'scp ./test.txt admin@medapp.server:/home/admin'
                 }
