@@ -18,19 +18,19 @@ pipeline {
                 sh 'npm test'
             }
         }
-        // stage('Build - Front End') {
-        //     agent {
-        //         docker {
-        //             image 'mariosdrth/ubuntu-node-ng-chrome:1.0'
-        //             args '--privileged'
-        //             reuseNode true
-        //         }
-        //     }
-        //     steps {
-        //         sh 'npm rebuild node-sass'
-        //         sh 'ng build --prod'
-        //     }
-        // }
+        stage('Build - Front End') {
+            agent {
+                docker {
+                    image 'mariosdrth/ubuntu-node-ng-chrome:1.0'
+                    args '--privileged'
+                    reuseNode true
+                }
+            }
+            steps {
+                //sh 'npm rebuild node-sass'
+                sh 'ng build --prod'
+            }
+        }
         // stage('Prepare Docker Deployment') {
         //     agent any
         //     options {
