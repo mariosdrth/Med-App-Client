@@ -4,19 +4,27 @@ pipeline {
         quietPeriod(5)
     }
     stages {
-        stage('Test - Front End') {
-            agent {
-                docker {
-                    image 'mariosdrth/ubuntu-node-ng-chrome:1.0'
-                    args '--privileged'
-                    reuseNode true
+        stage ('Deploy') {
+            steps{
+                sshagent(credentials : ['ssh-medapp-server']) {
+                    sh 'touch test.txt'
+                    sh 'scp ./test.txt admin@medapp.server:/home/admin'
                 }
             }
-            steps {
-                sh 'npm install'
-                sh 'npm test'
-            }
         }
+        // stage('Test - Front End') {
+        //     agent {
+        //         docker {
+        //             image 'mariosdrth/ubuntu-node-ng-chrome:1.0'
+        //             args '--privileged'
+        //             reuseNode true
+        //         }
+        //     }
+        //     steps {
+        //         sh 'npm install'
+        //         sh 'npm test'
+        //     }
+        // }
         // stage('Build - Front End') {
         //     agent {
         //         docker {
