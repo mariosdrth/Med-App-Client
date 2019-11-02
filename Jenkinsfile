@@ -4,27 +4,19 @@ pipeline {
         quietPeriod(5)
     }
     stages {
-        stage ('Deploy') {
-            steps{
-                sshagent(credentials : ['b42ee9e9-049f-4028-b35f-447d90cd4f93']) {
-                    //sh 'touch test.txt'
-                    sh 'scp ./test.txt admin@192.168.1.20:/home/admin'
+        stage('Test - Front End') {
+            agent {
+                docker {
+                    image 'mariosdrth/ubuntu-node-ng-chrome:1.0'
+                    args '--privileged'
+                    reuseNode true
                 }
             }
+            steps {
+                sh 'npm install'
+                sh 'npm test'
+            }
         }
-        // stage('Test - Front End') {
-        //     agent {
-        //         docker {
-        //             image 'mariosdrth/ubuntu-node-ng-chrome:1.0'
-        //             args '--privileged'
-        //             reuseNode true
-        //         }
-        //     }
-        //     steps {
-        //         sh 'npm install'
-        //         sh 'npm test'
-        //     }
-        // }
         // stage('Build - Front End') {
         //     agent {
         //         docker {
@@ -52,7 +44,9 @@ pipeline {
         //             git(
         //                url: 'https://github.com/mariosdrth/Med_Docker.git',
         //                credentialsId: 'git-creds',
-        //                branch: 'master'
+        //                branch: 'master',
+        //                changelog: false,
+        //                poll: false
         //             )
         //         }
         //     }
@@ -75,7 +69,9 @@ pipeline {
         //             git(
         //                url: 'https://github.com/mariosdrth/Med-App-Server.git',
         //                credentialsId: 'git-creds',
-        //                branch: 'master'
+        //                branch: 'master',
+        //                changelog: false,
+        //                poll: false
         //             )
         //             sh 'mvn -B -DskipTests clean package'
         //         }
