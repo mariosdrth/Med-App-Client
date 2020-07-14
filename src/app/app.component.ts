@@ -17,17 +17,17 @@ import { HttpClient } from '@angular/common/http';
 import { ConnectionsService } from './services/connections/connections.service';
 import { ChangeDetectorRef } from '@angular/core';
 
-export interface IPData{
-  query:any;
-  countryCode:any;
-  country:any;
-  regionName:any;
-  city:any;
-  mobile:any;
-  lat:any;
-  lon:any;
-  status:any;
-  ip:any;
+export interface IPData {
+  query: any;
+  countryCode: any;
+  country: any;
+  regionName: any;
+  city: any;
+  mobile: any;
+  lat: any;
+  lon: any;
+  status: any;
+  ip: any;
 }
 
 @Component({
@@ -38,7 +38,7 @@ export interface IPData{
 export class AppComponent {
   title = 'Gdpr';
 
-  public language: string = "en";
+  public language = 'en';
   public isHomePage = false;
   public modalRef: BsModalRef;
   public config = {
@@ -46,22 +46,22 @@ export class AppComponent {
     ignoreBackdropClick: true,
     initialState: {}
   };
-  public isExpanded: boolean = false;
+  public isExpanded = false;
   public element: HTMLElement;
   public currentUrl: string;
-  public isHidden: boolean = false;
+  public isHidden = false;
   private connection = {
-    "ip": "",
-    "conDate": "",
-    "country": "",
-    "isMobile": "",
-    "coordinates": ""
+    'ip': '',
+    'conDate': '',
+    'country': '',
+    'isMobile': '',
+    'coordinates': ''
   };
   private connection$: Object;
   public generalSettings = {
-    "prefLanguage": "",
-    "menuHidden": false,
-    "menuExpanded": true
+    'prefLanguage': '',
+    'menuHidden': false,
+    'menuExpanded': true
   };
 
   constructor(private translate: TranslateService, private cookieService: CookieService, private router: Router, private modalService: BsModalService, private connections: ConnectionsService, private changeDetector: ChangeDetectorRef,
@@ -75,8 +75,8 @@ export class AppComponent {
     });
     router.events.forEach((event) => {
       this.globalService.checkIfLoggedIn();
-      if(event instanceof NavigationEnd) {
-        if (event.url !== "/") {
+      if (event instanceof NavigationEnd) {
+        if (event.url !== '/') {
           this.checkToOpenModal();
           this.isHomePage = false;
         } else {
@@ -87,10 +87,10 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    const cookieGenSettingsExists: boolean = this.cookieService.check("generalSettings");
+    const cookieGenSettingsExists: boolean = this.cookieService.check('generalSettings');
     if (cookieGenSettingsExists) {
       let generalSettingsCookie;
-      generalSettingsCookie = this.cookies.getObject("generalSettings");
+      generalSettingsCookie = this.cookies.getObject('generalSettings');
       this.generalSettings.prefLanguage = generalSettingsCookie.prefLanguage;
       this.language = this.generalSettings.prefLanguage;
       this.isExpanded = generalSettingsCookie.menuExpanded;
@@ -100,8 +100,8 @@ export class AppComponent {
     this.http.get<IPData>('https://ipapi.co/json/')
     .subscribe(data => {
         if (!cookieGenSettingsExists) {
-          if (data.country === "GR") {
-            this.language = "gr";
+          if (data.country === 'GR') {
+            this.language = 'gr';
             this.globalParametersService.language = this.language;
             this.translate.use(this.language);
           }
@@ -122,7 +122,7 @@ export class AppComponent {
 
   createConnection(connection) {
     this.connections.newConnection(connection).subscribe(
-      data => {this.connection$ = data}
+      data => {this.connection$ = data; }
     );
   }
 
@@ -142,10 +142,10 @@ export class AppComponent {
   }
 
   getLanguage(value) {
-    if (value === "English" || value === "Αγγλικά") {
-      this.language = "en";
-    } else if (value === "Greek" || value === "Ελληνικά") {
-      this.language = "gr";
+    if (value === 'English' || value === 'Αγγλικά') {
+      this.language = 'en';
+    } else if (value === 'Greek' || value === 'Ελληνικά') {
+      this.language = 'gr';
     }
     this.globalParametersService.language = this.language;
     this.translate.use(this.language);
@@ -156,10 +156,10 @@ export class AppComponent {
   getLanguageFlag(value) {
     value = value.split('.');
     value = value[value.length - 2].split('/');
-    if (value[value.length - 1] === "gb") {
-      this.language = "en";
-    } else if (value[value.length - 1] === "gr") {
-      this.language = "gr";
+    if (value[value.length - 1] === 'gb') {
+      this.language = 'en';
+    } else if (value[value.length - 1] === 'gr') {
+      this.language = 'gr';
     }
     this.globalParametersService.language = this.language;
     this.translate.use(this.language);
@@ -168,9 +168,9 @@ export class AppComponent {
   }
 
   toggleMenu(type: string) {
-    if (type === "hid") {
+    if (type === 'hid') {
       this.isHidden = !this.isHidden;
-    } else if (type === "exp") {
+    } else if (type === 'exp') {
       this.isExpanded = !this.isExpanded;
     }
     this.prepareGenSettingsCookie();
@@ -187,7 +187,7 @@ export class AppComponent {
     this.generalSettings.prefLanguage = this.language;
     this.generalSettings.menuExpanded = this.isExpanded;
     this.generalSettings.menuHidden = this.isHidden;
-    this.cookies.putObject("generalSettings", this.generalSettings);
+    this.cookies.putObject('generalSettings', this.generalSettings);
   }
 
   openModal() {
@@ -200,47 +200,47 @@ export class AppComponent {
 
   openSignOutModal() {
     if (!this.globalParametersService.changesMade) {
-      let list: Array<string> = ["Are you sure?"]
-      let title: string = "Log out";
+      const list: Array<string> = ['Are you sure?'];
+      const title = 'Log out';
       this.globalService.openModalWithParam(list, title, false, undefined, undefined, undefined, Types.logOut);
     } else {
-      let list: Array<string> = ["You have unsaved changes. Are you sure?"]
-      let title: string = "Log out";
+      const list: Array<string> = ['You have unsaved changes. Are you sure?'];
+      const title = 'Log out';
       this.globalService.openModalWithParam(list, title, false, undefined, undefined, undefined, Types.logOut);
     }
   }
-  
+
   gotoTop(element) {
-    element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+    element.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
   }
 
   openProfileModal() {
-    let config = {class: "profile-modal modal-dialog-centered"}
+    const config = {class: 'profile-modal modal-dialog-centered'};
     this.modalRef = this.modalService.show(ProfileModalComponent, config);
   }
 
   openSettingsModal() {
-    let config = {
-      class: "settings-modal modal-dialog-centered",
+    const config = {
+      class: 'settings-modal modal-dialog-centered',
       keyboard: false,
       ignoreBackdropClick: true
-    }
+    };
     this.modalRef = this.modalService.show(SettingsComponent, config);
   }
 
   navigateTo(route) {
     if (!this.globalParametersService.changesMade) {
       this.router.navigate([route]);
-    } else if (route === "/") {
-      let list: Array<string> = ["You have unsaved changes. Are you sure you want to leave?"]
-      let title: string = this.translate.instant("Go to") + " " + this.translate.instant("Home");
+    } else if (route === '/') {
+      const list: Array<string> = ['You have unsaved changes. Are you sure you want to leave?'];
+      const title: string = this.translate.instant('Go to') + ' ' + this.translate.instant('Home');
       this.globalService.openModalWithParam(list, title, true, undefined, route, undefined, Types.navigateTo);
     } else {
-      let list: Array<string> = ["You have unsaved changes. Are you sure you want to leave?"]
-      let str:string = route;
+      const list: Array<string> = ['You have unsaved changes. Are you sure you want to leave?'];
+      let str: string = route;
       str = str.slice(1);
       str = str[0].toUpperCase() + str.slice(1);
-      let title: string = this.translate.instant("Go to") + " " + this.translate.instant(str);
+      const title: string = this.translate.instant('Go to') + ' ' + this.translate.instant(str);
       this.globalService.openModalWithParam(list, title, true, undefined, route, undefined, Types.navigateTo);
     }
   }

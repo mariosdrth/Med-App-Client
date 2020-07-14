@@ -2,7 +2,7 @@
 <div class="modal-content">
   <div #connectModal id="connectModal" class="modal-header sign-in-header">
     <i class="fas fa-user-lock" style="font-size: 26px; margin-top: 4px;"></i>
-    <h4 class="modal-title w-100 font-weight-bold text-center" style="margin-right: 32.5px;">{{'Sign in' | translate}}</h4>
+    <h4 class="modal-title w-100 font-weight-bold text-center" style="margin-right: 32.5px;">{{ 'Sign in' | translate }}</h4>
     <button type="button" class="close btn-close" aria-label="Close" (click)="bsModalRef.hide(); redirect()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -10,51 +10,82 @@
   <div class="modal-body">
     <form (ngSubmit)="submitForm(f)" #f="ngForm">
       <div class="form-group">
+        <div class="md-form mb-5">
           <div class="md-form mb-5">
-            <div class="md-form mb-5">
-              <i id="user-icon" class="fas fa-user-alt prefix grey-text"></i>
-              <input type="email" id="defaultForm-username" (ngModelChange)="wrongCredSetFalse()" class="form-control" mdbInputDirective [(ngModel)]="userName" name="userName"
-                      placement="bottom" ngbTooltip="{{'test' | translate}}">
-              <label for="defaultForm-username">{{'Username' | translate}}</label>
-            </div>
+            <i id="user-icon" class="fas fa-user-alt prefix grey-text"></i>
+            <input
+              type="email"
+              id="defaultForm-username"
+              (ngModelChange)="wrongCredSetFalse()"
+              class="form-control"
+              mdbInputDirective
+              [(ngModel)]="userName"
+              name="userName"
+              placement="bottom"
+              ngbTooltip="{{ 'test' | translate }}"
+            />
+            <label for="defaultForm-username">{{ 'Username' | translate }}</label>
           </div>
+        </div>
+        <div class="md-form mb-4">
           <div class="md-form mb-4">
-            <div class="md-form mb-4">
-              <i id="pass-icon" class="fas fa-lock prefix grey-text"></i>
-              <input (ngModelChange)="wrongCredSetFalse()" type="password" id="defaultForm-pass" [type]="showPass ? 'text' : 'password'" mdbInputDirective [(ngModel)]="password"
-                      class="form-control validate" name="password" placement="bottom" ngbTooltip="{{'test' | translate}}">
-              <label for="defaultForm-pass">{{'Password' | translate}}</label>
-            </div>
+            <i id="pass-icon" class="fas fa-lock prefix grey-text"></i>
+            <input
+              (ngModelChange)="wrongCredSetFalse()"
+              type="password"
+              id="defaultForm-pass"
+              [type]="showPass ? 'text' : 'password'"
+              mdbInputDirective
+              [(ngModel)]="password"
+              class="form-control validate"
+              name="password"
+              placement="bottom"
+              ngbTooltip="{{ 'test' | translate }}"
+            />
+            <label for="defaultForm-pass">{{ 'Password' | translate }}</label>
           </div>
-          <div class="row">
-            <div class="form-group mt-4 col">
-                <div class="custom-control custom-checkbox">
-                  <div class="pretty p-image p-plain p-smooth">
-                    <input type="checkbox" class="custom-control-input checkbox-input" id="checkbox-pass" [(ngModel)]="isChecked" (change)="checkValueShowPass(isChecked? true: false)" name="show-pass-check">
-                    <div class="state">
-                      <img class="image check-image" src="../../../assets/images/green-checkbox-var-2.png">
-                      <label class="custom-control-label checkbox-mat checkbox-pass-label" id="checkbox-pass-label" for="checkbox-pass">{{'Show Password' | translate}}</label>
-                    </div>
-                  </div>
+        </div>
+        <div class="row">
+          <div class="form-group mt-4 col">
+            <div class="custom-control custom-checkbox">
+              <div class="pretty p-image p-plain p-smooth">
+                <input
+                  type="checkbox"
+                  class="custom-control-input checkbox-input"
+                  id="checkbox-pass"
+                  [(ngModel)]="isChecked"
+                  (change)="checkValueShowPass(isChecked ? true : false)"
+                  name="show-pass-check"
+                />
+                <div class="state">
+                  <img class="image check-image" src="../../../assets/images/green-checkbox-var-2.png" />
+                  <label class="custom-control-label checkbox-mat checkbox-pass-label" id="checkbox-pass-label" for="checkbox-pass">{{ 'Show Password' | translate }}</label>
                 </div>
-            </div>
-            <div class="md-form bp-3 col">
-              <p class="font-small blue-text d-flex justify-content-end">
-                <a id="forgot-pass" class="blue-text ml-1" (click)="childModal.show()">{{'Forgot Password?' | translate}}</a>
-              </p>
+              </div>
             </div>
           </div>
+          <div class="md-form bp-3 col">
+            <p class="font-small blue-text d-flex justify-content-end">
+              <a id="forgot-pass" class="blue-text ml-1" (click)="childModal.show()">{{ 'Forgot Password?' | translate }}</a>
+            </p>
+          </div>
+        </div>
       </div>
       <div class="text-center">
         <div class="alert alert-danger" role="alert" *ngIf="wrongCred">
-          {{'Wrong Username or Password' | translate}}
+          {{ 'Wrong Username or Password' | translate }}
         </div>
         <div class="alert alert-warning" role="alert" *ngIf="isCapsLockOn">
-          {{'Caps Lock is on' | translate}}
+          {{ 'Caps Lock is on' | translate }}
         </div>
       </div>
       <div class="modal-footer justify-content-center">
-        <button id="submit-button" type="submit" class="btn btn-info btn-rounded btn-block my-4 waves-effect waves-light">{{'Login' | translate}}</button>
+        <button id="submit-button" type="submit" class="btn btn-info btn-rounded btn-block my-4 waves-effect waves-light">{{ 'Login' | translate }}</button>
+      </div>
+      <div class="justify-content-center">
+        <button id="connect-as-guest" type="button" (click)="connectAsGuest()" class="btn btn-info btn-rounded btn-block my-4 waves-effect waves-light">
+          {{ 'Connect as Guest' | translate }}
+        </button>
       </div>
     </form>
   </div>
@@ -64,40 +95,58 @@
   <div class="modal-dialog">
     <div class="modal-content" style="width: 400px; margin: auto;">
       <div id="reset-header" class="modal-header">
-        <h4 id="dialog-nested-name2" class="modal-title pull-left" style="margin: auto;">{{'Reset Password' | translate}}</h4>
+        <h4 id="dialog-nested-name2" class="modal-title pull-left" style="margin: auto;">{{ 'Reset Password' | translate }}</h4>
         <button type="button" class="close pull-right btn-close" aria-label="Close" (click)="childModal.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="resetForm" (ngSubmit)="sendResetEmail(rf)" #rf=ngForm>
+        <form [formGroup]="resetForm" (ngSubmit)="sendResetEmail(rf)" #rf="ngForm">
           <div class="form-group">
-              <div class="md-form mb-5 col">
-                <div class="md-form mb-5">
-                  <i id="user-icon" class="fas fa-user-alt prefix grey-text"></i>
-                  <input type="text" id="form-username" class="form-control validate" mdbInputDirective placeholder="{{'Username' | translate}}" 
-                          name="userNameForReset" style="margin-bottom: 20px;" formControlName="userNameForReset" [ngClass]="{ 'is-invalid': submitted && e.userNameForReset.errors }">
-                  <div *ngIf="submitted && e.userNameForReset.errors" class="invalid-feedback test">
-                    <div *ngIf="e.userNameForReset.errors.required">{{'Field is required' | translate}}</div>
-                  </div>
-                  <label for="form-username">{{'Username' | translate}}</label>
+            <div class="md-form mb-5 col">
+              <div class="md-form mb-5">
+                <i id="user-icon" class="fas fa-user-alt prefix grey-text"></i>
+                <input
+                  type="text"
+                  id="form-username"
+                  class="form-control validate"
+                  mdbInputDirective
+                  placeholder="{{ 'Username' | translate }}"
+                  name="userNameForReset"
+                  style="margin-bottom: 20px;"
+                  formControlName="userNameForReset"
+                  [ngClass]="{ 'is-invalid': submitted && e.userNameForReset.errors }"
+                />
+                <div *ngIf="submitted && e.userNameForReset.errors" class="invalid-feedback test">
+                  <div *ngIf="e.userNameForReset.errors.required">{{ 'Field is required' | translate }}</div>
                 </div>
+                <label for="form-username">{{ 'Username' | translate }}</label>
               </div>
-              <div class="md-form mb-5 col" style="margin-bottom: 30px !important;">
-                <div class="md-form mb-5">
-                  <i class="fa fa-envelope prefix grey-text" ></i>
-                  <input type="email" id="form-email" class="form-control validate" mdbInputDirective placeholder="{{'Enter email to send new password' | translate}}" 
-                          name="mailResetPass" style="margin-bottom: 20px;" formControlName="email" [ngClass]="{ 'is-invalid': submitted && e.email.errors }">
-                  <div *ngIf="submitted && e.email.errors" class="invalid-feedback test1">
-                      <div *ngIf="e.email.errors.required">{{'Field is required' | translate}}</div>
-                      <div *ngIf="e.email.errors.email">{{'Email must be a valid email address' | translate}}</div>
-                  </div>
-                  <label for="form-email">{{'Enter email to send new password' | translate}}</label>
+            </div>
+            <div class="md-form mb-5 col" style="margin-bottom: 30px !important;">
+              <div class="md-form mb-5">
+                <i class="fa fa-envelope prefix grey-text"></i>
+                <input
+                  type="email"
+                  id="form-email"
+                  class="form-control validate"
+                  mdbInputDirective
+                  placeholder="{{ 'Enter email to send new password' | translate }}"
+                  name="mailResetPass"
+                  style="margin-bottom: 20px;"
+                  formControlName="email"
+                  [ngClass]="{ 'is-invalid': submitted && e.email.errors }"
+                />
+                <div *ngIf="submitted && e.email.errors" class="invalid-feedback test1">
+                  <div *ngIf="e.email.errors.required">{{ 'Field is required' | translate }}</div>
+                  <div *ngIf="e.email.errors.email">{{ 'Email must be a valid email address' | translate }}</div>
                 </div>
+                <label for="form-email">{{ 'Enter email to send new password' | translate }}</label>
               </div>
+            </div>
           </div>
           <div class="justify-content-center text-center">
-            <button id="submit-button-reset" type="submit" class="btn btn-unique my-btn">{{'Send' | translate}} <i class="fa fa-paper-plane-o ml-1"></i></button>
+            <button id="submit-button-reset" type="submit" class="btn btn-unique my-btn">{{ 'Send' | translate }} <i class="fa fa-paper-plane-o ml-1"></i></button>
           </div>
         </form>
       </div>

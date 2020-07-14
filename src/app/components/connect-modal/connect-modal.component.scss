@@ -1,73 +1,92 @@
 button {
-    outline: none !important;
+  outline: none !important;
 }
 
 #submit-button {
-    -webkit-transition: background-color 0.15s ease-in-out, border 0.15s ease-in-out;
-    -moz-transition: background-color 0.15s ease-in-out, border 0.15s ease-in-out;
-    -ms-transition: background-color 0.15s ease-in-out, border 0.15s ease-in-out;
-    -o-transition: background-color 0.15s ease-in-out, border 0.15s ease-in-out;
-    transition: background-color 0.15s ease-in-out, border 0.15s ease-in-out;
-    border-radius: 10rem !important;
-    outline: none !important;
+  -webkit-transition: background-color 0.15s ease-in-out, border 0.15s ease-in-out;
+  -moz-transition: background-color 0.15s ease-in-out, border 0.15s ease-in-out;
+  -ms-transition: background-color 0.15s ease-in-out, border 0.15s ease-in-out;
+  -o-transition: background-color 0.15s ease-in-out, border 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out, border 0.15s ease-in-out;
+  border-radius: 10rem !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 16px 32px;
+
+  &:hover {
+    background-color: #2ca1cc !important;
+    border: solid 1px #2ca1cc !important;
+  }
+
+  &:active {
+    background-color: #14799e !important;
+    border: solid 1px #14799e !important;
+  }
+}
+
+#connect-as-guest {
+  background-color: #c72b0f !important;
+  border: solid 1px #c72b0f !important;
+
+  &:hover {
+    background-color: #a73723 !important;
+    border: solid 1px #a73723 !important;
+  }
+
+  &:active {
+    background-color: #692216 !important;
+    border: solid 1px #692216 !important;
+  }
+
+  &:focus {
     box-shadow: none !important;
-    padding: 16px 32px;
-
-    &:hover {
-        background-color: #2ca1cc !important;
-        border: solid 1px #2ca1cc !important;
-    }
-
-    &:active {
-        background-color: #14799e !important;
-        border: solid 1px #14799e !important;
-    }
+  }
 }
 
 #forgot-pass:hover {
-    -webkit-transition: all 0.15s ease-in-out;
-    -moz-transition: all 0.15s ease-in-out;
-    -ms-transition: all 0.15s ease-in-out;
-    -o-transition: all 0.15s ease-in-out;
-    transition: all 0.15s ease-in-out;
+  -webkit-transition: all 0.15s ease-in-out;
+  -moz-transition: all 0.15s ease-in-out;
+  -ms-transition: all 0.15s ease-in-out;
+  -o-transition: all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out;
 
-    &:hover {
-        color: rgb(4, 4, 190) !important;
-        text-decoration: underline;
-    }
+  &:hover {
+    color: rgb(4, 4, 190) !important;
+    text-decoration: underline;
+  }
 }
 
-#reset-header{
-    background-color: #880e4f !important;
+#reset-header {
+  background-color: #880e4f !important;
 }
 
 #checkbox-pass-label {
-    -webkit-transition: color 0.15s ease-in-out;
-    -moz-transition: color 0.15s ease-in-out;
-    -ms-transition: color 0.15s ease-in-out;
-    -o-transition: color 0.15s ease-in-out;
-    transition: color 0.15s ease-in-out;
+  -webkit-transition: color 0.15s ease-in-out;
+  -moz-transition: color 0.15s ease-in-out;
+  -ms-transition: color 0.15s ease-in-out;
+  -o-transition: color 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out;
 
-    &:hover {
-        cursor: pointer;
-        color: #999999;
-    }
+  &:hover {
+    cursor: pointer;
+    color: #999999;
+  }
 }
 
 #submit-button-reset {
-    -webkit-transition: all 0.15s ease-in-out;
-    -moz-transition: all 0.15s ease-in-out;
-    -ms-transition: all 0.15s ease-in-out;
-    -o-transition: all 0.15s ease-in-out;
-    transition: all 0.15s ease-in-out;
+  -webkit-transition: all 0.15s ease-in-out;
+  -moz-transition: all 0.15s ease-in-out;
+  -ms-transition: all 0.15s ease-in-out;
+  -o-transition: all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out;
 
-    &:hover {
-        background-color: #580a33 !important;
-        border: solid 1px #580a33 !important;
-    }
+  &:hover {
+    background-color: #580a33 !important;
+    border: solid 1px #580a33 !important;
+  }
 
-    &:active {
-        background-color: #2c0419 !important;
-        border: solid 1px #2c0419 !important;
-    }
+  &:active {
+    background-color: #2c0419 !important;
+    border: solid 1px #2c0419 !important;
+  }
 }

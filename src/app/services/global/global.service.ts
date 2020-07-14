@@ -14,9 +14,9 @@ import { SettingsService } from '../settings/settings.service';
 export class GlobalService {
 
   public isLoggedIn: boolean;
-  public route: string = "";
+  public route = '';
   private cookiesOptions: CookiesOptions = {
-    expires: ""
+    expires: ''
   };
   public modalRef: BsModalRef;
   public config = {
@@ -31,16 +31,16 @@ export class GlobalService {
       private settingsService: SettingsService) { }
 
   checkIfLoggedIn(): boolean {
-    const cookieUserExists: boolean = this.cookieService.check("user");
+    const cookieUserExists: boolean = this.cookieService.check('user');
     if (cookieUserExists) {
       this.updateUserCookie(1, 0, 0);
       this.isLoggedIn = true;
       let userCookie;
-      userCookie = this.cookies.getObject("user");
+      userCookie = this.cookies.getObject('user');
       this.globalParametersService.userName = userCookie.userName;
       this.globalParametersService.userId = userCookie.id;
       this.settingsService.getSettings(this.globalParametersService.userId).subscribe(
-        data => {this.userSettings$ = data; this.getSettings()},
+        data => {this.userSettings$ = data; this.getSettings(); },
         err => console.error(err)
       );
       this.globalParametersService.isLoggedIn = this.isLoggedIn;
@@ -76,17 +76,17 @@ export class GlobalService {
   }
 
   updateUserCookie(h: number, m: number, s: number) {
-    let now = new Date();
+    const now = new Date();
     now.setHours(now.getHours() + h);
     now.setMinutes(now.getMinutes() + m);
     now.setSeconds(now.getSeconds() + s);
-    this.cookiesOptions.expires = formatDate(now, "MM/dd/yyyy HH:mm:ss", "en");
-    this.cookies.putObject("user", this.cookies.getObject("user"), this.cookiesOptions);
+    this.cookiesOptions.expires = formatDate(now, 'MM/dd/yyyy HH:mm:ss', 'en');
+    this.cookies.putObject('user', this.cookies.getObject('user'), this.cookiesOptions);
   }
 
   preparePrefCookie(window: string, filters?: any, pages?: any, columns?: any) {
-    let cookieName: string = window + "Preferences";
-    let cookie = {filters, pages, columns};
+    const cookieName: string = window + 'Preferences';
+    const cookie = {filters, pages, columns};
     this.cookies.putObject(cookieName, cookie);
   }
 
@@ -118,10 +118,10 @@ export class GlobalService {
     } else {
       day = `${date.getDate().toString()}/`;
     }
-    if ((date.getMonth()+1) <= 9) {
-      month = `0${(date.getMonth()+1).toString()}/`;
+    if ((date.getMonth() + 1) <= 9) {
+      month = `0${(date.getMonth() + 1).toString()}/`;
     } else {
-      month = `${(date.getMonth()+1).toString()}/`;
+      month = `${(date.getMonth() + 1).toString()}/`;
     }
     year = `${date.getFullYear().toString()}`;
     finalDate = day + month + year;

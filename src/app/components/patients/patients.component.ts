@@ -1,11 +1,24 @@
-import { Component, OnInit, ViewChildren, QueryList, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChildren,
+  QueryList,
+  HostListener
+} from '@angular/core';
 import { PatientsService } from '../../services/patients/patients.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BsDaterangepickerConfig } from 'ngx-bootstrap/datepicker';
 import { ElementRef } from '@angular/core';
-import { trigger,style,transition,animate,query,stagger } from '@angular/animations';
+import {
+  trigger,
+  style,
+  transition,
+  animate,
+  query,
+  stagger
+} from '@angular/animations';
 import { CookieService } from 'ngx-cookie-service';
 import { CookiesService } from '@ngx-utils/cookies';
 import { GlobalService } from '../../services/global/global.service';
@@ -31,7 +44,7 @@ import { GlobalParametersService } from '../../services/global-parameters/global
               animate(
                 '300ms ease-out',
                 style({ opacity: 1, transform: 'translateY(0px)' })
-              ),
+              )
               // query(':leave', animate('50ms', style({ opacity: 0 })), {
               //   optional: true
               // })
@@ -43,10 +56,8 @@ import { GlobalParametersService } from '../../services/global-parameters/global
     ])
   ]
 })
-
 export class PatientsComponent implements OnInit {
-
-/*****************Variable Declaration************************/
+  /*****************Variable Declaration************************/
   datepickerConfig: Partial<BsDaterangepickerConfig>;
   patients$: Object;
   patientDeleted$: Object;
@@ -65,41 +76,41 @@ export class PatientsComponent implements OnInit {
   private _countClick = 1;
   private _counter = 0;
   private _index;
-  
+
   htmlVariable = {
-    "name": "",
-    "surname": "",
-    "fatherName": "",
-    "motherName": "",
-    "sex": "",
-    "afm": "",
-    "amka": "",
-    "birthDate": "",
-    "tel": "",
-    "cell": "",
-    "email": "",
-    "address": "",
+    name: '',
+    surname: '',
+    fatherName: '',
+    motherName: '',
+    sex: '',
+    afm: '',
+    amka: '',
+    birthDate: '',
+    tel: '',
+    cell: '',
+    email: '',
+    address: ''
   };
   private _htmlVariableKeys;
 
   public searchParam = {
-    "asc": true,
-    "page": 1,
-    "size": 10,
-    "order": "surname",
-    "name": undefined,
-    "surname": undefined,
-    "fatherName": undefined,
-    "motherName": undefined,
-    "sex": undefined,
-    "afm": undefined,
-    "amka": undefined,
-    "tel": undefined,
-    "cell": undefined,
-    "email": undefined,
-    "address": undefined,
-    "birthDateFrom": undefined,
-    "birthDateTo": undefined
+    asc: true,
+    page: 1,
+    size: 10,
+    order: 'surname',
+    name: undefined,
+    surname: undefined,
+    fatherName: undefined,
+    motherName: undefined,
+    sex: undefined,
+    afm: undefined,
+    amka: undefined,
+    tel: undefined,
+    cell: undefined,
+    email: undefined,
+    address: undefined,
+    birthDateFrom: undefined,
+    birthDateTo: undefined
   };
   private _buildOrderString = [];
   private _patientsLengthInit: any;
@@ -114,109 +125,124 @@ export class PatientsComponent implements OnInit {
   public firstVisiblePaginator = 0;
   public lastVisiblePaginator = this._numberOfVisiblePaginators;
   public pageIndexHelper = 0;
-  public pageRecords = [
-    10, 20, 30, 40, 50, 100, 200
-  ];
+  public pageRecords = [10, 20, 30, 40, 50, 100, 200];
   public sexes = [
-    {"value": 0, "description": "All"},
-    {"value": 1, "description": "Men"},
-    {"value": 2, "description": "Women"}
-  ]
-  public sexString = "All";
+    { value: 0, description: 'All' },
+    { value: 1, description: 'Men' },
+    { value: 2, description: 'Women' }
+  ];
+  public sexString = 'All';
   public modalRef: BsModalRef;
   public patientToDeleteId: number;
   public rowDeleted: number;
   public rowRemoved: number;
   public showColumn = {
-    "name": true,
-    "surname": true,
-    "fatherName": true,
-    "motherName": true,
-    "sex": true,
-    "afm": true,
-    "amka": true,
-    "birthDate": true,
-    "tel": false,
-    "cell": false,
-    "email": false,
-    "address": false
+    name: true,
+    surname: true,
+    fatherName: true,
+    motherName: true,
+    sex: true,
+    afm: true,
+    amka: true,
+    birthDate: true,
+    tel: false,
+    cell: false,
+    email: false,
+    address: false
   };
   public columns = [
-    {"description": "Name", "value": true, "colName": "name"},
-    {"description": "Surname", "value": true, "colName": "surname"},
-    {"description": "Father Name", "value": true, "colName": "fatherName"},
-    {"description": "Mother Name", "value": true, "colName": "motherName"},
-    {"description": "Sex", "value": true, "colName": "sex"},
-    {"description": "TIN", "value": true, "colName": "afm"},
-    {"description": "AMKA", "value": true, "colName": "amka"},
-    {"description": "Birth Date", "value": true, "colName": "birthDate"},
-    {"description": "Tel", "value": false, "colName": "tel"},
-    {"description": "Cell", "value": false, "colName": "cell"},
-    {"description": "Email", "value": false, "colName": "email"},
-    {"description": "Address", "value": false, "colName": "address"}
+    { description: 'Name', value: true, colName: 'name' },
+    { description: 'Surname', value: true, colName: 'surname' },
+    { description: 'Father Name', value: true, colName: 'fatherName' },
+    { description: 'Mother Name', value: true, colName: 'motherName' },
+    { description: 'Sex', value: true, colName: 'sex' },
+    { description: 'TIN', value: true, colName: 'afm' },
+    { description: 'AMKA', value: true, colName: 'amka' },
+    { description: 'Birth Date', value: true, colName: 'birthDate' },
+    { description: 'Tel', value: false, colName: 'tel' },
+    { description: 'Cell', value: false, colName: 'cell' },
+    { description: 'Email', value: false, colName: 'email' },
+    { description: 'Address', value: false, colName: 'address' }
   ];
   public showFilter = {
-    "name": true,
-    "surname": true,
-    "fatherName": false,
-    "motherName": false,
-    "afm": true,
-    "amka": true,
-    "birthDate": true,
-    "tel": false,
-    "cell": false,
-    "email": false,
-    "address": false
+    name: true,
+    surname: true,
+    fatherName: false,
+    motherName: false,
+    afm: true,
+    amka: true,
+    birthDate: true,
+    tel: false,
+    cell: false,
+    email: false,
+    address: false
   };
   public filters = [
-    {"description": "Name", "value": true, "colName": "name"},
-    {"description": "Surname", "value": true, "colName": "surname"},
-    {"description": "Father Name", "value": false, "colName": "fatherName"},
-    {"description": "Mother Name", "value": false, "colName": "motherName"},
-    {"description": "TIN", "value": true, "colName": "afm"},
-    {"description": "AMKA", "value": true, "colName": "amka"},
-    {"description": "Birth Date", "value": true, "colName": "birthDate"},
-    {"description": "Tel", "value": false, "colName": "tel"},
-    {"description": "Cell", "value": false, "colName": "cell"},
-    {"description": "Email", "value": false, "colName": "email"},
-    {"description": "Address", "value": false, "colName": "address"}
+    { description: 'Name', value: true, colName: 'name' },
+    { description: 'Surname', value: true, colName: 'surname' },
+    { description: 'Father Name', value: false, colName: 'fatherName' },
+    { description: 'Mother Name', value: false, colName: 'motherName' },
+    { description: 'TIN', value: true, colName: 'afm' },
+    { description: 'AMKA', value: true, colName: 'amka' },
+    { description: 'Birth Date', value: true, colName: 'birthDate' },
+    { description: 'Tel', value: false, colName: 'tel' },
+    { description: 'Cell', value: false, colName: 'cell' },
+    { description: 'Email', value: false, colName: 'email' },
+    { description: 'Address', value: false, colName: 'address' }
   ];
   public filterCookie: any = {};
   public numOfFilters: number = 5;
   public inputFocused: boolean = false;
   private _clearFiltersPressed: boolean = false;
-/*****************Variable Declaration End*********************/
+  /*****************Variable Declaration End*********************/
 
-/*************************Constructor**************************/
-  constructor(private data: PatientsService, private _el: ElementRef, public cookieService: CookieService, private toastr: ToastrService, private translate: TranslateService,
-      public globalService: GlobalService, private modalService: BsModalService, public globalParametersService: GlobalParametersService, private cookies: CookiesService, 
-        private router: Router) {
+  /*************************Constructor**************************/
+  constructor(
+    private data: PatientsService,
+    private _el: ElementRef,
+    public cookieService: CookieService,
+    private toastr: ToastrService,
+    private translate: TranslateService,
+    public globalService: GlobalService,
+    private modalService: BsModalService,
+    public globalParametersService: GlobalParametersService,
+    private cookies: CookiesService,
+    private router: Router
+  ) {
     this.datepickerConfig = Object.assign(
       { rangeInputFormat: 'DD/MM/YYYY' },
       { containerClass: 'theme-red' },
       { showWeekNumbers: false },
       { maxDate: new Date() },
       { minDate: new Date(1900, 0, 1) }
-      );
-    if (cookieService.check("patientPreferences")) {
+    );
+    if (cookieService.check('patientPreferences')) {
       this.updateFiltersOnStart();
       this.updateColOnStart();
       this.updatePageNumOnStart();
     }
   }
 
-/*********************Life Cycle Functions*********************/
+  /*********************Life Cycle Functions*********************/
   ngOnInit() {
     this._htmlVariableKeys = Object.keys(this.htmlVariable);
     this._buildOrderString.push(this.searchParam.order);
-    this.data.getSizeOfPatients().subscribe(
-      data => this._patientsLengthInit = data
-    )
+    this.data
+      .getSizeOfPatients()
+      .subscribe(data => (this._patientsLengthInit = data));
     this.data.getPatients(this.searchParam).subscribe(
-      data => {this.patients$ = data},
-      (error) => {this.globalParametersService.loading = false; console.log(error)},
-      () => {this.globalParametersService.loading = false; this.refreshPageAndFilters();}
-    )
+      data => {
+        this.patients$ = data;
+      },
+      error => {
+        this.globalParametersService.loading = false;
+        console.log(error);
+      },
+      () => {
+        this.globalParametersService.loading = false;
+        this.refreshPageAndFilters();
+      }
+    );
     this.changeArrowIcon(this.searchParam.order, this.searchParam.asc);
   }
 
@@ -224,23 +250,23 @@ export class PatientsComponent implements OnInit {
     //this.refreshPageAndFilters();
   }
 
-  @HostListener("window:keydown", ["$event"])
+  @HostListener('window:keydown', ['$event'])
   onKeyDown(event: any): void {
     if (this.inputFocused) {
-      if (event.key === "Enter") {
+      if (event.key === 'Enter') {
         this.searchPatients();
       }
     }
   }
 
-/************************Custom Functions*********************/
+  /************************Custom Functions*********************/
   refreshPageAndFilters() {
-    if(this.patients$ != undefined && this.patients$ !== null) {
+    if (this.patients$ != undefined && this.patients$ !== null) {
       if (this.patients$[0] !== undefined && this.patients$[0] !== null) {
         this._patientsLengthInit = this.patients$[0].count;
         this.preparePagination(this._patientsLengthInit);
       } else {
-        for (let i=(this.searchParam.page-1); i>=1; i--) {
+        for (let i = this.searchParam.page - 1; i >= 1; i--) {
           this.searchParam.page = i;
           this.activePage = i;
           this.searchPatients();
@@ -251,11 +277,15 @@ export class PatientsComponent implements OnInit {
   }
 
   preparePagination(length: number) {
-    this.paginators=[];
+    this.paginators = [];
     if (this._patientsLengthInit % this._itemsPerPage === 0) {
-      this.numberOfPaginators = Math.floor(this._patientsLengthInit / this._itemsPerPage);
+      this.numberOfPaginators = Math.floor(
+        this._patientsLengthInit / this._itemsPerPage
+      );
     } else {
-      this.numberOfPaginators = Math.floor(this._patientsLengthInit / this._itemsPerPage + 1);
+      this.numberOfPaginators = Math.floor(
+        this._patientsLengthInit / this._itemsPerPage + 1
+      );
     }
 
     for (let i = 1; i <= this.numberOfPaginators; i++) {
@@ -270,16 +300,19 @@ export class PatientsComponent implements OnInit {
   changePage(value: string) {
     if (Number(value) >= 1 && Number(value) <= this.numberOfPaginators) {
       this.activePage = +value;
-      this.firstVisibleIndex = this.activePage * this._itemsPerPage - this._itemsPerPage + 1;
+      this.firstVisibleIndex =
+        this.activePage * this._itemsPerPage - this._itemsPerPage + 1;
       this.lastVisibleIndex = this.activePage * this._itemsPerPage;
       this.searchParam.page = Number(value);
       this.searchPatients();
-      this.pageIndexHelper = (Number(value)-1)*this.searchParam.size;
+      this.pageIndexHelper = (Number(value) - 1) * this.searchParam.size;
     }
-    if ((Number(value) - Number(value[value.length-1])) !== Number(value)) {
-      this.firstVisiblePaginator = Number(value) - Number(value[value.length-1]);
+    if (Number(value) - Number(value[value.length - 1]) !== Number(value)) {
+      this.firstVisiblePaginator =
+        Number(value) - Number(value[value.length - 1]);
     } else {
-      this.firstVisiblePaginator = Number(value) - this._numberOfVisiblePaginators;
+      this.firstVisiblePaginator =
+        Number(value) - this._numberOfVisiblePaginators;
     }
     this.lastVisiblePaginator = this.firstVisiblePaginator + 10;
   }
@@ -289,7 +322,8 @@ export class PatientsComponent implements OnInit {
     this.checkPages(true);
 
     this.activePage += 1;
-    this.firstVisibleIndex = this.activePage * this._itemsPerPage - this._itemsPerPage + 1;
+    this.firstVisibleIndex =
+      this.activePage * this._itemsPerPage - this._itemsPerPage + 1;
     this.lastVisibleIndex = this.activePage * this._itemsPerPage;
     this.searchParam.page = this.activePage;
     this.searchPatients();
@@ -300,16 +334,20 @@ export class PatientsComponent implements OnInit {
     this.checkPages(false);
 
     this.activePage -= 1;
-    this.firstVisibleIndex = this.activePage * this._itemsPerPage - this._itemsPerPage + 1;
+    this.firstVisibleIndex =
+      this.activePage * this._itemsPerPage - this._itemsPerPage + 1;
     this.lastVisibleIndex = this.activePage * this._itemsPerPage;
     this.searchParam.page = this.activePage;
     this.searchPatients();
   }
 
   checkPages(plus: boolean) {
-    if(plus) {
+    if (plus) {
       if (this.pages.last.nativeElement.classList.contains('active')) {
-        if ((this.numberOfPaginators - this._numberOfVisiblePaginators) >= this.lastVisiblePaginator) {
+        if (
+          this.numberOfPaginators - this._numberOfVisiblePaginators >=
+          this.lastVisiblePaginator
+        ) {
           this.firstVisiblePaginator += this._numberOfVisiblePaginators;
           this.lastVisiblePaginator += this._numberOfVisiblePaginators;
         } else {
@@ -319,12 +357,16 @@ export class PatientsComponent implements OnInit {
       }
     } else {
       if (this.pages.first.nativeElement.classList.contains('active')) {
-        if ((this.lastVisiblePaginator - this.firstVisiblePaginator) === this._numberOfVisiblePaginators)  {
+        if (
+          this.lastVisiblePaginator - this.firstVisiblePaginator ===
+          this._numberOfVisiblePaginators
+        ) {
           this.firstVisiblePaginator -= this._numberOfVisiblePaginators;
           this.lastVisiblePaginator -= this._numberOfVisiblePaginators;
         } else {
           this.firstVisiblePaginator -= this._numberOfVisiblePaginators;
-          this.lastVisiblePaginator -= (this.numberOfPaginators % this._numberOfVisiblePaginators);
+          this.lastVisiblePaginator -=
+            this.numberOfPaginators % this._numberOfVisiblePaginators;
         }
       }
     }
@@ -333,7 +375,8 @@ export class PatientsComponent implements OnInit {
   firstPage() {
     this.pageIndexHelper = 0;
     this.activePage = 1;
-    this.firstVisibleIndex = this.activePage * this._itemsPerPage - this._itemsPerPage + 1;
+    this.firstVisibleIndex =
+      this.activePage * this._itemsPerPage - this._itemsPerPage + 1;
     this.lastVisibleIndex = this.activePage * this._itemsPerPage;
     this.firstVisiblePaginator = 0;
     this.lastVisiblePaginator = this._numberOfVisiblePaginators;
@@ -342,36 +385,41 @@ export class PatientsComponent implements OnInit {
   }
 
   lastPage() {
-    this.pageIndexHelper = (this.numberOfPaginators-1)*this.searchParam.size;
+    this.pageIndexHelper =
+      (this.numberOfPaginators - 1) * this.searchParam.size;
     this.activePage = this.numberOfPaginators;
-    this.firstVisibleIndex = this.activePage * this._itemsPerPage - this._itemsPerPage + 1;
+    this.firstVisibleIndex =
+      this.activePage * this._itemsPerPage - this._itemsPerPage + 1;
     this.lastVisibleIndex = this.activePage * this._itemsPerPage;
 
     if (this.numberOfPaginators % this._numberOfVisiblePaginators === 0) {
-      this.firstVisiblePaginator = this.numberOfPaginators - this._numberOfVisiblePaginators;
+      this.firstVisiblePaginator =
+        this.numberOfPaginators - this._numberOfVisiblePaginators;
       this.lastVisiblePaginator = this.numberOfPaginators;
     } else {
       this.lastVisiblePaginator = this.numberOfPaginators;
-      this.firstVisiblePaginator = this.lastVisiblePaginator - (this.numberOfPaginators % this._numberOfVisiblePaginators);
+      this.firstVisiblePaginator =
+        this.lastVisiblePaginator -
+        (this.numberOfPaginators % this._numberOfVisiblePaginators);
     }
     this.searchParam.page = this.activePage;
     this.searchPatients();
   }
 
   toggleSelected(obj, event) {
-    if(event.ctrlKey) {
-      let orderString = "";
+    if (event.ctrlKey) {
+      let orderString = '';
       if (this._buildOrderString.indexOf(obj) === -1) {
         this._buildOrderString.push(obj);
         this._buildOrderString.forEach(element => {
-          if (orderString === "") {
+          if (orderString === '') {
             orderString = element;
           } else {
-            orderString += ", " + element;
+            orderString += ', ' + element;
           }
         });
       }
-      if (orderString !== "") {
+      if (orderString !== '') {
         this.sort(orderString);
       } else {
         this.sort(this.searchParam.order);
@@ -389,7 +437,7 @@ export class PatientsComponent implements OnInit {
       this._countClick++;
       this.searchParam.asc = true;
       this.changeArrowIcon(field, this.searchParam.asc);
-    } else if (field === this.searchParam.order && this._countClick%2 !== 0) {
+    } else if (field === this.searchParam.order && this._countClick % 2 !== 0) {
       this._countClick++;
       this.searchParam.asc = false;
       this.changeArrowIcon(field, this.searchParam.asc);
@@ -409,17 +457,18 @@ export class PatientsComponent implements OnInit {
     }
     if (sort) {
       this._htmlVariableKeys.forEach(element => {
-        if (fields[fields.length-1] === element) {
+        if (fields[fields.length - 1] === element) {
           // this.htmlVariable[fields[fields.length-1]] = "<i class='fas fa-sort-up'></i>";
-          this.htmlVariable[fields[fields.length-1]] = "<i class='fas fa-caret-up'></i>";
+          this.htmlVariable[fields[fields.length - 1]] =
+            "<i class='fas fa-caret-up'></i>";
         }
       });
-      
     } else {
       this._htmlVariableKeys.forEach(element => {
-        if (fields[fields.length-1] === element) {
+        if (fields[fields.length - 1] === element) {
           // this.htmlVariable[fields[fields.length-1]] = "<i class='fas fa-sort-down'></i>";
-          this.htmlVariable[fields[fields.length-1]] = "<i class='fas fa-caret-down'></i>";
+          this.htmlVariable[fields[fields.length - 1]] =
+            "<i class='fas fa-caret-down'></i>";
         }
       });
     }
@@ -427,18 +476,18 @@ export class PatientsComponent implements OnInit {
 
   initHtmlVariableObject() {
     this.htmlVariable = {
-      "name": "",
-      "surname": "",
-      "fatherName": "",
-      "motherName": "",
-      "sex": "",
-      "afm": "",
-      "amka": "",
-      "birthDate": "",
-      "tel": "",
-      "cell": "",
-      "email": "",
-      "address": "",
+      name: '',
+      surname: '',
+      fatherName: '',
+      motherName: '',
+      sex: '',
+      afm: '',
+      amka: '',
+      birthDate: '',
+      tel: '',
+      cell: '',
+      email: '',
+      address: ''
     };
   }
 
@@ -446,20 +495,20 @@ export class PatientsComponent implements OnInit {
     if (value !== 0) {
       this.searchParam.sex = value;
       if (value === 1) {
-        this.sexString = "Men";
+        this.sexString = 'Men';
       } else {
-        this.sexString = "Women";
+        this.sexString = 'Women';
       }
     } else {
       this.searchParam.sex = undefined;
-      this.sexString = "All";
+      this.sexString = 'All';
     }
     this.searchPatients();
   }
 
   prepareFilter() {
     if (this._searchTermName !== undefined) {
-      if(this._searchTermName !== null && this._searchTermName.length !== 0) {
+      if (this._searchTermName !== null && this._searchTermName.length !== 0) {
         this.searchParam.name = this._searchTermName;
       } else if (this._searchTermName.length === 0) {
         this.searchParam.name = undefined;
@@ -467,7 +516,10 @@ export class PatientsComponent implements OnInit {
     }
 
     if (this._searchTermSurname !== undefined) {
-      if(this._searchTermSurname !== null && this._searchTermSurname.length !== 0) {
+      if (
+        this._searchTermSurname !== null &&
+        this._searchTermSurname.length !== 0
+      ) {
         this.searchParam.surname = this._searchTermSurname;
       } else if (this._searchTermSurname.length === 0) {
         this.searchParam.surname = undefined;
@@ -475,7 +527,7 @@ export class PatientsComponent implements OnInit {
     }
 
     if (this._searchTermAFM !== undefined) {
-      if(this._searchTermAFM !== null && this._searchTermAFM.length !== 0) {
+      if (this._searchTermAFM !== null && this._searchTermAFM.length !== 0) {
         this.searchParam.afm = this._searchTermAFM;
       } else if (this._searchTermAFM.length === 0) {
         this.searchParam.afm = undefined;
@@ -483,7 +535,7 @@ export class PatientsComponent implements OnInit {
     }
 
     if (this._searchTermAMKA !== undefined) {
-      if(this._searchTermAMKA !== null && this._searchTermAMKA.length !== 0) {
+      if (this._searchTermAMKA !== null && this._searchTermAMKA.length !== 0) {
         this.searchParam.amka = this._searchTermAMKA;
       } else if (this._searchTermAMKA.length === 0) {
         this.searchParam.amka = undefined;
@@ -491,7 +543,7 @@ export class PatientsComponent implements OnInit {
     }
 
     if (this._searchCell !== undefined) {
-      if(this._searchCell !== null && this._searchCell.length !== 0) {
+      if (this._searchCell !== null && this._searchCell.length !== 0) {
         this.searchParam.cell = this._searchCell;
       } else if (this._searchCell.length === 0) {
         this.searchParam.cell = undefined;
@@ -499,7 +551,7 @@ export class PatientsComponent implements OnInit {
     }
 
     if (this._searchTel !== undefined) {
-      if(this._searchTel !== null && this._searchTel.length !== 0) {
+      if (this._searchTel !== null && this._searchTel.length !== 0) {
         this.searchParam.tel = this._searchTel;
       } else if (this._searchTel.length === 0) {
         this.searchParam.tel = undefined;
@@ -507,7 +559,7 @@ export class PatientsComponent implements OnInit {
     }
 
     if (this._searchEmail !== undefined) {
-      if(this._searchEmail !== null && this._searchEmail.length !== 0) {
+      if (this._searchEmail !== null && this._searchEmail.length !== 0) {
         this.searchParam.email = this._searchEmail;
       } else if (this._searchEmail.length === 0) {
         this.searchParam.email = undefined;
@@ -515,7 +567,7 @@ export class PatientsComponent implements OnInit {
     }
 
     if (this._searchAddress !== undefined) {
-      if(this._searchAddress !== null && this._searchAddress.length !== 0) {
+      if (this._searchAddress !== null && this._searchAddress.length !== 0) {
         this.searchParam.address = this._searchAddress;
       } else if (this._searchAddress.length === 0) {
         this.searchParam.address = undefined;
@@ -523,7 +575,10 @@ export class PatientsComponent implements OnInit {
     }
 
     if (this._searchFatherName !== undefined) {
-      if(this._searchFatherName !== null && this._searchFatherName.length !== 0) {
+      if (
+        this._searchFatherName !== null &&
+        this._searchFatherName.length !== 0
+      ) {
         this.searchParam.fatherName = this._searchFatherName;
       } else if (this._searchFatherName.length === 0) {
         this.searchParam.fatherName = undefined;
@@ -531,7 +586,10 @@ export class PatientsComponent implements OnInit {
     }
 
     if (this._searchMotherName !== undefined) {
-      if(this._searchMotherName !== null && this._searchMotherName.length !== 0) {
+      if (
+        this._searchMotherName !== null &&
+        this._searchMotherName.length !== 0
+      ) {
         this.searchParam.motherName = this._searchMotherName;
       } else if (this._searchMotherName.length === 0) {
         this.searchParam.motherName = undefined;
@@ -546,9 +604,17 @@ export class PatientsComponent implements OnInit {
     //   }
     // }
 
-    if (this._searchTermBirthDate !== undefined && this._searchTermBirthDate !== null) {
-      if(this._searchTermBirthDate[0] !== null && this._searchTermBirthDate[0].getDate() !== 0) {
-        this.searchParam.birthDateFrom = this.globalService.formatDate(this._searchTermBirthDate[0]);
+    if (
+      this._searchTermBirthDate !== undefined &&
+      this._searchTermBirthDate !== null
+    ) {
+      if (
+        this._searchTermBirthDate[0] !== null &&
+        this._searchTermBirthDate[0].getDate() !== 0
+      ) {
+        this.searchParam.birthDateFrom = this.globalService.formatDate(
+          this._searchTermBirthDate[0]
+        );
       } else {
         this.searchParam.birthDateFrom = undefined;
       }
@@ -556,9 +622,17 @@ export class PatientsComponent implements OnInit {
       this.searchParam.birthDateFrom = undefined;
     }
 
-    if (this._searchTermBirthDate !== undefined && this._searchTermBirthDate !== null) {
-      if(this._searchTermBirthDate[1] !== null && this._searchTermBirthDate[1].getDate() !== 0) {
-        this.searchParam.birthDateTo = this.globalService.formatDate(this._searchTermBirthDate[1]);
+    if (
+      this._searchTermBirthDate !== undefined &&
+      this._searchTermBirthDate !== null
+    ) {
+      if (
+        this._searchTermBirthDate[1] !== null &&
+        this._searchTermBirthDate[1].getDate() !== 0
+      ) {
+        this.searchParam.birthDateTo = this.globalService.formatDate(
+          this._searchTermBirthDate[1]
+        );
       } else {
         this.searchParam.birthDateTo = undefined;
       }
@@ -572,14 +646,22 @@ export class PatientsComponent implements OnInit {
     this.searchParam.size = Number(this.searchParam.size);
     this.prepareFilter();
     this.data.getPatients(this.searchParam).subscribe(
-      data => {this.patients$ = data},
-      (error) => {this.globalParametersService.loading = false; console.log(error)},
-      () => {this.globalParametersService.loading = false; this.refreshPageAndFilters();}
+      data => {
+        this.patients$ = data;
+      },
+      error => {
+        this.globalParametersService.loading = false;
+        console.log(error);
+      },
+      () => {
+        this.globalParametersService.loading = false;
+        this.refreshPageAndFilters();
+      }
     );
     this.preparePrefCookie();
   }
 
-  openModalToDelete(id:number, template) {
+  openModalToDelete(id: number, template) {
     this.patientToDeleteId = id;
     this.modalRef = this.modalService.show(template);
   }
@@ -587,19 +669,22 @@ export class PatientsComponent implements OnInit {
   updateIndex(i: number) {
     this._index = i;
   }
-  
+
   deleteRecord() {
     if (this.patientToDeleteId !== undefined) {
       this.globalParametersService.loading = true;
       this.rowDeleted = this._index;
       setTimeout(() => {
         this.rowRemoved = this._index;
-        this.data.deletePatient(this.patientToDeleteId).subscribe(
-          data => this.patientDeleted$ = data
-        );
+        this.data
+          .deletePatient(this.patientToDeleteId)
+          .subscribe(data => (this.patientDeleted$ = data));
         setTimeout(() => {
           this.searchPatients();
-          this.toastr.info(this.translate.instant("Successfully deleted record"), this.translate.instant("Delete!"));
+          this.toastr.info(
+            this.translate.instant('Successfully deleted record'),
+            this.translate.instant('Delete!')
+          );
           setTimeout(() => {
             this.rowRemoved = undefined;
             this.rowDeleted = undefined;
@@ -612,23 +697,23 @@ export class PatientsComponent implements OnInit {
   }
 
   patientNew() {
-    this.router.navigate(["/patients/new"]);
+    this.router.navigate(['/patients/new']);
   }
 
   clearFilters() {
     this._clearFiltersPressed = true;
-    this.searchTermName = "";
-    this.searchTermSurname = "";
-    this.searchTermAFM = "";
-    this.searchTermAMKA = "";
-    this.searchFatherName = "";
-    this.searchMotherName = "";
-    this.searchCell = "";
-    this.searchTel = "";
-    this.searchEmail = "";
-    this.searchAddress = "";
+    this.searchTermName = '';
+    this.searchTermSurname = '';
+    this.searchTermAFM = '';
+    this.searchTermAMKA = '';
+    this.searchFatherName = '';
+    this.searchMotherName = '';
+    this.searchCell = '';
+    this.searchTel = '';
+    this.searchEmail = '';
+    this.searchAddress = '';
     this.searchSex = 0;
-    this.sexString = "All";
+    this.sexString = 'All';
     this.prepareSearchSex(0);
     this.searchTermBirthDate = undefined;
     this.searchPatients();
@@ -642,7 +727,7 @@ export class PatientsComponent implements OnInit {
 
   updateColOnStart() {
     let showColumnCookie;
-    showColumnCookie = this.cookies.getObject("patientPreferences");
+    showColumnCookie = this.cookies.getObject('patientPreferences');
     this.showColumn = showColumnCookie.columns;
     this.columns[0].value = this.showColumn.name;
     this.columns[1].value = this.showColumn.surname;
@@ -660,9 +745,9 @@ export class PatientsComponent implements OnInit {
 
   showFiltersChange(event: any, col) {
     if (event === true) {
-      this.numOfFilters ++;
+      this.numOfFilters++;
     } else {
-      this.numOfFilters --;
+      this.numOfFilters--;
     }
     this.showFilter[col] = event;
     this.preparePrefCookie();
@@ -670,7 +755,7 @@ export class PatientsComponent implements OnInit {
 
   updateFiltersOnStart() {
     let showFilterCookie;
-    showFilterCookie = this.cookies.getObject("patientPreferences");
+    showFilterCookie = this.cookies.getObject('patientPreferences');
     this.numOfFilters = showFilterCookie.filters.numOfFilters;
     delete showFilterCookie.filters.numOfFilters;
     this.showFilter = showFilterCookie.filters;
@@ -689,7 +774,7 @@ export class PatientsComponent implements OnInit {
 
   updatePageNumOnStart() {
     let pagesCookie;
-    pagesCookie = this.cookies.getObject("patientPreferences");
+    pagesCookie = this.cookies.getObject('patientPreferences');
     this.searchParam.size = Number(pagesCookie.pages);
     this._itemsPerPage = this.searchParam.size;
   }
@@ -697,7 +782,12 @@ export class PatientsComponent implements OnInit {
   preparePrefCookie() {
     this.filterCookie = this.showFilter;
     this.filterCookie.numOfFilters = this.numOfFilters;
-    this.globalService.preparePrefCookie("patient", this.filterCookie, this.searchParam.size, this.showColumn);
+    this.globalService.preparePrefCookie(
+      'patient',
+      this.filterCookie,
+      this.searchParam.size,
+      this.showColumn
+    );
   }
 
   goToDetails(id) {
@@ -706,9 +796,9 @@ export class PatientsComponent implements OnInit {
     }
   }
 
-/********************Custom Functions End********************/
+  /********************Custom Functions End********************/
 
-/*********************Getters And Setters********************/
+  /*********************Getters And Setters********************/
   get searchTermName(): string {
     return this._searchTermName;
   }
@@ -829,7 +919,7 @@ export class PatientsComponent implements OnInit {
       this.searchPatients();
     }
   }
-  
+
   get searchMotherName(): string {
     return this._searchMotherName;
   }
@@ -840,6 +930,6 @@ export class PatientsComponent implements OnInit {
       this.searchPatients();
     }
   }
-  
-/********************Getters And Setters End******************/
+
+  /********************Getters And Setters End******************/
 }
