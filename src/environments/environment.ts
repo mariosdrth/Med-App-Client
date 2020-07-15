@@ -6,7 +6,8 @@ import * as envars from '../assets/envars.json';
 
 export const environment = {
   production: false,
-  APIEndpoint: 'http://localhost:8089'
+  // APIEndpoint: 'http://localhost:8089'
+  APIEndpoint: 'https://med-app-server.herokuapp.com/'
   //APIEndpoint: envars.default.apiUrlDev
 };
 

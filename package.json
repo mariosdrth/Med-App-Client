@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
+    "start-dev": "ng serve -o",
     "build": "ng build --prod",
     "postbuild": "npm run deploy",
     "predeploy": "rimraf ../gdpr/src/main/resources/static && mkdirp ../gdpr/src/main/resources/static",

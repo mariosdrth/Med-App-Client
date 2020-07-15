@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, TemplateRef } from '@angular/core';
+import { Component, OnInit, HostListener, TemplateRef, ViewChild, ElementRef } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
@@ -20,6 +20,7 @@ import { SettingsService } from '../../services/settings/settings.service';
   styleUrls: ['./connect-modal.component.scss']
 })
 export class ConnectModalComponent implements OnInit {
+  @ViewChild('submitButton') submitButton: ElementRef<HTMLElement>;
   public config = {
     keyboard: false,
     ignoreBackdropClick: true
@@ -138,9 +139,15 @@ export class ConnectModalComponent implements OnInit {
   }
 
   connectAsGuest() {
-    const user = { userName: 'guest', password: 'guest', 'show-pass-check': false };
-    this.userFromApi = { ...user };
-    this.loginResult(user);
+    // const user = { userName: 'guest', password: 'guest', 'show-pass-check': false };
+    // this.userFromApi = { ...user, id: 2 };
+    // this.loginResult(user);
+    this._userName = 'guest';
+    this._password = 'guest';
+    setTimeout(() => {
+      const submitButtonElement: HTMLElement = this.submitButton.nativeElement;
+      submitButtonElement.click();
+    }, 100);
   }
 
   getSettings() {
